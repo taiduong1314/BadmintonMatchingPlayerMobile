@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "67876292587",
+    "project_id": "vbm-sports",
+    "storage_bucket": "vbm-sports.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67876292587:android:42cf2306fbb43865cc7bae",
+        "android_client_info": {
+          "package_name": "com.app.vbmsport"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67876292587-gtbq04rp4hfg5clsbfuqgv138pprige2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT3P__uPFmJP0xT-kRtMknKvibo3I_TTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67876292587-gtbq04rp4hfg5clsbfuqgv138pprige2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

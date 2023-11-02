@@ -1,0 +1,31 @@
+
+import 'package:flutter/material.dart';
+
+class AppColor{
+  // ====== Source base =====
+  static Color colorBackgroundApp = const Color(0xffFFFFFF);
+  static Color colorBackgroundApp02 = const Color(0xffF6F5F5);
+  static Color colorAppBar = const Color(0xffFFFFFF);
+
+  static Color colorTextBlue = const Color(0xFF00539F);
+  static Color colorTextGrey = const Color(0xFF666666);
+
+
+  static Color colorLight = const Color(0xffFFFFFF);
+  static Color colorDark = const Color(0xff1E1F20);
+
+  static Color colorGreyBorderButton = const Color(0xFFF1F5F9);
+  static Color colorDisableButton = const Color(0xFFB2CBE2);
+  static Color colorButton = const Color(0xFF00539F);
+
+  // Add new color here
+  static Color colorBlue100 = const Color(0xFF007AFF);
+
+  static Color colorLogo = const Color(0xFFFFA500);
+  static Color colorText = const Color(0xFF343B63);
+
+  static Color colorBoder = const Color(0xFFE9E9EC);
+
+  static Color colorTextGrey100 = const Color(0xFF7F85A2);
+  static Color colorTextGrey20 = const Color(0xFF8F92A1);
+}
