@@ -15,6 +15,10 @@ class AssetSVGName {
   static String eyeOff = "assets/svg/eye_off.svg";
   static String eyeOn = "assets/svg/eye_on.svg";
 
+  static String radioSelected = "assets/svg/selected.svg";
+
   static String radioActive = "assets/svg/radio-active.svg";
   static String radioDisabled = "assets/svg/radio-disabled.svg";
+
+  static String successful = "assets/svg/successful.svg";
 }

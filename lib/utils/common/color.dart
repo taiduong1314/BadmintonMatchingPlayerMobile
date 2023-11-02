@@ -20,6 +20,7 @@ class AppColor{
 
   // Add new color here
   static Color colorBlue100 = const Color(0xFF007AFF);
+  static Color colorBlue = const Color(0xFF52C3FF);
 
   static Color colorLogo = const Color(0xFFFFA500);
   static Color colorText = const Color(0xFF343B63);
@@ -28,4 +29,11 @@ class AppColor{
 
   static Color colorTextGrey100 = const Color(0xFF7F85A2);
   static Color colorTextGrey20 = const Color(0xFF8F92A1);
+
+  static Color colorGrey = const Color(0xFFEBEBEC);
+
+  static Color colorLight100 = const Color(0xFFEAEAEA);
+  static Color colorGrey200 = const Color(0xFFEFF2F4);
+
+
 }

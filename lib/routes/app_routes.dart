@@ -4,7 +4,7 @@ abstract class Routes {
   static const SPLASH = '/splash';
   static const MAIN = '/main';
   static const LOGIN = '/login';
-  static const REGISTER = '/registercd';
+  static const FORGOTPASSWORD = '/forgotPassword';
   static const VERIFYOTP = '/verifyOTP';
   static const HOME = '/home';
   static const ACCOUNT = '/account';

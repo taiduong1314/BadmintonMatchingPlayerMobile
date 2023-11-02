@@ -15,8 +15,7 @@ extension LoginCustom on LoginScreen{
         _inputForm(
             title: "Email",
             controllerText: controller.txtEmail,
-            hintText: "Nhập email của bạn",
-            keyboardType: TextInputType.phone),
+            hintText: "Nhập email của bạn"),
         spaceVertical(height: 18),
         _inputPasswordForm(
             title: "Mật khẩu",
@@ -27,7 +26,7 @@ extension LoginCustom on LoginScreen{
         spaceVertical(height: 18),
         _btnLoginVsRegister(),
         spaceVertical(height: 18),
-        _btnForgotPassVsRegisterTextOnly(title: "Quên mật khẩu?"),
+        _btnForgotPassVsRegisterTextOnly(title: "Quên mật khẩu?", onTap: controller.doForgetPassword),
         spaceVertical(height: 18),
         _rowOption(),
         spaceVertical(height: AppDataGlobal.safeBottom),

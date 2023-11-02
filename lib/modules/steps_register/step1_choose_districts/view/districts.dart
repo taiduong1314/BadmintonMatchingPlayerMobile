@@ -8,16 +8,6 @@ extension DistrictsCustom on Step1RegisterScreen {
         ...controller.listDistricts
             .map((element) => _district(element))
             .toList(),
-        if (controller.listDistricts.isNotEmpty) spaceVertical(height: 38),
-        if (controller.listDistricts.isNotEmpty) Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(child: _btnBack()),
-            spaceHorizontal(width: 11),
-            Expanded(child: _btnNext()),
-          ],
-        ),
-        spaceVertical(height: AppDataGlobal.safeBottom),
       ],
     );
   }

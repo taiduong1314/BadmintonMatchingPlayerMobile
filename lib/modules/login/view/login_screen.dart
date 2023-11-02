@@ -38,7 +38,7 @@ class LoginScreen extends GetView<LoginController> {
   Widget _topImage(){
     return Container(
       width: Get.width,
-      height: Get.height / 2.5,
+      height: Get.height / 2.2,
       decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(AssetImageName.splashBackground),

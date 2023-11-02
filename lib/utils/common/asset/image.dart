@@ -7,4 +7,7 @@ class AssetImageName {
       'assets/images/logo/logo.png';
   static const String logoWithTextWhite =
       'assets/images/logo/logo_white.png';
+
+  static const String logoOnly =
+      'assets/images/logo/logo_app.png';
 }

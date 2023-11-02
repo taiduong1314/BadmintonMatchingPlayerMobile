@@ -29,8 +29,7 @@ class AppDataGlobal {
 
   static double safeTop = MediaQuery.of(Get.context!).viewPadding.top;
   static double safeBottom =
-      MediaQuery.of(Get.context!).viewPadding.bottom + 30;
-
+      MediaQuery.of(Get.context!).viewPadding.bottom;
   ///====================== User
   static String userID = '';
 }

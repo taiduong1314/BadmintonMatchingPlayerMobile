@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:vbmsports/modules/forgot_password/binding/forgot_pass_binding.dart';
+import 'package:vbmsports/modules/forgot_password/view/forgot_pass_screen.dart';
 import 'package:vbmsports/modules/steps_register/step1_choose_districts/binding/step1_choose_districts_binding.dart';
 import 'package:vbmsports/modules/steps_register/step1_choose_districts/view/step1_choose_districts_screen.dart';
 
@@ -14,8 +16,6 @@ import '../modules/login/binding/login_binding.dart';
 import '../modules/login/view/login_screen.dart';
 import '../modules/main/binding/main_binding.dart';
 import '../modules/main/view/main_screen.dart';
-import '../modules/register/binding/register_binding.dart';
-import '../modules/register/view/register_screen.dart';
 import '../modules/splash/binding/splash_binding.dart';
 import '../modules/splash/view/splash_screen.dart';
 import '../modules/steps_register/step2_choose_skill/binding/step2_choose_skill_binding.dart';
@@ -51,9 +51,9 @@ final routePages = [
     binding: LoginBinding(),
   ),
   GetPage(
-    name: Routes.REGISTER,
-    page: () => RegisterScreen(),
-    binding: RegisterBinding(),
+    name: Routes.FORGOTPASSWORD,
+    page: () => ForgotPasswordScreen(),
+    binding: ForgotPasswordBinding(),
   ),
   GetPage(
     name: Routes.VERIFYOTP,

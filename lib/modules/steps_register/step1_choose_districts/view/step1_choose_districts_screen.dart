@@ -21,30 +21,42 @@ class Step1RegisterScreen extends GetView<Step1RegisterController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColor.colorLight,
-      width: Get.width,
-      height: Get.height,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            spaceVertical(height: 40),
-            _indexStep(),
-            spaceVertical(height: 4),
-            _heading('Chọn khu vực của bạn'),
-            Expanded(
-              child: Obx(
-                () => SingleChildScrollView(
-                  child: controller.isChoosingProvinces.value
-                      ? _listProvinces()
-                      : _listDistricts(),
+    return Obx(
+      () => Container(
+        color: AppColor.colorLight,
+        width: Get.width,
+        height: Get.height,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              spaceVertical(height: 40),
+              _indexStep(),
+              spaceVertical(height: 4),
+              _heading('Chọn khu vực của bạn'),
+              Expanded(
+                child: Obx(
+                  () => SingleChildScrollView(
+                    child: controller.isChoosingProvinces.value
+                        ? _listProvinces()
+                        : _listDistricts(),
+                  ),
                 ),
               ),
-            ),
-          ],
+              if (controller.listDistricts.isNotEmpty) spaceVertical(height: 10),
+              if (controller.listDistricts.isNotEmpty) Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(child: _btnBack()),
+                  spaceHorizontal(width: 11),
+                  Expanded(child: _btnNext()),
+                ],
+              ),
+              spaceVertical(height: AppDataGlobal.safeBottom),
+            ],
+          ),
         ),
       ),
     );

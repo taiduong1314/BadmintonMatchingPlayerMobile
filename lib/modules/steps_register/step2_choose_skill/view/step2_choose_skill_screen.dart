@@ -16,32 +16,40 @@ class Step2RegisterScreen extends GetView<Step2RegisterController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColor.colorLight,
-      width: Get.width,
-      height: Get.height,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            spaceVertical(height: 40),
-            _indexStep(),
-            spaceVertical(height: 4),
-            _heading('Chọn kỹ năng của bạn'),
-            ...controller.listSkills.map((element) => _skill(element)).toList(),
-            if (controller.listSkills.isNotEmpty) spaceVertical(height: 38),
-            if (controller.listSkills.isNotEmpty)
+    return Obx(
+          () => Container(
+        color: AppColor.colorLight,
+        width: Get.width,
+        height: Get.height,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              spaceVertical(height: 40),
+              _indexStep(),
+              spaceVertical(height: 4),
+              _heading('Chọn kỹ năng của bạn'),
+              spaceVertical(height: 30),
+              Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(children: [
+                      ...controller.listSkills
+                          .map((element) => _skill(element))
+                          .toList(),
+                    ]),
+                  )),
               Row(
                 children: [
-                  _btnNext(),
-                  spaceVertical(height: 11),
-                  _btnBack(),
+                  Expanded(child: _btnBack()),
+                  spaceHorizontal(width: 11),
+                  Expanded(child: _btnNext()),
                 ],
               ),
-            spaceVertical(height: AppDataGlobal.safeBottom),
-          ],
+              spaceVertical(height: AppDataGlobal.safeBottom),
+            ],
+          ),
         ),
       ),
     );
@@ -52,7 +60,7 @@ class Step2RegisterScreen extends GetView<Step2RegisterController> {
         alignment: Alignment.centerLeft,
         width: Get.width,
         child:
-            CustomText.textPlusJakarta(text: title, style: TextAppStyle.h3()));
+        CustomText.textPlusJakarta(text: title, style: TextAppStyle.h3()));
   }
 
   Widget _indexStep() {
@@ -76,7 +84,7 @@ class Step2RegisterScreen extends GetView<Step2RegisterController> {
                 : AssetSVGName.radioDisabled),
             spaceHorizontal(width: 15),
             CustomText.textPlusJakarta(
-                text: data.name ?? '', style: TextAppStyle.h6()),
+                text: data ?? '', style: TextAppStyle.h6()),
           ],
         ),
       ),

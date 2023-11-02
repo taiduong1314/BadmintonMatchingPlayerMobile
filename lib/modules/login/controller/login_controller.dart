@@ -90,17 +90,11 @@ class LoginController extends GetxController {
   }
 
   /// Forget password
-// Future<void> doForgetPassword() async {
-//   if (!Utils.validatePhone(phone: txtPhone.text)) return;
-//
-//   await CustomEasyLoading.loadingLoad();
-//
-//   await Future.delayed(const Duration(seconds: 2));
-//
-//   await CustomEasyLoading.stopLoading();
-//   Get.toNamed(Routes.VERIFYOTP,
-//       arguments: {'phone': txtPhone.text, 'type': 2});
-// }
+Future<void> doForgetPassword() async {
+    Get.toNamed(Routes.FORGOTPASSWORD);
+  // Get.toNamed(Routes.VERIFYOTP,
+  //     arguments: {'phone': txtPhone.text, 'type': 2});
+}
 
   /// isLoginSms = false -> User chose login with password
 // Future<void> doLoginWithPassword() async {

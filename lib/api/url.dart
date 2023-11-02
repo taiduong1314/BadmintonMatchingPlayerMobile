@@ -17,4 +17,6 @@ class SubAPI {
  static const String districts = 'api/districts/city';
 
  static const String register = 'api/users/register';
+
+ static const String user = 'api/users';
 }

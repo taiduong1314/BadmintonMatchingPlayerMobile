@@ -18,11 +18,11 @@
 		</data>
 		<key>Modules/FirebaseCoreInternal.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		WSVqpmPwCyG7DSDliKDirWB76fQ=
+		prUQ+redcmgJvyUzhA3kS7zggBQ=
 		</data>
 		<key>Modules/FirebaseCoreInternal.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		y/9YzFvDpWN9nAXxAbupEDkwIxE=
+		M+9LAsdREMf07YGYM6pZYaGnaS8=
 		</data>
 		<key>Modules/FirebaseCoreInternal.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
@@ -34,7 +34,7 @@
 		</data>
 		<key>Modules/FirebaseCoreInternal.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		L+11aYNkWL5EYnCNEvJ5guvMi0k=
+		Rg663ZKSOCrN9RY6qJUwzOZSEPo=
 		</data>
 		<key>Modules/FirebaseCoreInternal.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
@@ -46,7 +46,7 @@
 		</data>
 		<key>Modules/FirebaseCoreInternal.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		I9hscHjmqtlWfycvv0rFqJsNbk8=
+		9M7ahglv+68lfmgIQp+UjH7KW0w=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -73,14 +73,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			x/U1cr1jX6v06MfPIbX4F3xfQwTcbtpce2vId1xSKLc=
+			qjRqwJ/cG1v/tdEN7DlQZ2nNKGjK9m8wZ4r9doGpHjE=
 			</data>
 		</dict>
 		<key>Modules/FirebaseCoreInternal.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			runuUVHrxepotadsH9PbUiBpqk5uhfB0L4TbFALHDww=
+			DDa9HCdL+UL0MMl3H8B8M5BNEhnYwIYAXQKPKdXc7UI=
 			</data>
 		</dict>
 		<key>Modules/FirebaseCoreInternal.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
@@ -101,7 +101,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			4P/lLnmpdNVOXUEdE1fifGYIwt3W0FtYmqNdmJacTzw=
+			3cbnc54ePNDD0P39I0/mC2nv9a2aOUWKTDp2HqG1L/g=
 			</data>
 		</dict>
 		<key>Modules/FirebaseCoreInternal.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
@@ -122,7 +122,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Nqvw/tMlbfWOgYGdCvLp6KMBXuzZ5Yb6O2QTonvYmDE=
+			vV49bIFkn1CBXSztVEG5jbIfmec/OZVIeziSZYrJRpo=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

@@ -99,6 +99,9 @@ class CustomPopup {
         required String message,
         required String titleButton,
         required String svgUrl,
+
+        double? widthSvg,
+        double? heightSvg,
         bool titleUnderImage = false,
         int? priority,
         Function()? onTap}) async {
@@ -142,7 +145,10 @@ class CustomPopup {
                                 .copyWith(color: AppColor.colorTextBlue)),
                         if(title.isNotEmpty && !titleUnderImage) spaceVertical(height: 12),
                         SvgPicture.asset(svgUrl,
-                            height: 112, fit: BoxFit.contain),
+                            width: widthSvg,
+                            height: heightSvg ?? 112, fit: BoxFit.contain),
+                        if(titleUnderImage) spaceVertical(height: 25),
+
                         if(title.isNotEmpty && titleUnderImage) CustomText.textPlusJakarta(
                             text: title,
                             maxLine: 2,

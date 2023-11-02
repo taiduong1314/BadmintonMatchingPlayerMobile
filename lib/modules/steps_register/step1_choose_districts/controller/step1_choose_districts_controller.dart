@@ -1,15 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:vbmsports/routes/app_pages.dart';
 import 'package:vbmsports/utils/call_api/location/call_api_location.dart';
+import 'package:vbmsports/utils/call_api/user/user.dart';
 
 import '../../../../model/location/location_model.dart';
+import '../../../../utils/common/asset/svg.dart';
+import '../../../../utils/widget/popup/custom_popup.dart';
 
 class Step1RegisterController extends GetxController {
   RxBool isChoosingProvinces = true.obs;
 
   RxList<LocationModel> listProvinces = RxList.empty(growable: true);
   RxList<LocationModel> listDistricts = RxList.empty(growable: true);
+
 
   Rx<LocationModel> districtSelected = LocationModel().obs;
 
@@ -51,7 +57,17 @@ class Step1RegisterController extends GetxController {
     isChoosingProvinces.value = true;
   }
 
-  void onTapNext() {
+  void onTapNext() async{
+    if(districtSelected.value.id == null){
+      CustomPopup.showTextWithImage(Get.context,
+          title: 'Ôi! Có lỗi xảy ra',
+          message: 'Vui lòng chọn 1 khu vực bất kỳ',
+          titleButton: 'Đã hiểu',
+          svgUrl: AssetSVGName.error);
+      return;
+    }
+
+    unawaited(CallAPIUser.setUserArea(area: districtSelected.value.name ?? ''));
     Get.toNamed(Routes.STEP2REGISTER);
   }
 }
