@@ -7,15 +7,23 @@ extension ResetPasswordCustom on ForgotPasswordScreen {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        spaceVertical(height: 38),
         _heading('Đặt lại mật khẩu'),
         spaceVertical(height: 8),
         _subHeading('Đặt lại mật khẩu'),
         spaceVertical(height: 38),
-        _inputForm(
-            title: "Email",
-            controllerText: controller.txtEmail,
-            hintText: "Nhập email của bạn"),
+        _inputPasswordForm(
+            title: "Mật khẩu",
+            controllerText: controller.txtPassword,
+            obscureText: controller.isHidePassword.value,
+            onTap: controller.doHidePassword,
+            hintText: "Nhập mật khẩu"),
+        spaceVertical(height: 18),
+        _inputPasswordForm(
+            title: "Mật khẩu xác nhận",
+            controllerText: controller.txtRePassword,
+            obscureText: controller.isHideRePassword.value,
+            onTap: controller.doHideRePassword,
+            hintText: "Nhập mật khẩu xác nhận"),
         spaceVertical(height: 18),
         _btnConfirm(),
         spaceVertical(height: AppDataGlobal.safeBottom),

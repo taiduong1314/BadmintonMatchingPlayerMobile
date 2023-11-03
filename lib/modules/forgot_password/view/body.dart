@@ -11,12 +11,38 @@ extension BodyCustom on ForgotPasswordScreen {
             color: AppColor.colorLight,
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(32), topRight: Radius.circular(32))),
-        child: SingleChildScrollView(
-          child: controller.indexFlow.value == 0 // Nhập email
-              ? _widgetForgotPass()
-              : controller.indexFlow.value == 1 // Nhập otp
-                  ? _widgetOtpVerify()
-                  : _widgetResetPass(), // Nhập mật khẩu
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            spaceVertical(height: 38),
+            _widgetBack(),
+            spaceVertical(height: 12),
+            Flexible(
+              child: SingleChildScrollView(
+                child: controller.indexFlow.value == 0 // Nhập email
+                    ? _widgetForgotPass()
+                    : controller.indexFlow.value == 1 // Nhập otp
+                        ? _widgetOtpVerify()
+                        : _widgetResetPass(), // Nhập mật khẩu
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _widgetBack() {
+    return GestureDetector(
+      onTap: controller.onTapBack,
+      child: Container(
+        color: AppColor.colorLight,
+        child: Row(
+          children: [
+            const Icon(Icons.arrow_back_ios, size: 20),
+            CustomText.textPlusJakarta(
+                text: 'Quay lại', style: TextAppStyle.bodySmall()),
+          ],
         ),
       ),
     );

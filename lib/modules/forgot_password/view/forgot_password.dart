@@ -8,7 +8,6 @@ extension ForgotPassCustom on ForgotPasswordScreen {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        spaceVertical(height: 38),
         _heading('Quên mật khẩu'),
         spaceVertical(height: 8),
         _subHeading('Nhập email đăng ký của bạn'),

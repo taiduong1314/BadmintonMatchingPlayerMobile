@@ -21,8 +21,6 @@ class AppDataGlobal {
   static String biometricType = '';
   /// True is turn on, false is turn off
   static RxBool biometricStatus = false.obs;
-  /// Use for verify OTP screen - set time to resend otp
-  static const int timeToReSendOTP = 90;
   /// Border for all widget in app
   static double border = 8;
   static double borderButton = 32;

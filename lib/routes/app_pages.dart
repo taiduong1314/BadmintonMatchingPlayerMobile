@@ -24,8 +24,7 @@ import '../modules/steps_register/step3_choose_style_play/binding/step3_choose_s
 import '../modules/steps_register/step3_choose_style_play/view/step3_choose_style_play_screen.dart';
 import '../modules/steps_register/step4_recomment_players/binding/step4_recomment_players_binding.dart';
 import '../modules/steps_register/step4_recomment_players/view/step4_recomment_players_screen.dart';
-import '../modules/verifyOTP/binding/verify_otp_binding.dart';
-import '../modules/verifyOTP/view/verify_otp_screen.dart';
+
 
 part 'app_routes.dart';
 
@@ -54,11 +53,6 @@ final routePages = [
     name: Routes.FORGOTPASSWORD,
     page: () => ForgotPasswordScreen(),
     binding: ForgotPasswordBinding(),
-  ),
-  GetPage(
-    name: Routes.VERIFYOTP,
-    page: () => VerifyOTPScreen(),
-    binding: VerifyOTPBinding(),
   ),
   GetPage(
     name: Routes.ACCOUNT,
