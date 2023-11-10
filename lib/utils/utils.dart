@@ -11,7 +11,6 @@ import 'common/asset/svg.dart';
 import 'widget/popup/custom_popup.dart';
 
 class Utils {
-
   /// Open setting of app in device setting
   // static void openSetting() {
   //   openAppSettings();
@@ -45,7 +44,8 @@ class Utils {
   /// User input 0903847529 or 903847529 ---parse---> (2 case)
   /// Case 1: if isReturnCountryCode = false -> 903847529
   /// Case 2: if isReturnCountryCode = true -> +84903847529
-  static String parsePhoneNumber({required String phone, bool isReturnCountryCode = false}) {
+  static String parsePhoneNumber(
+      {required String phone, bool isReturnCountryCode = false}) {
     String data = phone.toString().trim();
 
     if (data.startsWith('+84')) {
@@ -111,7 +111,7 @@ class Utils {
     String dateFormat = 'HH:mm dd/MM/yyyy',
   }) {
     try {
-      DateTime parseDate = DateTime.parse(date);
+      DateTime parseDate = DateTime.parse(date).toLocal();
       var formatDate = DateFormat(dateFormat).format(parseDate.toLocal());
       return formatDate.toString();
     } catch (e) {
@@ -175,7 +175,7 @@ class Utils {
 
         if (checkNumber > 0) {
           data =
-          '${value.substring(0, value.length - 1)}/${value.substring(value.length - 1)}';
+              '${value.substring(0, value.length - 1)}/${value.substring(value.length - 1)}';
           value = data;
         }
       }
@@ -268,5 +268,32 @@ class Utils {
       }
       return '';
     }
+  }
+
+  /// Get day of week
+  static String getDayOfWeek(int day) {
+    switch (day) {
+      case 1:
+        return 'Chủ Nhật';
+      case 2:
+        return 'Thứ Hai';
+      case 3:
+        return 'Thứ Ba';
+      case 4:
+        return 'Thứ Tư';
+      case 5:
+        return 'Thứ Năm';
+      case 6:
+        return 'Thứ Sáu';
+      case 7:
+        return 'Thứ Bảy';
+      default:
+        return '---';
+    }
+  }
+
+  static formatBalance(String balance) {
+    final oCcy = NumberFormat("#,###", "vi_VN");
+    return oCcy.format(double.parse(balance));
   }
 }

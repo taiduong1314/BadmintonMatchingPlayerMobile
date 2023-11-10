@@ -15,10 +15,37 @@ class AssetSVGName {
   static String eyeOff = "assets/svg/eye_off.svg";
   static String eyeOn = "assets/svg/eye_on.svg";
 
+  static String slot = "assets/svg/slot.svg";
+  static String location = "assets/svg/location.svg";
+  static String clockCircle = "assets/svg/clock.svg";
+  static String calendar = "assets/svg/calendar.svg";
+
+  static String hearth = "assets/svg/hearth.svg";
+  static String link = "assets/svg/link.svg";
+
+  static String managerPost = "assets/svg/manager_post.svg";
+  static String post = "assets/svg/post.svg";
+  static String setting = "assets/svg/setting.svg";
+  static String profile = "assets/svg/profile.svg";
+  static String wallet = "assets/svg/wallet.svg";
+
+
   static String radioSelected = "assets/svg/selected.svg";
 
   static String radioActive = "assets/svg/radio-active.svg";
   static String radioDisabled = "assets/svg/radio-disabled.svg";
 
   static String successful = "assets/svg/successful.svg";
+
+  static String homeBottom = "assets/svg/home-bottom.svg";
+  static String chatBottom = "assets/svg/chat-bottom.svg";
+  static String centerBottom = "assets/svg/plus-bottom.svg";
+  static String notificationBottom = "assets/svg/notification-bottom.svg";
+  static String moreInfoBottom = "assets/svg/add-bottom.svg";
+
+  static const String arrowLeft =
+      'assets/svg/arrow-left.svg';
+
+  static const String arrowRight =
+      'assets/svg/arrow_right.svg';
 }

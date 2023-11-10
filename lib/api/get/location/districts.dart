@@ -8,7 +8,7 @@ import 'package:vbmsports/api/url.dart';
 import '../../../model/location/location_model.dart';
 
 class DistrictAPI {
-  static Future<List<LocationModel>> get({required String keyProvince}) async {
+  static Future<LocationModel> get({required String keyProvince}) async {
     try {
       var response =
           await DioClient(Dio()).get('${SubAPI.districts}/$keyProvince');
@@ -22,13 +22,13 @@ class DistrictAPI {
         return locationModelFromJson(jsonEncode(response.data));
       }
 
-      return [];
+      return LocationModel();
     } catch (e) {
       if (kDebugMode) {
         print('******TRY-CATCH Error Call API District: $e');
       }
 
-      return [];
+      return LocationModel();
     }
   }
 }

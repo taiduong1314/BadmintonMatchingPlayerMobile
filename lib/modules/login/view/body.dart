@@ -5,7 +5,7 @@ extension BodyCustom on LoginScreen {
     return Obx(
       () => Container(
         width: Get.width,
-        constraints: BoxConstraints(maxHeight: Get.height / 1.3),
+        constraints: BoxConstraints(maxHeight: Get.height / 1.4),
         padding: const EdgeInsets.symmetric(horizontal: 28),
         decoration: BoxDecoration(
             color: AppColor.colorLight,

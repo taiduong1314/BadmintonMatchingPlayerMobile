@@ -1,9 +1,18 @@
+import 'dart:ffi';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:vbmsports/model/user/user.dart';
 import 'package:vbmsports/routes/app_pages.dart';
-import 'package:vbmsports/utils/call_api/user/user.dart';
+import 'package:vbmsports/utils/call_api/user/call_api_user.dart';
+import 'package:vbmsports/utils/common/data.dart';
+import 'package:vbmsports/utils/common/key_data_local.dart';
+import 'package:vbmsports/utils/stored/shared_preferences/set.dart';
 
+import '../../../service/firebase/social_service/social_service.dart';
 import '../../../utils/common/asset/svg.dart';
 import '../../../utils/widget/popup/custom_popup.dart';
 
@@ -13,6 +22,8 @@ class LoginController extends GetxController {
   TextEditingController txtPassword = TextEditingController();
   TextEditingController txtRePassword = TextEditingController();
   TextEditingController txtPhone = TextEditingController();
+
+  String accessTokenSocial = '';
 
   // RxBool isLoginSms = false.obs;
   RxBool isRegister = false.obs;
@@ -41,14 +52,120 @@ class LoginController extends GetxController {
 
   /// Login base on type user chose
   Future<void> doLogin() async {
-    //   /// Login with password
-    //   if (!isLoginSms.value) {
-    //     await doLoginWithPassword();
-    //     return;
-    //   }
-    //
-    //   /// Login with sms
-    //   await doLoginWithOTP();
+    if (txtEmail.text == '' || txtPassword.text == '') {
+      CustomPopup.showTextWithImage(Get.context,
+          title: 'Ôi! Có lỗi xảy ra',
+          message: 'Thông tin đang bị để trống. Vui lòng nhập đầy đủ thông tin',
+          titleButton: 'Đã hiểu',
+          svgUrl: AssetSVGName.error);
+      return;
+    }
+
+    await EasyLoading.show();
+    UserDataModel data = await CallAPIUser.login(
+        email: txtEmail.text, password: txtPassword.text);
+    await EasyLoading.dismiss();
+
+    if (data.token == null) return;
+
+    AppDataGlobal.user.value = data;
+    SetDataToLocal.setString(
+        key: KeyDataLocal.userKey, data: userDataModelToJson(data));
+
+    Get.offAllNamed(Routes.MAIN);
+  }
+
+  /// Login with social account
+  /// type -> 0: google - 1: apple - 2 facebook
+  Future<void> doLoginSocial({required int type}) async {
+    try {
+      // Tạm thời block login bằng apple và facebook
+      if (type != 0) {
+        await CustomPopup.showTextWithImage(Get.context,
+            title: 'Thông báo',
+            message: 'Tính năng đang phát triển. Vui lòng quay lại sau bạn nhé',
+            titleButton: 'Đã hiểu',
+            titleUnderImage: true,
+            heightSvg: 70,
+            widthSvg: 70,
+            svgUrl: AssetSVGName.error);
+        return;
+      }
+      await EasyLoading.show();
+      UserCredential? data;
+      if (type == 0) {
+        // Login with Google
+        data = await SocialServices.googleService.signInWithGoogle();
+      } else if (type == 1) {
+        // Login with Apple
+        data = await SocialServices.appleService.signInWithApple();
+      } else if (type == 2) {
+        // Login with Facebook
+        data = await SocialServices.facebookService.signInWithFacebook();
+      }
+
+      if (data == null) {
+        await EasyLoading.dismiss();
+        return;
+      }
+
+      /// Get token (JWT) to send BE
+      await data.user?.getIdToken().then((value) {
+        accessTokenSocial = value ?? '';
+        if (kDebugMode) {
+          print('=============== Social Token ===============');
+          print(accessTokenSocial.substring(0, 400));
+          print(accessTokenSocial.substring(400));
+          print('=============================================');
+        }
+      });
+
+      // If access token is empty
+      // return, don't call api to login
+      if (accessTokenSocial == '') {
+        await EasyLoading.dismiss();
+        return;
+      }
+
+      // var userData = await CallAPILogin.loginSocial(token: accessTokenSocial);
+
+      await EasyLoading.dismiss();
+
+      // if (userData?.token != null) {
+      //   isSaveLogin.value = true;
+      //   AppDataGlobal.userData.value = userData ?? LoginDataModel();
+      //   AppDataGlobal.isFirstLogin.value = true;
+      //   await CallAPIAccount.get();
+      //   doSaveUserLogin();
+      //   Get.offAllNamed(Routes.MAIN, arguments: {"index": -1});
+      // }
+
+      await CustomPopup.showTextWithImage(Get.context,
+          title: 'Thông báo',
+          message: 'Đăng nhập Google thành công - api chưa có',
+          titleButton: 'Đã hiểu',
+          titleUnderImage: true,
+          heightSvg: 70,
+          widthSvg: 70,
+          svgUrl: AssetSVGName.successful);
+    } catch (e) {
+      await EasyLoading.dismiss();
+      String serviceName = '';
+      switch (type) {
+        case 0:
+          serviceName = 'googleService';
+          break;
+        case 1:
+          serviceName = 'appleService';
+          break;
+        case 2:
+          serviceName = 'facebookService';
+          break;
+      }
+      if (kDebugMode) {
+        print('SocialServices.$serviceName Error: $e');
+      }
+    }
   }
 
   /// Register base on type user chose
@@ -90,49 +207,7 @@ class LoginController extends GetxController {
   }
 
   /// Forget password
-Future<void> doForgetPassword() async {
+  Future<void> doForgetPassword() async {
     Get.toNamed(Routes.FORGOTPASSWORD);
-  // Get.toNamed(Routes.VERIFYOTP,
-  //     arguments: {'phone': txtPhone.text, 'type': 2});
-}
-
-  /// isLoginSms = false -> User chose login with password
-// Future<void> doLoginWithPassword() async {
-//   if (!Utils.validatePhone(phone: txtPhone.text)) return;
-//   await CustomEasyLoading.loadingLoad();
-//
-//   await Future.delayed(const Duration(seconds: 2));
-//
-//   await CustomEasyLoading.stopLoading();
-//   Get.toNamed(Routes.MAIN);
-// }
-//
-
-  /// isLoginSms = true -> User chose login with Sms-Otp
-// Future<void> doLoginWithOTP() async {
-//   if (!Utils.validatePhone(phone: txtPhone.text)) return;
-//   await CustomEasyLoading.loadingLoad();
-//
-//   await Future.delayed(const Duration(seconds: 2));
-//
-//   await CustomEasyLoading.stopLoading();
-//   Get.toNamed(Routes.VERIFYOTP,
-//       arguments: {'phone': txtPhone.text, 'type': 3});
-// }
-//
-// // /// Check biometricStatus = true
-// // /// Auto call to login
-// // void doLoginWithBiometric() async{
-// //   txtPhone.text = AppDataGlobal.user.phone ?? '';
-// //
-// //   if(!AppDataGlobal.biometricStatus.value) return;
-// //
-// //   bool status = await LocalAuth.showAuth(localizedReason: 'Xin hãy xác thực để đăng nhập hệ thống');
-// //
-// //   if(!status) return;
-// //
-// //   txtPassword.text = AppDataGlobal.user.password ?? '';
-// //
-// //   doLoginWithPassword();
-// // }
+  }
 }

@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:vbmsports/model/user_id/user_id.dart';
 
+import '../../../model/user/user_id.dart';
 import '../../setup_dio/dio_setup.dart';
 import '../../url.dart';
 

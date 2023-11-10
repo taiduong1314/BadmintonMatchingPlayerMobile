@@ -32,7 +32,6 @@ class WifiService {
         AppDataGlobal.isPopupVisible = true;
 
         await CustomPopup.showAnimation(Get.context,
-            title: 'Lỗi kết nối',
             message: 'Đang kết nối....',
             padding: const EdgeInsets.only(bottom: 32),
             margin: const EdgeInsets.symmetric(horizontal: 32),

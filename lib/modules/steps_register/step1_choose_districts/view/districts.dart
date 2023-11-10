@@ -12,7 +12,7 @@ extension DistrictsCustom on Step1RegisterScreen {
     );
   }
 
-  Widget _district(LocationModel data) {
+  Widget _district(LocationDataModel data) {
     return GestureDetector(
       onTap: () => controller.onTapDistricts(data),
       child: Container(

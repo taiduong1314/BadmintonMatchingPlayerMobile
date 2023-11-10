@@ -14,7 +14,7 @@ extension ProvincesCustom on Step1RegisterScreen {
     );
   }
 
-  Widget _province(LocationModel data) {
+  Widget _province(LocationDataModel data) {
     return GestureDetector(
       onTap: () => controller.onTapProvinces(data),
       child: Container(

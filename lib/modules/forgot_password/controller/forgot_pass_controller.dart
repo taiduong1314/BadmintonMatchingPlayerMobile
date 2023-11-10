@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:vbmsports/model/otp/verify_otp.dart';
 import 'package:vbmsports/routes/app_pages.dart';
+import 'package:vbmsports/utils/call_api/otp/call_api_otp.dart';
+import 'package:vbmsports/utils/call_api/user/call_api_user.dart';
 import 'package:vbmsports/utils/common/asset/svg.dart';
 import 'package:vbmsports/utils/widget/popup/custom_popup.dart';
 
@@ -16,11 +21,8 @@ class ForgotPasswordController extends GetxController {
   RxBool isHidePassword = true.obs;
   RxBool isHideRePassword = true.obs;
 
+  VerifyOtpModel otpData = VerifyOtpModel();
   String txtOTP = '';
-
-  Future<void> checkOtp() async {
-    if (!Utils.validateOTP(txtOTP)) return;
-  }
 
   void doHidePassword() {
     isHidePassword.value = !isHidePassword.value;
@@ -30,17 +32,64 @@ class ForgotPasswordController extends GetxController {
     isHideRePassword.value = !isHideRePassword.value;
   }
 
-  void onTapInputEmail() {
+  void onTapInputEmail() async {
+    if (txtEmail.text.isEmpty) {
+      CustomPopup.showTextWithImage(Get.context,
+          title: 'Ôi! Có lỗi xảy ra',
+          message: 'Email đang để trống, vui lòng điền email.',
+          titleButton: 'Đã hiểu',
+          svgUrl: AssetSVGName.error);
+      return;
+    }
+
+    await EasyLoading.show();
+
+    otpData = await CallAPIOTP.send(email: txtEmail.text);
+
+    if (kDebugMode) {
+      print('*********** OTP Code: ${otpData.otp}');
+    }
+
+    await EasyLoading.dismiss();
     indexFlow.value = 1;
   }
 
-  void onTapOtpVerify() {
+  void onTapOtpVerify() async {
+    if (!Utils.validateOTP(txtOTP) || txtOTP != otpData.otp) {
+      CustomPopup.showTextWithImage(Get.context,
+          title: 'Ôi! Có lỗi xảy ra',
+          message: 'Mã OTP không chính xác, vui lòng kiểm tra lại',
+          titleButton: 'Đã hiểu',
+          svgUrl: AssetSVGName.error);
+      return;
+    }
+
     indexFlow.value = 2;
   }
 
-  void onTapResendOTP() {}
+  void onTapResendOTP() async {
+    otpData = await CallAPIOTP.send(email: txtEmail.text);
 
-  void onTapInputNewPassword() {
+    if (kDebugMode) {
+      print('*********** OTP Code: ${otpData.otp}');
+    }
+
+    if (otpData.otp == null) return;
+
+    CustomPopup.showSnackBar(
+        title: 'Thông báo', message: "Mã OTP đã được gửi thành công");
+  }
+
+  void onTapInputNewPassword() async {
+    if (txtPassword.text.isEmpty || txtRePassword.text.isEmpty) {
+      CustomPopup.showTextWithImage(Get.context,
+          title: 'Ôi! Có lỗi xảy ra',
+          message: 'Mật khẩu không được để trống. Vui lòng kiểm tra lại',
+          titleButton: 'Đã hiểu',
+          svgUrl: AssetSVGName.error);
+      return;
+    }
+
     if (txtPassword.text.trim() != txtRePassword.text.trim()) {
       CustomPopup.showTextWithImage(Get.context,
           title: 'Ôi! Có lỗi xảy ra',
@@ -49,6 +98,17 @@ class ForgotPasswordController extends GetxController {
           svgUrl: AssetSVGName.error);
       return;
     }
+
+    await EasyLoading.show();
+
+    bool status = await CallAPIUser.forgotPassword(
+        email: txtEmail.text,
+        password: txtPassword.text,
+        rePassword: txtRePassword.text);
+
+    await EasyLoading.dismiss();
+
+    if (!status) return;
 
     CustomPopup.showTextWithImage(Get.context,
         title: 'Đổi mật khẩu thành công',

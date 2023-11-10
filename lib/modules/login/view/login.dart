@@ -29,7 +29,7 @@ extension LoginCustom on LoginScreen{
         _btnForgotPassVsRegisterTextOnly(title: "Quên mật khẩu?", onTap: controller.doForgetPassword),
         spaceVertical(height: 18),
         _rowOption(),
-        spaceVertical(height: AppDataGlobal.safeBottom),
+        spaceVertical(height: AppDataGlobal.safeBottom + 10),
       ],
     );
   }
@@ -38,9 +38,9 @@ extension LoginCustom on LoginScreen{
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
-        _btnSocial(isFacebook: true),
+        _btnSocial(isFacebook: true, onTap: () => controller.doLoginSocial(type: 2)),
         spaceHorizontal(width: 12),
-        _btnSocial(isFacebook: false),
+        _btnSocial(isFacebook: false, onTap: () => controller.doLoginSocial(type: 0)),
         spaceHorizontal(width: 12),
         Expanded(child: _btnRegister(title: 'Đăng ký tài khoản mới', onTap: controller.onTapRegister))
       ],

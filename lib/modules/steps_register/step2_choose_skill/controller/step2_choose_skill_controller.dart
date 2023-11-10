@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:vbmsports/utils/call_api/user/user.dart';
+import 'package:vbmsports/utils/call_api/user/call_api_user.dart';
 
 import '../../../../model/player_suggestion/player_suggestion_model.dart';
 import '../../../../routes/app_pages.dart';
@@ -22,7 +22,7 @@ class Step2RegisterController extends GetxController {
 
   /// Gọi dữ liệu chuẩn bị cho step 4
   /// Làm vậy cho mượt hơn
-  List<PlayerSuggestionModel> playersSuggestion = [];
+  List<PlayerSuggestionDataModel> playersSuggestion = [];
 
   @override
   void onInit() {

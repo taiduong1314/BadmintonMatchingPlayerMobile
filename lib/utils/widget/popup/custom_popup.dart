@@ -180,9 +180,12 @@ class CustomPopup {
   }
 
   static Future<void> showAnimation(context,
-      {required String title,
-        required String message,
+      {required String message,
         required String animationUrl,
+        double? spaceAnimationWithText,
+        double? widthAnimation,
+        double? heightAnimation,
+        int? maxLine,
         EdgeInsetsGeometry? padding,
         EdgeInsetsGeometry? margin}) async {
     await showGeneralDialog(
@@ -209,11 +212,11 @@ class CustomPopup {
                   //     style: TextAppStyle.largeBoldTextStyle()
                   //         .copyWith(color: AppColor.colorTextBlue)),
                   // spaceVertical(height: 12),
-                  Lottie.asset(animationUrl, fit: BoxFit.contain),
-                  // spaceVertical(height: 12),
+                  Lottie.asset(animationUrl, fit: BoxFit.contain, width: widthAnimation, height: heightAnimation),
+                  spaceVertical(height: spaceAnimationWithText ?? 12),
                   CustomText.textPlusJakarta(
                     text: message,
-                    maxLine: 1,
+                    maxLine: maxLine ?? 1,
                     style: TextAppStyle.mediumBoldTextStyle(),
                     textAlign: TextAlign.center,
                   ),
@@ -228,6 +231,7 @@ class CustomPopup {
       {required String message,
         required String animationUrl,
         EdgeInsetsGeometry? padding,
+        int? maxLineMessage,
         bool repeatAnimation = false,
         required String titleButton,
         int? priority,
@@ -260,8 +264,8 @@ class CustomPopup {
                       fit: BoxFit.contain, repeat: repeatAnimation),
                   CustomText.textPlusJakarta(
                     text: message,
-                    maxLine: 1,
-                    style: TextAppStyle.mediumBoldTextStyle(),
+                    maxLine: maxLineMessage ?? 1,
+                    style: TextAppStyle.bodyDefault(),
                     textAlign: TextAlign.center,
                   ),
                   spaceVertical(height: 20),

@@ -8,4 +8,6 @@ class KeyDataLocal{
   static String keyBiometric = 'isTurnOnBiometric';
 
   static String fcmTokenKey = 'deviceToken';
+
+  static String userKey = 'user';
 }

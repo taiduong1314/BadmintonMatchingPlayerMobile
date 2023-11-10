@@ -74,7 +74,7 @@ extension OTPVerifyCustom on ForgotPasswordScreen {
       ),
       onCompleted: (text) {
         controller.txtOTP = text;
-        controller.checkOtp();
+        controller.onTapOtpVerify();
       },
       onSubmitted: (text) {
         controller.txtOTP = text;

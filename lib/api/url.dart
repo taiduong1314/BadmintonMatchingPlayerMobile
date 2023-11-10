@@ -19,4 +19,8 @@ class SubAPI {
  static const String register = 'api/users/register';
 
  static const String user = 'api/users';
+
+ static const String loginEmail = 'api/users/email_login';
+
+ static const String post = 'api/posts';
 }

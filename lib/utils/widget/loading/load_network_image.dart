@@ -15,7 +15,6 @@ class NetworkImageCustom {
     EdgeInsetsGeometry? padding,
     bool hideErrorWidget = false,
     bool hideProgressIndicator = true,
-
     BoxBorder? border,
     double? widthErrorImage,
     double? heightErrorImage,
@@ -28,8 +27,8 @@ class NetworkImageCustom {
         height: height,
         decoration: BoxDecoration(
           borderRadius: borderRadius ?? BorderRadius.zero,
-            color: backgroundColor ?? Colors.transparent,
-            border: border,
+          color: backgroundColor ?? Colors.transparent,
+          border: border,
         ),
         child: CachedNetworkImage(
           imageUrl: imageUrl,
@@ -49,12 +48,15 @@ class NetworkImageCustom {
           errorWidget: (context, url, error) => hideErrorWidget
               ? const SizedBox()
               : Center(
-                child: Image(
-                    image: const AssetImage(AssetImageName.logoOnly),
-                    width: widthErrorImage ?? 80,
-                    height:heightErrorImage ??  80,
+                  child: ClipRRect(
+                    borderRadius: borderRadius ?? BorderRadius.zero,
+                    child: Image(
+                      image: const AssetImage(AssetImageName.logoOnly),
+                      width: widthErrorImage ?? 80,
+                      height: heightErrorImage ?? 80,
+                    ),
                   ),
-              ),
+                ),
         ),
       ),
     );

@@ -9,7 +9,7 @@ import '../../../setup_dio/dio_setup.dart';
 import '../../../url.dart';
 
 class PlayerSuggestionAPI {
-  static Future<List<PlayerSuggestionModel>> get() async {
+  static Future<PlayerSuggestionModel> get() async {
     try {
       var response = await DioClient(Dio())
           .get('${SubAPI.user}/${AppDataGlobal.userID}/player_suggestion');
@@ -20,16 +20,15 @@ class PlayerSuggestionAPI {
       }
 
       if (response.statusCode == 200) {
-        print('${response.data}');
         return playerSuggestionModelFromJson(jsonEncode(response.data));
       }
 
-      return [];
+      return PlayerSuggestionModel();
     } catch (e) {
       if (kDebugMode) {
         print('******TRY-CATCH Error Call API Player Suggestion: $e');
       }
-      return [];
+      return PlayerSuggestionModel();
     }
   }
 }

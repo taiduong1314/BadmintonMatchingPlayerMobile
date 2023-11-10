@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../../routes/app_pages.dart';
-import '../../../../utils/call_api/user/user.dart';
+import '../../../../utils/call_api/user/call_api_user.dart';
 import '../../../../utils/common/asset/svg.dart';
 import '../../../../utils/widget/popup/custom_popup.dart';
 

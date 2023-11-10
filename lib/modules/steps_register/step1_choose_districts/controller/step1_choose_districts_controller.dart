@@ -4,7 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:vbmsports/routes/app_pages.dart';
 import 'package:vbmsports/utils/call_api/location/call_api_location.dart';
-import 'package:vbmsports/utils/call_api/user/user.dart';
+import 'package:vbmsports/utils/call_api/user/call_api_user.dart';
 
 import '../../../../model/location/location_model.dart';
 import '../../../../utils/common/asset/svg.dart';
@@ -13,11 +13,11 @@ import '../../../../utils/widget/popup/custom_popup.dart';
 class Step1RegisterController extends GetxController {
   RxBool isChoosingProvinces = true.obs;
 
-  RxList<LocationModel> listProvinces = RxList.empty(growable: true);
-  RxList<LocationModel> listDistricts = RxList.empty(growable: true);
+  RxList<LocationDataModel> listProvinces = RxList.empty(growable: true);
+  RxList<LocationDataModel> listDistricts = RxList.empty(growable: true);
 
 
-  Rx<LocationModel> districtSelected = LocationModel().obs;
+  Rx<LocationDataModel> districtSelected = LocationDataModel().obs;
 
   @override
   void onInit() {
@@ -43,12 +43,12 @@ class Step1RegisterController extends GetxController {
     }
   }
 
-  void onTapProvinces(LocationModel data) async {
+  void onTapProvinces(LocationDataModel data) async {
     isChoosingProvinces.value = false;
     await getDistricts(data.id.toString());
   }
 
-  void onTapDistricts(LocationModel data) {
+  void onTapDistricts(LocationDataModel data) {
     districtSelected.value = data;
   }
 

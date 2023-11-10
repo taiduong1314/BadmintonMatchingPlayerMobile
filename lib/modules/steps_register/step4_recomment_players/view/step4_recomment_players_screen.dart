@@ -17,39 +17,41 @@ class Step4RegisterScreen extends GetView<Step4RegisterController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColor.colorLight,
-      width: Get.width,
-      height: Get.height,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            spaceVertical(height: 40),
-            _indexStep(),
-            spaceVertical(height: 4),
-            _heading('Gợi ý người chơi'),
-            spaceVertical(height: 30),
-            Expanded(
-                child: SingleChildScrollView(
-              child: Column(
-                children: controller.playersSuggestion
-                    .map((element) => _playerSuggestion(element))
-                    .toList(),
+    return Obx(
+      () => Container(
+        color: AppColor.colorLight,
+        width: Get.width,
+        height: Get.height,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: SafeArea(
+          bottom: false,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              spaceVertical(height: 40),
+              _indexStep(),
+              spaceVertical(height: 4),
+              _heading('Gợi ý người chơi ${controller.demoString.value}'),
+              spaceVertical(height: 30),
+              Expanded(
+                  child: SingleChildScrollView(
+                child: Column(
+                  children: controller.playersSuggestion
+                      .map((element) => _playerSuggestion(element))
+                      .toList(),
+                ),
+              )),
+              spaceVertical(height: 10),
+              Row(
+                children: [
+                  Expanded(child: _btnBack()),
+                  spaceHorizontal(width: 11),
+                  Expanded(child: _btnNext()),
+                ],
               ),
-            )),
-            spaceVertical(height: 10),
-            Row(
-              children: [
-                Expanded(child: _btnBack()),
-                spaceHorizontal(width: 11),
-                Expanded(child: _btnNext()),
-              ],
-            ),
-            spaceVertical(height: AppDataGlobal.safeBottom),
-          ],
+              spaceVertical(height: AppDataGlobal.safeBottom),
+            ],
+          ),
         ),
       ),
     );
@@ -69,7 +71,7 @@ class Step4RegisterScreen extends GetView<Step4RegisterController> {
         style: TextAppStyle.medium().copyWith(color: AppColor.colorBlue100));
   }
 
-  Widget _playerSuggestion(PlayerSuggestionModel data) {
+  Widget _playerSuggestion(PlayerSuggestionDataModel data) {
     return GestureDetector(
       onTap: () => controller.onTapPlayerSuggestion(data),
       child: Container(

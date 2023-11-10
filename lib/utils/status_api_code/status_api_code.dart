@@ -10,7 +10,7 @@ class APIStatusCode {
      CustomPopup.showTextWithImage(Get.context!,
         title: title,
         message: '$message',
-        titleButton: 'know'.tr,
+        titleButton: 'Đã hiểu',
         titleUnderImage: true,
         svgUrl: svgUrl);
   }

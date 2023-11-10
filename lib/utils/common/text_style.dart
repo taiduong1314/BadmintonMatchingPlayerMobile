@@ -29,14 +29,44 @@ class TextAppStyle {
         color: AppColor.colorDark, fontSize: 14, fontWeight: FontWeight.w600);
   }
 
+  static TextStyle size12W400() {
+    return GoogleFonts.inter(
+        color: AppColor.colorGrey1, fontSize: 12, fontWeight: FontWeight.w400);
+  }
+
+  static TextStyle size14W400() {
+    return GoogleFonts.inter(
+        color: AppColor.colorDark, fontSize: 14, fontWeight: FontWeight.w400);
+  }
+
+  static TextStyle h2() {
+    return GoogleFonts.inter(
+        color: AppColor.colorDark, fontSize: 32, fontWeight: FontWeight.w600);
+  }
+
   static TextStyle h3() {
     return GoogleFonts.inter(
         color: AppColor.colorDark, fontSize: 24, fontWeight: FontWeight.w600);
   }
 
+  static TextStyle h4() {
+    return GoogleFonts.inter(
+        color: AppColor.colorTextGrey600, fontSize: 20, fontWeight: FontWeight.w600);
+  }
+
+  static TextStyle h5() {
+    return GoogleFonts.inter(
+        color: AppColor.colorDark, fontSize: 18, fontWeight: FontWeight.w600);
+  }
+
   static TextStyle h6() {
     return GoogleFonts.inter(
         color: AppColor.colorDark, fontSize: 16, fontWeight: FontWeight.w600);
+  }
+
+  static TextStyle bodyDefault() {
+    return GoogleFonts.inter(
+        color: AppColor.colorTextDark, fontSize: 16, fontWeight: FontWeight.w400);
   }
 
   static TextStyle bodySmall() {
@@ -50,6 +80,13 @@ class TextAppStyle {
     return GoogleFonts.inter(
         color: AppColor.colorDark,
         fontSize: 12,
+        fontWeight: FontWeight.w600);
+  }
+
+  static TextStyle size10W600() {
+    return GoogleFonts.inter(
+        color: AppColor.colorDark,
+        fontSize: 10,
         fontWeight: FontWeight.w600);
   }
 
