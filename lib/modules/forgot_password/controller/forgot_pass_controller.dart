@@ -21,7 +21,6 @@ class ForgotPasswordController extends GetxController {
   RxBool isHidePassword = true.obs;
   RxBool isHideRePassword = true.obs;
 
-  VerifyOtpModel otpData = VerifyOtpModel();
   String txtOTP = '';
 
   void doHidePassword() {
@@ -44,18 +43,22 @@ class ForgotPasswordController extends GetxController {
 
     await EasyLoading.show();
 
-    otpData = await CallAPIOTP.send(email: txtEmail.text);
-
-    if (kDebugMode) {
-      print('*********** OTP Code: ${otpData.otp}');
-    }
+    var status = await CallAPIOTP.send(email: txtEmail.text);
 
     await EasyLoading.dismiss();
+
+    if(!status) return;
+
+
     indexFlow.value = 1;
   }
 
   void onTapOtpVerify() async {
-    if (!Utils.validateOTP(txtOTP) || txtOTP != otpData.otp) {
+    await EasyLoading.show();
+    var statusCheckToken = await CallAPIOTP.check(email: txtEmail.text, verifyToken: txtOTP);
+    await EasyLoading.dismiss();
+
+    if (!Utils.validateOTP(txtOTP) || statusCheckToken != true) {
       CustomPopup.showTextWithImage(Get.context,
           title: 'Ôi! Có lỗi xảy ra',
           message: 'Mã OTP không chính xác, vui lòng kiểm tra lại',
@@ -68,13 +71,10 @@ class ForgotPasswordController extends GetxController {
   }
 
   void onTapResendOTP() async {
-    otpData = await CallAPIOTP.send(email: txtEmail.text);
+    var status = await CallAPIOTP.send(email: txtEmail.text);
 
-    if (kDebugMode) {
-      print('*********** OTP Code: ${otpData.otp}');
-    }
 
-    if (otpData.otp == null) return;
+    if (status != true) return;
 
     CustomPopup.showSnackBar(
         title: 'Thông báo', message: "Mã OTP đã được gửi thành công");

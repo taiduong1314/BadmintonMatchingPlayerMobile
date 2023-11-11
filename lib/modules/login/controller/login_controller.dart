@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -13,6 +12,7 @@ import 'package:vbmsports/utils/common/key_data_local.dart';
 import 'package:vbmsports/utils/stored/shared_preferences/set.dart';
 
 import '../../../service/firebase/social_service/social_service.dart';
+import '../../../utils/common/asset/animation.dart';
 import '../../../utils/common/asset/svg.dart';
 import '../../../utils/widget/popup/custom_popup.dart';
 
@@ -81,14 +81,12 @@ class LoginController extends GetxController {
     try {
       // Tạm thời block login bằng apple và facebook
       if (type != 0) {
-        await CustomPopup.showTextWithImage(Get.context,
-            title: 'Thông báo',
-            message: 'Tính năng đang phát triển. Vui lòng quay lại sau bạn nhé',
-            titleButton: 'Đã hiểu',
-            titleUnderImage: true,
-            heightSvg: 70,
-            widthSvg: 70,
-            svgUrl: AssetSVGName.error);
+        await CustomPopup.showAnimationWithAction(Get.context,
+            message: "Tính năng đang được phát triển vui lòng quay lại sau",
+            titleButton: "Đã hiểu",
+            maxLineMessage: 3,
+            repeatAnimation: true,
+            animationUrl: AssetAnimationCustom.crying);
         return;
       }
       await EasyLoading.show();

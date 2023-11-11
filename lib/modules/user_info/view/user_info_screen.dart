@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:readmore/readmore.dart';
 import 'package:vbmsports/model/comment/comment_model.dart';
+import 'package:vbmsports/utils/common/asset/animation.dart';
 import 'package:vbmsports/utils/common/data.dart';
 import 'package:vbmsports/utils/utils.dart';
 
@@ -26,7 +28,8 @@ class UserInfoScreen extends GetView<UserInfoController>{
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      color: AppColor.colorLight,
       width: Get.width,
       height: Get.height,
       child: SafeArea(

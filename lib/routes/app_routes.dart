@@ -15,6 +15,7 @@ abstract class Routes {
   static const BOOKING = '/booking';
   static const USERINFO = '/user/info';
   static const WALLET = '/wallet';
+  static const DEPOSITVSWITHDRAW = '/wallet/deposit-withdraw';
   static const STEP1REGISTER = '/step1';
   static const STEP2REGISTER = '/step2';
   static const STEP3REGISTER = '/step3';

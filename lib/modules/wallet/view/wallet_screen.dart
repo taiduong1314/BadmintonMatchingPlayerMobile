@@ -13,7 +13,6 @@ import '../../../utils/widget/text/montserrat.dart';
 import '../controller/wallet_controller.dart';
 
 part 'history.dart';
-
 part 'header.dart';
 
 class WalletScreen extends GetView<WalletController> {
@@ -21,16 +20,18 @@ class WalletScreen extends GetView<WalletController> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Image(
-          image: const AssetImage(AssetImageName.walletHeader),
-          width: Get.width,
-          height: Get.height / 3.5,
-          fit: BoxFit.fill,
-        ),
-        _mainWidget(),
-      ],
+    return Obx(
+      () => Stack(
+        children: [
+          Image(
+            image: const AssetImage(AssetImageName.walletHeader),
+            width: Get.width,
+            height: Get.height / 3.5,
+            fit: BoxFit.fill,
+          ),
+          _mainWidget(),
+        ],
+      ),
     );
   }
 
@@ -63,12 +64,11 @@ class WalletScreen extends GetView<WalletController> {
           _header(),
           Expanded(
               child: Center(
-                child: CustomText.textPlusJakarta(
-                    text:
-                        '${Utils.formatBalance('${AppDataGlobal.user.value.balance ?? 0}')}đ',
-                    style:
-                        TextAppStyle.h2().copyWith(color: AppColor.colorLight)),
-              )),
+            child: CustomText.textPlusJakarta(
+                text:
+                    '${Utils.formatBalance('${AppDataGlobal.user.value.balance ?? 0}')}đ',
+                style: TextAppStyle.h2().copyWith(color: AppColor.colorLight)),
+          )),
           _rowOptionWallet(),
         ],
       ),
@@ -97,26 +97,32 @@ class WalletScreen extends GetView<WalletController> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-              child: Container(
-                  color: Colors.transparent,
-                  child: const Image(
-                    image: AssetImage(AssetImageName.deposit),
-                    height: 53,
-                    width: 48,
-                  ))),
+              child: GestureDetector(
+            onTap: controller.onTapDeposit,
+            child: Container(
+                color: Colors.transparent,
+                child: const Image(
+                  image: AssetImage(AssetImageName.deposit),
+                  height: 53,
+                  width: 48,
+                )),
+          )),
           Container(
             height: 32,
             width: 0.8,
             color: AppColor.colorGrey300.withOpacity(0.8),
           ),
           Expanded(
-              child: Container(
-                  color: Colors.transparent,
-                  child: const Image(
-                    image: AssetImage(AssetImageName.withdraw),
-                    height: 53,
-                    width: 48,
-                  ))),
+              child: GestureDetector(
+            onTap: controller.onTapWithDraw,
+            child: Container(
+                color: Colors.transparent,
+                child: const Image(
+                  image: AssetImage(AssetImageName.withdraw),
+                  height: 53,
+                  width: 48,
+                )),
+          )),
         ],
       ),
     );

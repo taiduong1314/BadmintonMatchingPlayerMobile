@@ -5,7 +5,7 @@ extension HeaderCustom on WalletScreen {
     return Stack(
       children: [
         _titleHeader(),
-        Positioned(left: 24, child: _btnBack()),
+        Positioned(left: 0, child: _btnBack()),
       ],
     );
   }

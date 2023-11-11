@@ -17,6 +17,7 @@ class UserInfoController extends GetxController {
 
   RxList<CommentDataModel> listComments = RxList.empty(growable: true);
 
+  RxBool isLoadingComments = true.obs;
   @override
   void onInit() {
     handleInit();
@@ -28,9 +29,10 @@ class UserInfoController extends GetxController {
   }
 
   Future<void> getComments() async {
+    isLoadingComments.value = true;
     listComments.value = await CallAPIComment.getComments(userID: userID);
     listComments.value = listComments.reversed.toList();
-
+    isLoadingComments.value = false;
   }
 
   Future<void> sendComment() async {

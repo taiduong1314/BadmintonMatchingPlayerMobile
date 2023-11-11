@@ -29,6 +29,7 @@ class AssetSVGName {
   static String profile = "assets/svg/profile.svg";
   static String wallet = "assets/svg/wallet.svg";
 
+  static String walletStatus = "assets/svg/status_wallet.svg";
 
   static String radioSelected = "assets/svg/selected.svg";
 

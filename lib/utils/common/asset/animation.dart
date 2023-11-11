@@ -13,4 +13,6 @@ class AssetAnimationCustom {
   static const paymentProcessing = 'assets/animation/payment_processing.json';
   static const paymentSuccessed = 'assets/animation/payment_success.json';
   static const paymentFailed = 'assets/animation/payment_fail.json';
+
+  static const loadingComments = 'assets/animation/loading_chat.json';
 }

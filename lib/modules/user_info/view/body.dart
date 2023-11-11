@@ -35,9 +35,15 @@ extension BodyCustom on UserInfoScreen {
           spaceVertical(height: 14),
           _sendComment(),
           spaceVertical(height: 32),
-          _title('Bình luận'),
+          Obx(
+            () => Row(
+              children: [
+                _title('Bình luận'),
+               if(controller.isLoadingComments.value) Lottie.asset(AssetAnimationCustom.loadingComments, width: 100, height: 40, alignment: Alignment.centerLeft),
+              ],
+            ),
+          ),
           _listComments(),
-          
           spaceVertical(height: AppDataGlobal.safeBottom),
         ],
       ),

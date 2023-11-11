@@ -26,8 +26,6 @@ class HomeController extends GetxController {
     await EasyLoading.dismiss();
   }
 
-  void onTapChooseLocation() {}
-
   void onTapPost(PostSuggestionDataModel data) async {
     if (data.idPost == null) {
       await CustomPopup.showOnlyText(Get.context,
@@ -70,5 +68,21 @@ class HomeController extends GetxController {
         animationUrl: AssetAnimationCustom.crying);
   }
 
-  void onTapViewAllYards() {}
+  void onTapChooseLocation() async{
+    await CustomPopup.showAnimationWithAction(Get.context,
+        message: "Tính năng đang được phát triển vui lòng quay lại sau",
+        titleButton: "Đã hiểu",
+        maxLineMessage: 3,
+        repeatAnimation: true,
+        animationUrl: AssetAnimationCustom.crying);
+  }
+
+  void onTapViewAllYards() async{
+    await CustomPopup.showAnimationWithAction(Get.context,
+        message: "Tính năng đang được phát triển vui lòng quay lại sau",
+        titleButton: "Đã hiểu",
+        maxLineMessage: 3,
+        repeatAnimation: true,
+        animationUrl: AssetAnimationCustom.crying);
+  }
 }

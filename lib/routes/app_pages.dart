@@ -3,6 +3,8 @@ import 'package:vbmsports/modules/booking/binding/booking_binding.dart';
 import 'package:vbmsports/modules/booking/view/booking_screen.dart';
 import 'package:vbmsports/modules/create_post/binding/create_post_binding.dart';
 import 'package:vbmsports/modules/create_post/view/create_post_screen.dart';
+import 'package:vbmsports/modules/deposit_withdraw/binding/deposit_withdraw_binding.dart';
+import 'package:vbmsports/modules/deposit_withdraw/view/deposit_withdraw_screen.dart';
 import 'package:vbmsports/modules/forgot_password/binding/forgot_pass_binding.dart';
 import 'package:vbmsports/modules/forgot_password/view/forgot_pass_screen.dart';
 import 'package:vbmsports/modules/notification/binding/notification_binding.dart';
@@ -129,5 +131,10 @@ final routePages = [
     name: Routes.WALLET,
     page: () => WalletScreen(),
     binding: WalletBinding(),
+  ),
+  GetPage(
+    name: Routes.DEPOSITVSWITHDRAW,
+    page: () => DepositWithdrawScreen(),
+    binding: DepositWithdrawBinding(),
   ),
 ];

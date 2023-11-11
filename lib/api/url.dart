@@ -23,4 +23,8 @@ class SubAPI {
  static const String loginEmail = 'api/users/email_login';
 
  static const String post = 'api/posts';
+
+  static const String wallet = 'api/wallet';
+
+  static const String verifyToken = 'api/users/verify_token';
 }

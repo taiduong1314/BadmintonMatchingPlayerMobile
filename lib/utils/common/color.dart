@@ -22,6 +22,7 @@ class AppColor{
   // Add new color here
   static Color colorBlue100 = const Color(0xFF007AFF);
   static Color colorBlue = const Color(0xFF52C3FF);
+  static Color colorBlue1 = const Color(0xFF00A2EF);
 
   static Color colorBlueBottom = const Color(0xFF204D94);
   static Color colorLogo = const Color(0xFFFFA500);
@@ -47,4 +48,6 @@ class AppColor{
   static Color colorUnknown1 = const Color(0xFFF4F8FB);
   static Color colorUnknown2 = const Color(0xFFF5F5F5);
   static Color colorUnknown3 = const Color(0xFFF7FAFC);
+  static Color colorUnknown4 = const Color(0xFF696879);
+  static Color colorUnknown5 = const Color(0xFF4C5D77);
 }
