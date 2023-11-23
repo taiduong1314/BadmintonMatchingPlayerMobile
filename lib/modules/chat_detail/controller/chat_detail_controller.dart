@@ -105,6 +105,8 @@ class ChatDetailController extends GetxController {
       if (element.sendUserName == AppDataGlobal.user.value.userName) {
         int index = data.indexOf(element);
         data.elementAt(index).isFrom = true;
+        bool isImage = await Utils.isImage(element.message ?? '');
+        data.elementAt(index).isImage = isImage;
       }
     }
 
@@ -141,6 +143,7 @@ class ChatDetailController extends GetxController {
         message: url,
         isImage: true,
         sendTime: '${DateTime.now()}'));
+    unawaited(CallAPIChat.sendChat(roomId: roomId, message: url));
     await Future.delayed(const Duration(milliseconds: 500));
     autoScroll();
   }
@@ -201,7 +204,7 @@ class ChatDetailController extends GetxController {
       if (kDebugMode) {
         print('******* Error upload image chat: $e');
       }
-    }finally{
+    } finally {
       await EasyLoading.dismiss();
     }
   }

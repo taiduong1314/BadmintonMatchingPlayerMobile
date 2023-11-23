@@ -65,7 +65,7 @@ extension Message on ChatDetailScreen {
       MatchText(
           type: ParsedType.URL,
           style: TextAppStyle.bodySmall().copyWith(
-              color: isFrom ? AppColor.colorLight : const Color(0xFF0086b3),
+              color: isFrom ? AppColor.colorBlue100 : AppColor.colorBlue100,
               decoration: TextDecoration.underline),
           onTap: (url) async {
             Utils.launchURL(Uri.parse(url));
