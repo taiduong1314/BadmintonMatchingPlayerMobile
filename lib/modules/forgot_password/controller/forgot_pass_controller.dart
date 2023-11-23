@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:vbmsports/model/otp/verify_otp.dart';
 import 'package:vbmsports/routes/app_pages.dart';
 import 'package:vbmsports/utils/call_api/otp/call_api_otp.dart';
 import 'package:vbmsports/utils/call_api/user/call_api_user.dart';

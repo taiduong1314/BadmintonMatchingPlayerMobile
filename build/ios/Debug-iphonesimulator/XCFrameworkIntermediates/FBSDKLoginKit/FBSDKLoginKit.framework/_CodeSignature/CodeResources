@@ -30,11 +30,11 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		v8juCxxbOy4srXLytjRzOFcWPSU=
+		FZr/4/EYgsGpK7yCsCCfyQt5/no=
 		</data>
 		<key>Modules/FBSDKLoginKit.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		nZrMu81f17IY8PcqRtdfBXUp9XA=
+		C4SRVZhDfIDPsT7QaVFOw7QKAtw=
 		</data>
 		<key>Modules/FBSDKLoginKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Modules/FBSDKLoginKit.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		nZrMu81f17IY8PcqRtdfBXUp9XA=
+		C4SRVZhDfIDPsT7QaVFOw7QKAtw=
 		</data>
 		<key>Modules/FBSDKLoginKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
@@ -125,7 +125,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Hfke+UEIA3prKzLElhYu0Btd0xfkC/mFdbyfbsfkqxk=
+			SsCYY/R/dHNN4ZRL3WwkjEATP2sSdleHiytnURxwpC4=
 			</data>
 		</dict>
 		<key>Modules/FBSDKLoginKit.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
@@ -160,7 +160,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Hfke+UEIA3prKzLElhYu0Btd0xfkC/mFdbyfbsfkqxk=
+			SsCYY/R/dHNN4ZRL3WwkjEATP2sSdleHiytnURxwpC4=
 			</data>
 		</dict>
 		<key>Modules/FBSDKLoginKit.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>

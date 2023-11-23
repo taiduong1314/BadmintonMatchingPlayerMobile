@@ -9,12 +9,33 @@ extension HeaderCustom on HomeScreen {
       children: [
         spaceHorizontal(width: Get.width),
         spaceVertical(height: 16),
-        CustomText.textPlusJakarta(
-            text: 'Xin chào,', style: TextAppStyle.bodyDefault()),
-        spaceVertical(height: 4),
-        CustomText.textPlusJakarta(text: '${AppDataGlobal.user.value.fullName} 👋', style: TextAppStyle.h3()),
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText.textPlusJakarta(
+                      text: 'Xin chào,', style: TextAppStyle.bodyDefault()),
+                  spaceVertical(height: 4),
+                  CustomText.textPlusJakarta(
+                      text: '${AppDataGlobal.user.value.fullName} 👋',
+                      style: TextAppStyle.h3()),
+                ],
+              ),
+            ),
+            GestureDetector(
+                onTap: controller.onTapNotification,
+                child: SvgPicture.asset(
+                  AssetSVGName.notificationBottom,
+                  width: 25,
+                  height: 25,
+                )),
+            spaceHorizontal(width: 12),
+          ],
+        ),
         spaceVertical(height: 20),
-        _chooseLocationPlay(),
+        // _chooseLocationPlay(),
         spaceVertical(height: 12),
         _rowOption(),
       ],

@@ -15,7 +15,7 @@ extension BodyCustom on ForgotPasswordScreen {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             spaceVertical(height: 38),
-            if(controller.indexFlow.value != 2) _widgetBack(),
+            if (controller.indexFlow.value != 2) _widgetBack(),
             spaceVertical(height: 12),
             Flexible(
               child: SingleChildScrollView(

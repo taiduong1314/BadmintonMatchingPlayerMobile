@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:gotrust_popup/packagestatuscode.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'common/asset/svg.dart';
 import 'widget/popup/custom_popup.dart';
 
@@ -24,6 +26,37 @@ class Utils {
     });
   }
 
+  /// Check url is image or not
+  static Future<bool> isImage(String url) async {
+    try {
+      bool isUrl = isURL(url);
+
+      if (!isUrl) return false;
+
+      final response = await http.head(Uri.parse(url));
+      final contentType = response.headers['content-type'];
+      if (contentType != null) {
+        // Kiểm tra xem contentType có chứa 'image' (ảnh) hay không
+        return contentType.startsWith('image');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Lỗi khi kiểm tra đường dẫn ảnh: $e');
+      }
+    }
+    return false; // Nếu không thể kiểm tra hoặc không phải ảnh
+  }
+
+  /// Check string is url or not
+  static bool isURL(String str) {
+    final urlPattern = RegExp(
+      r'^(http|https)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?$',
+      caseSensitive: false,
+    );
+
+    return urlPattern.hasMatch(str);
+  }
+
   /// Check api is maintain or not
   static void checkMaintainAPI(
       {required bool isMaintain, bool isShowPopup = true}) async {
@@ -37,6 +70,22 @@ class Utils {
           svgUrl: AssetSVGName.error);
     } else {
       // Code to show full screen
+    }
+  }
+
+  /// Do open web browser
+  static void launchURL(Uri uri,
+      {LaunchMode? mode, Function()? onErrorFunction}) async {
+    try {
+      await launchUrl(uri,
+          mode: mode ?? LaunchMode.platformDefault,
+          webViewConfiguration:
+          const WebViewConfiguration(enableJavaScript: true));
+    } catch (e) {
+      onErrorFunction?.call();
+      if (kDebugMode) {
+        print('***** Could not lunch $uri --- error: $e');
+      }
     }
   }
 
@@ -116,7 +165,29 @@ class Utils {
       return formatDate.toString();
     } catch (e) {
       if (kDebugMode) {
-        print('************* Error Utils convertDateTime: $e');
+        // print('************* Error Utils convertDateTime: $date --- $e');
+      }
+      return date;
+    }
+  }
+
+  /// Convert string date to DateTime type
+  static String convertDateTimeFormat({
+    required String date,
+    String dateFormat = 'dd/MM/yyyy',
+    String format = "dd/MM/yyyy hh:mm:ss a"
+  }) {
+    try {
+      // Định dạng của chuỗi ngày tháng
+      DateFormat formatString = DateFormat(format);
+
+
+      DateTime parseDate = formatString.parse(date).toLocal();
+      var formatDate = DateFormat(dateFormat).format(parseDate.toLocal());
+      return formatDate.toString();
+    } catch (e) {
+      if (kDebugMode) {
+        print('************* Error Utils convertDateTimeFormat: $date --- $e');
       }
       return date;
     }
@@ -274,26 +345,47 @@ class Utils {
   static String getDayOfWeek(int day) {
     switch (day) {
       case 1:
-        return 'Chủ Nhật';
-      case 2:
         return 'Thứ Hai';
-      case 3:
+      case 2:
         return 'Thứ Ba';
-      case 4:
+      case 3:
         return 'Thứ Tư';
-      case 5:
+      case 4:
         return 'Thứ Năm';
-      case 6:
+      case 5:
         return 'Thứ Sáu';
-      case 7:
+      case 6:
         return 'Thứ Bảy';
+      case 7:
+        return 'Chủ Nhật';
       default:
         return '---';
     }
   }
 
   static formatBalance(String balance) {
-    final oCcy = NumberFormat("#,###", "vi_VN");
-    return oCcy.format(double.parse(balance));
+    try {
+      final oCcy = NumberFormat("#,###", "vi_VN");
+      return oCcy.format(double.parse(balance));
+    }catch(_){
+      return '???';
+    }
+  }
+
+  ///Check password with confirm password is different or not
+  static bool comparePassword({String? password, String? confirmPassword}) {
+    int compare = password?.compareTo(confirmPassword ?? '') ?? -1;
+
+    if (compare != 0) return false;
+
+    return true;
+  }
+
+  static String convertFileToBase64(String path){
+    final bytes = File(path).readAsBytesSync();
+    // String base64Image = "data:image/png;base64,${base64Encode(bytes)}";
+    String base64Image = base64Encode(bytes);
+
+    return base64Image;
   }
 }

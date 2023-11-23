@@ -1,19 +1,22 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:vbmsports/model/post/post_detail_model.dart';
+import 'package:vbmsports/routes/app_pages.dart';
+import 'package:vbmsports/utils/call_api/post/call_api_post.dart';
+import 'package:vbmsports/utils/common/asset/animation.dart';
+import 'package:vbmsports/utils/utils.dart';
 import 'package:vbmsports/utils/widget/date_range_picker/date_range_picker_custom.dart';
 import 'package:vbmsports/utils/widget/modal_bottom_sheet/common_bottom_sheet.dart';
 import 'package:vbmsports/utils/widget/popup/custom_popup.dart';
 import 'package:vbmsports/utils/widget/time_picker/time_picker.dart';
 
-import '../../../model/date/date_of_week.dart';
 import '../../../utils/common/data.dart';
 
 class CreatePostController extends GetxController {
   TextEditingController txtTitlePost = TextEditingController();
   TextEditingController txtAddress = TextEditingController();
-  TextEditingController txtPrice = TextEditingController();
   TextEditingController txtDescription = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
@@ -21,23 +24,19 @@ class CreatePostController extends GetxController {
 
   RxList<DateTime> dateRangeSelected = RxList.empty(growable: true);
 
-  RxList<DayOfWeekModel> dateOfWeekSelected = RxList.empty(growable: true);
+  RxList<SlotInfo> dateOfWeekSelected = RxList.empty(growable: true);
 
-  Rx<DateTime> startTime = DateTime.now().toLocal().obs;
-  Rx<DateTime> endTime =
-      DateTime.now().toLocal().add(const Duration(hours: 1)).obs;
+  // levelSlot: 'Sơ cấp',
+  // categorySlot: 'Đánh đơn',
 
-  @override
-  void onInit() {
-    handleInit();
-    super.onInit();
-  }
+  List<String> listLevelSlot = ['Sơ cấp', 'Trung cấp', 'Cao cấp'];
+  List<String> listCategorySlot = ['Đánh đơn', 'Đánh đôi', 'Hỗn hợp'];
 
-  void handleInit() {
-    startTime.value = startTime.value
-        .add(Duration(minutes: autoAddMinute(startTime.value.minute)));
-    endTime.value = endTime.value
-        .add(Duration(minutes: autoAddMinute(endTime.value.minute)));
+  RxString levelSlotSelected = RxString('');
+  RxString categorySlotSelected = RxString('');
+
+  int findIndexDateOfWeekSelected(SlotInfo date) {
+    return dateOfWeekSelected.indexOf(date);
   }
 
   int autoAddMinute(int minute) {
@@ -80,34 +79,33 @@ class CreatePostController extends GetxController {
     imageUploadList.removeAt(index);
   }
 
-  void onTapTimePicker() async {
+  void onTapTimePicker(SlotInfo date) async {
     await CommonModalBottomSheet.show(
         isDismissible: false,
         maxHeight: 300,
-        customWidget: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          child: TimePickerCustom(),
+        customWidget: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: TimePickerCustom(date: date),
         ));
   }
 
   void onTapDatePicker() async {
     await CommonModalBottomSheet.show(
         isDismissible: false,
-        customWidget: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          child: DateRangePickerCustom(
-              initialSelectedRange:
-                  PickerDateRange(startTime.value, endTime.value)),
+        customWidget: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: DateRangePickerCustom(),
         ));
   }
 
   void onTapConfirm() async {
     if (txtTitlePost.text == '' ||
         txtAddress.text == '' ||
-        txtPrice.text == '' ||
         txtDescription.text == '' ||
         dateOfWeekSelected.isEmpty ||
-        imageUploadList.isEmpty) {
+        imageUploadList.isEmpty ||
+        categorySlotSelected.value == '' ||
+        levelSlotSelected.value == '') {
       await CustomPopup.showOnlyText(Get.context,
           title: 'Thông báo',
           message: 'Vui lòng nhập đầy đủ thông tin',
@@ -115,17 +113,51 @@ class CreatePostController extends GetxController {
       return;
     }
 
-    List<DayOfWeekModel> listDayOfWeek = dateOfWeekSelected
-        .where((value) => value.slot == null || value.slot == -1)
+    List<SlotInfo> listDayOfWeekError = dateOfWeekSelected
+        .where((value) =>
+            value.availableSlot == null ||
+            value.availableSlot == -1 ||
+            value.price == null ||
+            value.price == -1 ||
+            value.price == 0 ||
+            value.startTime == null ||
+            value.endTime == null)
         .toList();
 
-    if (listDayOfWeek.isNotEmpty) {
+    if (listDayOfWeekError.isNotEmpty) {
       await CustomPopup.showOnlyText(Get.context,
           title: 'Thông báo',
-          message: 'Vui lòng kiểm tra lại thông tin slot của bạn',
+          message:
+              '${Utils.convertDateTime(date: listDayOfWeekError.first.startTime.toString(), dateFormat: 'dd/MM/yyyy')} thông tin slot, giá, giờ chơi của bạn đăng có vấn đề',
           titleButton: 'Đã hiểu');
       return;
     }
+
+    List<String> imgUrls = [];
+
+    for (var element in imageUploadList) {
+      imgUrls.add(Utils.convertFileToBase64(element.path));
+    }
+
+    /// tới đây là call api tạo bài viết
+    await EasyLoading.show();
+    bool status = await CallAPIPost.createPost(
+        levelSlot: levelSlotSelected.value,
+        categorySlot: categorySlotSelected.value,
+        title: txtTitlePost.text,
+        address: txtAddress.text,
+        slots: dateOfWeekSelected,
+        description: txtDescription.text,
+        imgUrls: imgUrls,
+        highlightUrl: Utils.convertFileToBase64(imageUploadList.first.path));
+    await EasyLoading.dismiss();
+    if (!status) return;
+
+    Get.offAllNamed(Routes.MAIN);
+    await CustomPopup.showAnimationWithAction(Get.context,
+        message: 'Tạo bài viết thành công',
+        animationUrl: AssetAnimationCustom.paymentSuccessed,
+        titleButton: 'Đã hiểu');
   }
 
   void onTapSelectDayOfWeek(DateTime date) {
@@ -136,29 +168,54 @@ class CreatePostController extends GetxController {
       return;
     }
 
-    dateOfWeekSelected.add(DayOfWeekModel(date: date.toString()));
+    dateOfWeekSelected.add(SlotInfo(startTime: date.toString()));
   }
 
   void removeSelectedDayOfWeek(DateTime date) {
-    List<DayOfWeekModel> list = dateOfWeekSelected
-        .where((value) => value.date == date.toString())
+    List<SlotInfo> list = dateOfWeekSelected
+        .where((value) => value.startTime == date.toString())
         .toList();
 
     dateOfWeekSelected.remove(list.first);
   }
 
   Future<void> addSlotSelectedDayOfWeek(
-      {required DayOfWeekModel data, required int slot}) async {
-    int index = dateOfWeekSelected.indexOf(data);
+      {required SlotInfo data, required int slot}) async {
+    int index = findIndexDateOfWeekSelected(data);
 
-    dateOfWeekSelected.elementAt(index).slot = slot;
+    dateOfWeekSelected.elementAt(index).availableSlot = slot;
+    dateOfWeekSelected.refresh();
+  }
+
+  Future<void> addPriceSelectedDayOfWeek(
+      {required SlotInfo data, required int price}) async {
+    int index = findIndexDateOfWeekSelected(data);
+
+    dateOfWeekSelected.elementAt(index).price = price;
+    dateOfWeekSelected.refresh();
+  }
+
+  Future<void> addStartEndSelectedDayOfWeek(
+      {required SlotInfo data,
+      required String startTime,
+      required String endTime}) async {
+    int index = findIndexDateOfWeekSelected(data);
+    String date = Utils.convertDateTime(
+        date: dateOfWeekSelected.elementAt(index).startTime ?? '',
+        dateFormat: 'yyyy-MM-dd');
+    dateOfWeekSelected.elementAt(index).startTime = '$date $startTime:00';
+    dateOfWeekSelected.elementAt(index).endTime = '$date $endTime:00';
     dateOfWeekSelected.refresh();
   }
 
   bool isSelectedDayOfWeek(DateTime date) {
     try {
-      List<DayOfWeekModel> list = dateOfWeekSelected
-          .where((value) => value.date == date.toString())
+      List<SlotInfo> list = dateOfWeekSelected
+          .where((value) =>
+              Utils.convertDateTime(
+                  date: value.startTime!, dateFormat: 'dd/MM/yyyy') ==
+              Utils.convertDateTime(
+                  date: date.toString(), dateFormat: 'dd/MM/yyyy'))
           .toList();
       return list.isNotEmpty;
     } catch (e) {

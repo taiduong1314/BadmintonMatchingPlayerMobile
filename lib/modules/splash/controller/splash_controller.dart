@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:vbmsports/model/user/user.dart';
+import 'package:vbmsports/utils/call_api/user/call_api_user.dart';
 import 'package:vbmsports/utils/common/key_data_local.dart';
 import 'package:vbmsports/utils/stored/shared_preferences/get.dart';
 import '../../../utils/common/data.dart';
@@ -26,12 +26,21 @@ class SplashController extends GetxController {
     await _loadInitLanguage();
 
     try {
-      var userString =
-          await GetDataFromLocal.getString(key: KeyDataLocal.userKey);
+      // var userString =
+      //     await GetDataFromLocal.getString(key: KeyDataLocal.userKey);
+      //
+      // AppDataGlobal.user.value = userString == ''
+      //     ? UserDataModel()
+      //     : userDataModelFromJson(userString);
+      //
+      // if (AppDataGlobal.user.value.token != null) isLogin = true;
 
-      AppDataGlobal.user.value = userString == ''
-          ? UserDataModel()
-          : userDataModelFromJson(userString);
+      String email = await GetDataFromLocal.getString(key: KeyDataLocal.usernameKey);
+      String password = await GetDataFromLocal.getString(key: KeyDataLocal.passwordKey);
+
+      if(email != '' && password != '') {
+        AppDataGlobal.user.value = await CallAPIUser.login(email: email, password: password);
+      }
 
       if (AppDataGlobal.user.value.token != null) isLogin = true;
     } catch (_) {}

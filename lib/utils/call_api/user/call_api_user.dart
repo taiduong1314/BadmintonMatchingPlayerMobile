@@ -1,20 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:vbmsports/api/get/comment/comment.dart';
 import 'package:vbmsports/api/get/user/user_info.dart';
 import 'package:vbmsports/api/post/login/login.dart';
 import 'package:vbmsports/api/post/user/player_suggestion/player_suggestion.dart';
 import 'package:vbmsports/api/post/user/user_area/user_area.dart';
 import 'package:vbmsports/api/post/user/user_level/user_level.dart';
 import 'package:vbmsports/api/post/user/user_style_play/user_style_play.dart';
+import 'package:vbmsports/api/put/change_password/change_password.dart';
 import 'package:vbmsports/api/put/forgot_password/forgot_password.dart';
-import 'package:vbmsports/model/comment/comment_model.dart';
 import 'package:vbmsports/model/player_suggestion/player_suggestion_model.dart';
 import 'package:vbmsports/model/user/user.dart';
 import 'package:vbmsports/model/user/user_info.dart';
 import 'package:vbmsports/utils/common/data.dart';
+import 'package:vbmsports/utils/common/key_data_local.dart';
+import 'package:vbmsports/utils/stored/shared_preferences/set.dart';
 
 import '../../../api/post/register/register.dart';
+import '../../../api/put/user/user_info.dart';
 import '../../common/asset/svg.dart';
 import '../../widget/popup/custom_popup.dart';
 
@@ -62,7 +64,7 @@ class CallAPIUser {
       if (data.data?.userId == null) {
         CustomPopup.showTextWithImage(Get.context,
             title: 'Ôi! Có lỗi xảy ra',
-            message: data.errorCode ??
+            message: data.message ??
                 'Đã xảy ra lỗi trong quá trình kiểm tra tài khoản. Vui lòng thử lại',
             titleButton: 'Đã hiểu',
             svgUrl: AssetSVGName.error);
@@ -207,6 +209,70 @@ class CallAPIUser {
       }
 
       return UserInfoDataModel();
+    }
+  }
+
+  static Future<bool> updateUserInfo(
+      {required String fullName,
+      required String userName,
+      required String sortProfile,
+      required String playingArea,
+      required String phoneNumber,
+      required String imgBase64}) async {
+    try {
+      var data = await AccountUpdateAPI.put(
+          fullName: fullName,
+          userName: userName,
+          playingArea: playingArea,
+          sortProfile: sortProfile,
+          phoneNumber: phoneNumber,
+          imgBase64: imgBase64);
+
+      if (data == false) {
+        CustomPopup.showTextWithImage(Get.context,
+            title: 'Ôi! Có lỗi xảy ra',
+            message: 'Đã xảy ra lỗi trong quá trình cập nhật dữ liệu',
+            titleButton: 'Đã hiểu',
+            svgUrl: AssetSVGName.error);
+        return false;
+      }
+
+      return data;
+    } catch (e) {
+      if (kDebugMode) {
+        print('*********** Error CallAPIUser getPlayerSuggestion: $e');
+      }
+
+      return false;
+    }
+  }
+
+  static Future<bool> changePassword(
+      {required String password,
+        required String rePassword,}) async {
+    try {
+      var data = await ChangePasswordAPI.put(password: password, rePassword: rePassword);
+
+      if (data.data == false || data.data == null) {
+        CustomPopup.showTextWithImage(Get.context,
+            title: 'Ôi! Có lỗi xảy ra',
+            message: data.message ?? 'Đã xảy ra lỗi trong quá trình cập nhật dữ liệu',
+            titleButton: 'Đã hiểu',
+            svgUrl: AssetSVGName.error);
+        return false;
+      }
+
+      if(data.data == true){
+        SetDataToLocal.setString(key: KeyDataLocal.passwordKey, data: password);
+      }
+
+      return data.data ?? false;
+    } catch (e) {
+      if (kDebugMode) {
+        print('*********** Error CallAPIUser getPlayerSuggestion: $e');
+      }
+
+      return false;
     }
   }
 }

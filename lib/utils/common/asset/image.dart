@@ -32,4 +32,7 @@ class AssetImageName {
   static const String deposit =
       'assets/images/common/deposit.png';
 
+  static const String bannerNews =
+      'assets/images/common/banner_news01.png';
+
 }

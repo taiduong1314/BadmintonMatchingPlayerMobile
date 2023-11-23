@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -17,6 +19,7 @@ class MainScreen extends GetView<MainController> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
+        backgroundColor: AppColor.colorLight,
         body: Container(
           width: Get.width,
           height: Get.height,

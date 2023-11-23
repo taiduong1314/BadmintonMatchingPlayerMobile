@@ -26,15 +26,17 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController>{
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: Get.width,
-      height: Get.height,
-      child: Stack(
-        children: [
-          _topImage(),
-          Positioned(
-              bottom: 0, child: _body()),
-        ],
+    return Scaffold(
+      body: SizedBox(
+        width: Get.width,
+        height: Get.height,
+        child: Stack(
+          children: [
+            _topImage(),
+            Positioned(
+                bottom: 0, child: _body()),
+          ],
+        ),
       ),
     );
   }
@@ -42,7 +44,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController>{
   Widget _topImage(){
     return Container(
       width: Get.width,
-      height: Get.height / 1.3,
+      height: Get.height / 2,
       decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage(AssetImageName.splashBackground),

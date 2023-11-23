@@ -18,8 +18,7 @@ class LoginAPI {
         data: {
           "email": email,
           "password": password,
-          // "email": 'taiduong@gmail.com',
-          // "password": '456789',
+
         },
       );
 

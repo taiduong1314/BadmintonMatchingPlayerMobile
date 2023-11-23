@@ -63,7 +63,7 @@ class _AppState extends State<App> with WidgetsBindingObserver{
     /// Check device is support biometric FaceID, TouchID or NOT
     AppDataGlobal.biometricType = await LocalAuth.isSupport();
     /// Check status user is turn on biometric or not
-    AppDataGlobal.biometricStatus.value = await GetDataFromLocal.getBool(key: KeyDataLocal.keyBiometric) ?? false;
+    AppDataGlobal.biometricStatus.value = await GetDataFromLocal.getBool(key: KeyDataLocal.keyBiometric);
     /// Get type and check type of connect is Wifi, 4G, disconnect internet
     WifiService.connect();
   }

@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:get/get.dart';
 import 'package:gotrust_popup/utils/space/space.dart';
+import 'package:vbmsports/model/post/post_detail_model.dart';
 import 'package:vbmsports/modules/create_post/controller/create_post_controller.dart';
 import 'package:vbmsports/utils/common/color.dart';
 import 'package:vbmsports/utils/common/text_style.dart';
+import 'package:vbmsports/utils/utils.dart';
 import 'package:vbmsports/utils/widget/text/montserrat.dart';
 
 import '../../common/button.dart';
 import '../popup/custom_popup.dart';
 
 class TimePickerCustom extends StatefulWidget {
-  const TimePickerCustom({super.key});
+  SlotInfo date;
+
+  TimePickerCustom({super.key, required this.date});
 
   @override
   State<TimePickerCustom> createState() => _TimePickerCustomState();
@@ -42,8 +46,11 @@ class _TimePickerCustomState extends State<TimePickerCustom> {
     }
 
     final controller = Get.find<CreatePostController>();
-    controller.startTime?.value = startDate!;
-    controller.endTime.value = endDate!;
+    controller.addStartEndSelectedDayOfWeek(
+        data: widget.date,
+        startTime:
+            Utils.convertDateTime(date: '$startDate', dateFormat: 'HH:mm'),
+        endTime: Utils.convertDateTime(date: '$endDate', dateFormat: 'HH:mm'));
 
     Get.back();
   }

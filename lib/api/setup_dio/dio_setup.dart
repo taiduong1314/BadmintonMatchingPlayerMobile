@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 
 
 import '../../utils/status_api_code/status_api_code.dart';
-import '../../utils/utils.dart';
 import '../../utils/widget/loading/custom_easy_loading.dart';
 import '../url.dart';
 import 'dio_error.dart';
@@ -54,6 +53,11 @@ class DioClient {
       //   },
       // ));
 
+      if (kDebugMode) {
+        print('============== GET ==============');
+      }
+
+
       var response = await _dio.get(
         url,
         queryParameters: queryParameters,
@@ -97,23 +101,27 @@ class DioClient {
       // // Thêm interceptor để xem header
       // _dio.interceptors.add(InterceptorsWrapper(
       //   onRequest: (options, handler) {
-      //     // In ra header trước khi gửi yêu cầu
-      //     print('Request headers: ${options.headers}');
-      //     print('${options.data.toString().substring(0, 500)}');
-      //     print('${options.data.toString().substring(500)}');
+      //     // // In ra header trước khi gửi yêu cầu
+      //     // print('Request headers: ${options.headers}');
+      //     // print('${options.data.toString().substring(0, 500)}');
+      //     // print('${options.data.toString().substring(500)}');
       //     return handler.next(options); // Chuyển tiếp yêu cầu
       //   },
-      //   // onResponse: (response, handler) {
-      //   //   // In ra header sau khi nhận phản hồi
-      //   //   print('Response headers: ${response.headers}');
-      //   //
-      //   //   return handler.next(response); // Chuyển tiếp phản hồi
-      //   // },
+      //   onResponse: (response, handler) {
+      //     // In ra header sau khi nhận phản hồi
+      //     print('Response ${response.statusCode} headers: ${response.headers}');
+      //
+      //     return handler.next(response); // Chuyển tiếp phản hồi
+      //   },
       //   onError: (DioError e, handler) {
       //     // Xử lý lỗi
       //     return handler.next(e); // Chuyển tiếp lỗi
       //   },
       // ));
+
+      if (kDebugMode) {
+        print('============== POST ==============');
+      }
 
       var response = await _dio.post(
         url,

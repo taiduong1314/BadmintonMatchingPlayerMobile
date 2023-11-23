@@ -4,11 +4,9 @@
 
 import 'dart:convert';
 
-PostDetailModel postDetailModelFromJson(String str) =>
-    PostDetailModel.fromJson(json.decode(str));
+PostDetailModel postDetailModelFromJson(String str) => PostDetailModel.fromJson(json.decode(str));
 
-String postDetailModelToJson(PostDetailModel data) =>
-    json.encode(data.toJson());
+String postDetailModelToJson(PostDetailModel data) => json.encode(data.toJson());
 
 class PostDetailModel {
   String? message;
@@ -19,105 +17,109 @@ class PostDetailModel {
     this.data,
   });
 
-  factory PostDetailModel.fromJson(Map<String, dynamic> json) =>
-      PostDetailModel(
-        message: json["message"],
-        data: json["data"] == null
-            ? PostDetailDataModel()
-            : PostDetailDataModel.fromJson(json["data"]),
-      );
+  factory PostDetailModel.fromJson(Map<String, dynamic> json) => PostDetailModel(
+    message: json["message"],
+    data: PostDetailDataModel.fromJson(json["data"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "message": message,
-        "data": data!.toJson(),
-      };
+    "message": message,
+    "data": data?.toJson(),
+  };
 }
 
 class PostDetailDataModel {
   String? addressSlot;
-  int? priceSlot;
-  int? quantitySlot;
-  List<String>? availableSlot;
-  dynamic? levelSlot;
-  dynamic? categorySlot;
+  String? levelSlot;
+  String? categorySlot;
   String? contentPost;
   String? hightLightImage;
   List<String>? imageUrls;
-  String? days;
-  String? startTime;
-  String? endTime;
   String? fullName;
   double? totalRate;
   String? imgUrlUser;
   String? sortProfile;
   int? userId;
   String? title;
-  dynamic? imageStream;
+  List<SlotInfo>? slotInfos;
 
   PostDetailDataModel({
     this.addressSlot,
-    this.priceSlot,
-    this.quantitySlot,
-    this.availableSlot,
     this.levelSlot,
     this.categorySlot,
     this.contentPost,
     this.hightLightImage,
     this.imageUrls,
-    this.days,
-    this.startTime,
-    this.endTime,
     this.fullName,
     this.totalRate,
     this.imgUrlUser,
     this.sortProfile,
     this.userId,
     this.title,
-    this.imageStream,
+    this.slotInfos,
   });
 
-  factory PostDetailDataModel.fromJson(Map<String, dynamic> json) =>
-      PostDetailDataModel(
-        addressSlot: json["addressSlot"],
-        priceSlot: json["priceSlot"]?.toInt(),
-        quantitySlot: json["quantitySlot"]?.toInt(),
-        availableSlot: List<String>.from(json["availableSlot"].map((x) => x)),
-        levelSlot: json["levelSlot"],
-        categorySlot: json["categorySlot"],
-        contentPost: json["contentPost"],
-        hightLightImage: json["hightLightImage"],
-        imageUrls: List<String>.from(json["imageUrls"].map((x) => x)),
-        days: json["days"],
-        startTime: json["startTime"],
-        endTime: json["endTime"],
-        fullName: json["fullName"],
-        totalRate: json["totalRate"]?.toDouble(),
-        imgUrlUser: json["imgUrlUser"],
-        sortProfile: json["sortProfile"],
-        userId: json["userId"]?.toInt(),
-        title: json["title"],
-        imageStream: json["imageStream"],
-      );
+  factory PostDetailDataModel.fromJson(Map<String, dynamic> json) => PostDetailDataModel(
+    addressSlot: json["addressSlot"],
+    levelSlot: json["levelSlot"],
+    categorySlot: json["categorySlot"],
+    contentPost: json["contentPost"],
+    hightLightImage: json["hightLightImage"],
+    imageUrls: json["imageUrls"] == null ? [] : List<String>.from(json["imageUrls"].map((x) => x)),
+    fullName: json["fullName"],
+    totalRate: json["totalRate"]?.toDouble(),
+    imgUrlUser: json["imgUrlUser"],
+    sortProfile: json["sortProfile"],
+    userId: json["userId"]?.toInt(),
+    title: json["title"],
+    slotInfos: json["slotInfos"] == null ? [] : List<SlotInfo>.from(json["slotInfos"].map((x) => SlotInfo.fromJson(x))),
+  );
 
   Map<String, dynamic> toJson() => {
-        "addressSlot": addressSlot,
-        "priceSlot": priceSlot,
-        "quantitySlot": quantitySlot,
-        "availableSlot": List<dynamic>.from(availableSlot!.map((x) => x)),
-        "levelSlot": levelSlot,
-        "categorySlot": categorySlot,
-        "contentPost": contentPost,
-        "hightLightImage": hightLightImage,
-        "imageUrls": List<dynamic>.from(imageUrls!.map((x) => x)),
-        "days": days,
-        "startTime": startTime,
-        "endTime": endTime,
-        "fullName": fullName,
-        "totalRate": totalRate,
-        "imgUrlUser": imgUrlUser,
-        "sortProfile": sortProfile,
-        "userId": userId,
-        "title": title,
-        "imageStream": imageStream,
-      };
+    "addressSlot": addressSlot,
+    "levelSlot": levelSlot,
+    "categorySlot": categorySlot,
+    "contentPost": contentPost,
+    "hightLightImage": hightLightImage,
+    "imageUrls": List<dynamic>.from(imageUrls!.map((x) => x)),
+    "fullName": fullName,
+    "totalRate": totalRate,
+    "imgUrlUser": imgUrlUser,
+    "sortProfile": sortProfile,
+    "userId": userId,
+    "title": title,
+    "slotInfos": List<dynamic>.from(slotInfos!.map((x) => x.toJson())),
+  };
+}
+
+class SlotInfo {
+  String? startTime;
+  String? endTime;
+  int? price;
+  int? availableSlot;
+  String? saveData;
+
+  SlotInfo({
+    this.startTime,
+    this.endTime,
+    this.price,
+    this.availableSlot,
+    this.saveData,
+  });
+
+  factory SlotInfo.fromJson(Map<String, dynamic> json) => SlotInfo(
+    startTime: json["startTime"],
+    endTime: json["endTime"],
+    price: json["price"],
+    availableSlot: json["availableSlot"],
+    saveData: json["saveData"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "startTime": startTime,
+    "endTime": endTime,
+    "price": price,
+    "availableSlot": availableSlot,
+    "saveData": saveData,
+  };
 }

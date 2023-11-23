@@ -28,13 +28,17 @@ extension BodyCustom on CreatePostScreen {
                   title: 'Địa chỉ',
                   hintText: 'Nhập địa chỉ'),
               spaceVertical(height: 18),
-              _inputForm(
-                  controllerText: controller.txtPrice,
-                  title: 'Giá',
-                  hintText: 'Nhập giá',
-                  keyboardType: TextInputType.number),
-              spaceVertical(height: 18),
-              _btnTimePicker(),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(child: _levelSlotSelect()),
+                  spaceHorizontal(width: 6),
+                  Container(height: 50, width: 1, color: AppColor.colorGrey300),
+                  spaceHorizontal(width: 6),
+                  Expanded(child: _categorySlotSelect()),
+                ],
+              ),
               spaceVertical(height: 18),
               _btnDatePicker(),
               spaceVertical(height: 18),
@@ -62,6 +66,7 @@ extension BodyCustom on CreatePostScreen {
             ],
           ),
         ),
+        spaceVertical(height: AppDataGlobal.safeBottom)
       ]),
     );
   }
@@ -90,7 +95,8 @@ extension BodyCustom on CreatePostScreen {
     );
   }
 
-  Widget _btnTimePicker() {
+  Widget _btnTimePicker(SlotInfo date) {
+    int index = controller.findIndexDateOfWeekSelected(date);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +105,7 @@ extension BodyCustom on CreatePostScreen {
             text: 'Giờ chơi', style: TextAppStyle.bodySmallBold()),
         spaceVertical(height: 15),
         GestureDetector(
-          onTap: controller.onTapTimePicker,
+          onTap: () => controller.onTapTimePicker(date),
           child: Container(
             width: Get.width,
             height: 48,
@@ -115,7 +121,7 @@ extension BodyCustom on CreatePostScreen {
                 Expanded(
                     child: CustomText.textPlusJakarta(
                         text:
-                            '${Utils.convertDateTime(date: controller.startTime.value.toString(), dateFormat: 'HH:mm')} - ${Utils.convertDateTime(date: controller.endTime.value.toString(), dateFormat: 'HH:mm')}',
+                            '${Utils.convertDateTime(date: controller.dateOfWeekSelected[index].startTime ?? '00:00', dateFormat: 'HH:mm')} - ${Utils.convertDateTime(date: controller.dateOfWeekSelected[index].endTime ?? '00:00', dateFormat: 'HH:mm')}',
                         style: TextAppStyle.bodySmall())),
                 spaceHorizontal(width: 10),
                 const Icon(Icons.keyboard_arrow_down_outlined),
@@ -153,7 +159,7 @@ extension BodyCustom on CreatePostScreen {
                 Expanded(
                     child: CustomText.textPlusJakarta(
                         text: controller.dateRangeSelected.isEmpty
-                            ? ""
+                            ? "dd/MM/yyyy"
                             : controller.dateRangeSelected.length > 1
                                 ? '${Utils.convertDateTime(date: controller.dateRangeSelected.first.toString(), dateFormat: 'dd/MM/yyyy')} - ${Utils.convertDateTime(date: controller.dateRangeSelected.last.toString(), dateFormat: 'dd/MM/yyyy')}'
                                 : Utils.convertDateTime(
@@ -235,7 +241,7 @@ extension BodyCustom on CreatePostScreen {
     );
   }
 
-  Widget _itemInputSlotByDate(DayOfWeekModel data) {
+  Widget _itemInputSlotByDate(SlotInfo data) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -248,7 +254,7 @@ extension BodyCustom on CreatePostScreen {
         children: [
           CustomText.textPlusJakarta(
               text:
-                  '${Utils.getDayOfWeek(DateTime.parse(data.date!).weekday)} - ${Utils.convertDateTime(date: data.date.toString(), dateFormat: 'dd/MM/yyyy')}',
+                  '${Utils.getDayOfWeek(DateTime.parse(data.startTime!).weekday)} - ${Utils.convertDateTime(date: data.startTime.toString(), dateFormat: 'dd/MM/yyyy')}',
               style: TextAppStyle.size14W600()),
           spaceVertical(height: 16),
           _inputForm(
@@ -262,8 +268,66 @@ extension BodyCustom on CreatePostScreen {
               title: 'Số lượng chỗ',
               hintText: 'Nhập số lượng chỗ',
               keyboardType: TextInputType.number),
+          spaceVertical(height: 16),
+          _inputForm(
+            title: 'Giá',
+            hintText: 'Nhập giá',
+            keyboardType: TextInputType.number,
+            onChanged: (value) async {
+              int price = int.tryParse(value) ?? -1;
+
+              await controller.addPriceSelectedDayOfWeek(
+                  data: data, price: price);
+            },
+          ),
+          spaceVertical(height: 16),
+          _btnTimePicker(data),
         ],
       ),
+    );
+  }
+
+  Widget _levelSlotSelect() {
+    return Column(
+      children: [
+        SizedBox(
+          width: Get.width,
+          child: CustomText.textPlusJakarta(
+              text: 'Kỹ năng', style: TextAppStyle.bodySmallBold()),
+        ),
+        spaceVertical(height: 15),
+        CustomDropdownButton.commonDropdown(
+            title: controller.levelSlotSelected.value == ''
+                ? 'Chọn level chơi'
+                : controller.levelSlotSelected.value,
+            onChanged: (value) {
+              controller.levelSlotSelected.value = value;
+            },
+            listData: controller.listLevelSlot,
+            selectedValue: controller.levelSlotSelected.value),
+      ],
+    );
+  }
+
+  Widget _categorySlotSelect() {
+    return Column(
+      children: [
+        SizedBox(
+          width: Get.width,
+          child: CustomText.textPlusJakarta(
+              text: 'Thể loại', style: TextAppStyle.bodySmallBold()),
+        ),
+        spaceVertical(height: 15),
+        CustomDropdownButton.commonDropdown(
+            title: controller.categorySlotSelected.value == ''
+                ? 'Chọn level chơi'
+                : controller.categorySlotSelected.value,
+            onChanged: (value) {
+              controller.categorySlotSelected.value = value;
+            },
+            listData: controller.listCategorySlot,
+            selectedValue: controller.levelSlotSelected.value),
+      ],
     );
   }
 }

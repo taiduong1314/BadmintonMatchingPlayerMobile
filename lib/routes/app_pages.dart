@@ -1,27 +1,40 @@
 import 'package:get/get.dart';
-import 'package:vbmsports/modules/booking/binding/booking_binding.dart';
-import 'package:vbmsports/modules/booking/view/booking_screen.dart';
-import 'package:vbmsports/modules/create_post/binding/create_post_binding.dart';
-import 'package:vbmsports/modules/create_post/view/create_post_screen.dart';
-import 'package:vbmsports/modules/deposit_withdraw/binding/deposit_withdraw_binding.dart';
-import 'package:vbmsports/modules/deposit_withdraw/view/deposit_withdraw_screen.dart';
-import 'package:vbmsports/modules/forgot_password/binding/forgot_pass_binding.dart';
-import 'package:vbmsports/modules/forgot_password/view/forgot_pass_screen.dart';
-import 'package:vbmsports/modules/notification/binding/notification_binding.dart';
-import 'package:vbmsports/modules/notification/view/notification_screen.dart';
-import 'package:vbmsports/modules/post_detail/binding/post_detail_binding.dart';
-import 'package:vbmsports/modules/post_detail/view/post_detail_screen.dart';
-import 'package:vbmsports/modules/steps_register/step1_choose_districts/binding/step1_choose_districts_binding.dart';
-import 'package:vbmsports/modules/steps_register/step1_choose_districts/view/step1_choose_districts_screen.dart';
-import 'package:vbmsports/modules/user_info/binding/user_info_binding.dart';
-import 'package:vbmsports/modules/user_info/view/user_info_screen.dart';
-import 'package:vbmsports/modules/wallet/binding/wallet_binding.dart';
-import 'package:vbmsports/modules/wallet/view/wallet_screen.dart';
-
+import 'package:vbmsports/modules/booking_detail/binding/booking_detail_binding.dart';
+import 'package:vbmsports/modules/booking_detail/view/booking_detail_screen.dart';
+import 'package:vbmsports/modules/change_password/binding/account_change_password_binding.dart';
+import 'package:vbmsports/modules/change_password/view/account_change_password_screen.dart';
+import 'package:vbmsports/modules/chat_detail/binding/chat_detail_binding.dart';
+import 'package:vbmsports/modules/chat_detail/view/chat_detail_view.dart';
+import 'package:vbmsports/modules/new_detail/binding/new_detail_binding.dart';
+import 'package:vbmsports/modules/new_detail/view/new_detail_screen.dart';
+import 'package:vbmsports/modules/news/binding/news_binding.dart';
+import 'package:vbmsports/modules/news/view/news_screen.dart';
+import 'package:vbmsports/modules/post/all_post/binding/all_post_binding.dart';
+import 'package:vbmsports/modules/post/all_post/view/all_post_screen.dart';
+import 'package:vbmsports/modules/post/manage_joining_post/binding/manage_joining_post_binding.dart';
+import 'package:vbmsports/modules/post/manage_joining_post/view/manage_joining_post_screen.dart';
+import 'package:vbmsports/modules/post/manage_posted_post/binding/manage_posted_post_binding.dart';
+import 'package:vbmsports/modules/post/manage_posted_post/view/manage_posted_post_screen.dart';
+import 'package:vbmsports/modules/profile/binding/profile_binding.dart';
+import 'package:vbmsports/modules/profile/view/profile_screen.dart';
+import '../modules/booking/binding/booking_binding.dart';
+import '../modules/booking/view/booking_screen.dart';
+import '../modules/create_post/binding/create_post_binding.dart';
+import '../modules/create_post/view/create_post_screen.dart';
+import '../modules/deposit_withdraw/binding/deposit_withdraw_binding.dart';
+import '../modules/deposit_withdraw/view/deposit_withdraw_screen.dart';
+import '../modules/forgot_password/binding/forgot_pass_binding.dart';
+import '../modules/forgot_password/view/forgot_pass_screen.dart';
+import '../modules/notification/binding/notification_binding.dart';
+import '../modules/notification/view/notification_screen.dart';
+import '../modules/steps_register/step1_choose_districts/binding/step1_choose_districts_binding.dart';
+import '../modules/steps_register/step1_choose_districts/view/step1_choose_districts_screen.dart';
+import '../modules/user_info/binding/user_info_binding.dart';
+import '../modules/user_info/view/user_info_screen.dart';
+import '../modules/wallet/binding/wallet_binding.dart';
+import '../modules/wallet/view/wallet_screen.dart';
 import '../modules/account/binding/setting_binding.dart';
 import '../modules/account/view/setting_screen.dart';
-import '../modules/change_password/binding/change_password_binding.dart';
-import '../modules/change_password/view/change_password_screen.dart';
 import '../modules/chat/binding/chat_binding.dart';
 import '../modules/chat/view/chat_screen.dart';
 import '../modules/home/binding/home_binding.dart';
@@ -30,6 +43,8 @@ import '../modules/login/binding/login_binding.dart';
 import '../modules/login/view/login_screen.dart';
 import '../modules/main/binding/main_binding.dart';
 import '../modules/main/view/main_screen.dart';
+import '../modules/post/post_detail/binding/post_detail_binding.dart';
+import '../modules/post/post_detail/view/post_detail_screen.dart';
 import '../modules/splash/binding/splash_binding.dart';
 import '../modules/splash/view/splash_screen.dart';
 import '../modules/steps_register/step2_choose_skill/binding/step2_choose_skill_binding.dart';
@@ -84,7 +99,7 @@ final routePages = [
   ),
   GetPage(
     name: Routes.POSTDETAIL,
-    page: () => PostDetailScreen(),
+    page: () => const PostDetailScreen(),
     binding: PostDetailBinding(),
   ),
   GetPage(
@@ -93,9 +108,14 @@ final routePages = [
     binding: ChatBinding(),
   ),
   GetPage(
+    name: Routes.CHATDETAIL,
+    page: () => ChatDetailScreen(),
+    binding: ChatDetailBinding(),
+  ),
+  GetPage(
     name: Routes.CHANGEPASSWORD,
-    page: () => ChangePasswordScreen(),
-    binding: ChangePasswordBinding(),
+    page: () => AccountChangePasswordScreen(),
+    binding: AccountChangePasswordBinding(),
   ),
   GetPage(
     name: Routes.STEP1REGISTER,
@@ -123,6 +143,11 @@ final routePages = [
     binding: BookingBinding(),
   ),
   GetPage(
+    name: Routes.BOOKINGDETAIL,
+    page: () => BookingDetailScreen(),
+    binding: BookingDetailBinding(),
+  ),
+  GetPage(
     name: Routes.USERINFO,
     page: () => UserInfoScreen(),
     binding: UserInfoBinding(),
@@ -136,5 +161,35 @@ final routePages = [
     name: Routes.DEPOSITVSWITHDRAW,
     page: () => DepositWithdrawScreen(),
     binding: DepositWithdrawBinding(),
+  ),
+  GetPage(
+    name: Routes.POSTS,
+    page: () => AllPostScreen(),
+    binding: AllPostBinding(),
+  ),
+  GetPage(
+    name: Routes.POSTEDPOST,
+    page: () => ManagePostedPostScreen(),
+    binding: ManagePostedPostBinding(),
+  ),
+  GetPage(
+    name: Routes.JOININGPOST,
+    page: () => ManageJoiningPostScreen(),
+    binding: ManageJoiningPostBinding(),
+  ),
+  GetPage(
+    name: Routes.PROFILE,
+    page: () => ProfileScreen(),
+    binding: ProfileBinding(),
+  ),
+  GetPage(
+    name: Routes.NEWS,
+    page: () => NewsScreen(),
+    binding: NewsBinding(),
+  ),
+  GetPage(
+    name: Routes.NEWDETAIL,
+    page: () => NewDetailScreen(),
+    binding: NewDetailBinding(),
   ),
 ];

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:vbmsports/utils/call_api/wallet/call_api_wallet.dart';
 import 'package:vbmsports/utils/common/asset/animation.dart';
@@ -7,7 +6,9 @@ import 'package:vbmsports/utils/common/data.dart';
 import 'package:vbmsports/utils/utils.dart';
 import 'package:vbmsports/utils/widget/popup/custom_popup.dart';
 
-import '../../../routes/app_pages.dart';
+import '../../../utils/common/asset/svg.dart';
+import '../../../utils/widget/modal_bottom_sheet/common_bottom_sheet.dart';
+import '../../../utils/widget/web_view/web_view.dart';
 
 class DepositWithdrawController extends GetxController {
   bool isDeposit = Get.arguments['isDeposit'];
@@ -38,6 +39,7 @@ class DepositWithdrawController extends GetxController {
     int balance = int.tryParse(txtBalance.text) ?? -1;
 
     if (balance == -1) return;
+
     CustomPopup.showAnimation(Get.context,
         message: 'Quá trình thanh toán \nđang được xử lý',
         spaceAnimationWithText: 20,
@@ -47,8 +49,35 @@ class DepositWithdrawController extends GetxController {
         padding: const EdgeInsets.all(36),
         animationUrl: AssetAnimationCustom.paymentProcessing);
 
+    String urlPayment = await CallAPIWallet.vnpayLink(balance: balance);
+
+    if (urlPayment == '' || !Utils.isURL(urlPayment)) {
+      Navigator.of(Get.context!).pop();
+      CustomPopup.showTextWithImage(Get.context,
+          title: 'Ôi! Có lỗi xảy ra',
+          message: 'Đã có lỗi xảy ra trong quá trình kết nối VN-Pay',
+          titleButton: 'Đã hiểu',
+          svgUrl: AssetSVGName.error);
+      return;
+    }
+
+    bool? status = await CommonModalBottomSheet.show(
+        customWidget: WebViewCustom(url: urlPayment),
+        maxHeight: Get.height,
+        isScrollControlled: true);
+
+    if (status == null || status == false) {
+      Navigator.of(Get.context!).pop();
+      CustomPopup.showOnlyText(Get.context,
+          title: 'Thông báo',
+          message: 'Đã xảy ra lỗi trong quá trình thanh toán',
+          titleButton: 'Đã hiểu');
+      return;
+    }
+
     int balanceNew = await CallAPIWallet.deposit(balance: balance);
-    AppDataGlobal.user.value.balance = double.tryParse('${balanceNew == -1 ? 0 : balanceNew}');
+    AppDataGlobal.user.value.balance =
+        double.tryParse('${balanceNew == -1 ? 0 : balanceNew}');
     AppDataGlobal.user.refresh();
 
     Navigator.of(Get.context!).pop();
@@ -74,7 +103,8 @@ class DepositWithdrawController extends GetxController {
         animationUrl: AssetAnimationCustom.paymentProcessing);
     int balanceNew = await CallAPIWallet.deposit(balance: -balance);
 
-    AppDataGlobal.user.value.balance = double.tryParse('${balanceNew == -1 ? 0 : balanceNew}');
+    AppDataGlobal.user.value.balance =
+        double.tryParse('${balanceNew == -1 ? 0 : balanceNew}');
     AppDataGlobal.user.refresh();
 
     Navigator.of(Get.context!).pop();

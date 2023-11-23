@@ -49,7 +49,7 @@ class APIStatusCode {
       case 502:
         return 'Bad gateway';
       default:
-        return 'something_wrong'.tr;
+        return 'Something wrong';
     }
   }
 }

@@ -43,10 +43,16 @@ class AssetSVGName {
   static String centerBottom = "assets/svg/plus-bottom.svg";
   static String notificationBottom = "assets/svg/notification-bottom.svg";
   static String moreInfoBottom = "assets/svg/add-bottom.svg";
+  static String newsBottom = "assets/svg/news.svg";
 
   static const String arrowLeft =
       'assets/svg/arrow-left.svg';
 
   static const String arrowRight =
       'assets/svg/arrow_right.svg';
+
+  static String cameraLens = "assets/svg/camera-lens.svg";
+  static String uploadImage = "assets/svg/upload_image.svg";
+  static String secureUser = "assets/svg/secure_user.svg";
 }
+

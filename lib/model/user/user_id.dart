@@ -6,24 +6,20 @@ String userIdModelToJson(UserIdModel data) => json.encode(data.toJson());
 
 class UserIdModel {
   String? message;
-  String? errorCode;
   UserIdDataModel? data;
 
   UserIdModel({
     this.message,
-    this.errorCode,
     this.data,
   });
 
   factory UserIdModel.fromJson(Map<String, dynamic> json) => UserIdModel(
     message: json["message"],
-    errorCode: json["errorCode"],
-    data: UserIdDataModel.fromJson(json["data"]),
+    data: json["data"] == null ? UserIdDataModel() : UserIdDataModel.fromJson(json["data"]),
   );
 
   Map<String, dynamic> toJson() => {
     "message": message,
-    "errorCode": errorCode,
     "data": data?.toJson(),
   };
 }

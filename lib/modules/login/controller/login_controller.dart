@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +70,10 @@ class LoginController extends GetxController {
     AppDataGlobal.user.value = data;
     SetDataToLocal.setString(
         key: KeyDataLocal.userKey, data: userDataModelToJson(data));
-
+    SetDataToLocal.setString(
+        key: KeyDataLocal.usernameKey, data: txtEmail.text);
+    SetDataToLocal.setString(
+        key: KeyDataLocal.passwordKey, data: txtPassword.text);
     Get.offAllNamed(Routes.MAIN);
   }
 

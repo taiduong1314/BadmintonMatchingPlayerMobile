@@ -1,22 +1,21 @@
-import 'package:awesome_bottom_bar/tab_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vbmsports/modules/account/view/setting_screen.dart';
 import 'package:vbmsports/modules/chat/view/chat_screen.dart';
 import 'package:vbmsports/modules/create_post/view/create_post_screen.dart';
-import 'package:vbmsports/modules/notification/view/notification_screen.dart';
+import 'package:vbmsports/modules/news/view/news_screen.dart';
 
 import '../../../utils/common/asset/svg.dart';
 import '../../home/view/home_screen.dart';
 
 class MainController extends GetxController {
-  List listTitleBottomBar = ['Trang chủ', 'Chat', '', 'Thông báo', 'Thêm'];
+  List listTitleBottomBar = ['Trang chủ', 'Chat', '', 'Tin tức', 'Thêm'];
 
   List listImageBottomBar = [
     AssetSVGName.homeBottom,
     AssetSVGName.chatBottom,
     AssetSVGName.centerBottom,
-    AssetSVGName.notificationBottom,
+    AssetSVGName.newsBottom,
     AssetSVGName.moreInfoBottom,
   ];
 
@@ -37,7 +36,7 @@ class MainController extends GetxController {
         mainWidget.value = CreatePostScreen();
         break;
       case 3:
-        mainWidget.value = NotificationScreen();
+        mainWidget.value = NewsScreen();
         break;
       case 4:
         mainWidget.value = AccountScreen();

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -7,6 +9,8 @@ class AppDataGlobal {
   static const String appName = 'VBM Sports';
   static String fcmToken = "";
   static String evironment = '';
+
+  static RxBool isKeyboardVisible = false.obs;
 
   static bool isShowPopup = false;
 
@@ -31,7 +35,7 @@ class AppDataGlobal {
   static double borderButton = 32;
 
   static double safeTop = MediaQuery.of(Get.context!).viewPadding.top;
-  static double safeBottom = MediaQuery.of(Get.context!).viewPadding.bottom;
+  static double safeBottom = MediaQuery.of(Get.context!).viewPadding.bottom +(Platform.isIOS ? 0 : 20);
 
   /// Max image upload
   static const maxImageUpload = 4;

@@ -46,7 +46,8 @@ extension BodyCustom on HomeScreen {
                 spaceVertical(height: 8),
                 _textWithIcon(
                     assetSVGName: AssetSVGName.calendar,
-                    content: data.days ?? ''),
+                    // content: Utils.convertDateTimeFormat(date: data.days.toString())),
+                content: data.days.toString()),
                 spaceVertical(height: 8),
                 _textWithIcon(
                     assetSVGName: AssetSVGName.slot,

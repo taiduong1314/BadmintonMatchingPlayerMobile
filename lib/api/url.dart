@@ -27,4 +27,16 @@ class SubAPI {
   static const String wallet = 'api/wallet';
 
   static const String verifyToken = 'api/users/verify_token';
+
+  static const String booking = 'api/slots/available';
+
+  static const String transaction = 'api/transactions';
+
+  static const String chat = 'api/chat/user';
+
+  static const String chatDetail = 'api/chat';
+
+  static const String vnpay = 'api/wallet/create-vnpay';
+
+  static const String uploadImage = 'api/image/images';
 }

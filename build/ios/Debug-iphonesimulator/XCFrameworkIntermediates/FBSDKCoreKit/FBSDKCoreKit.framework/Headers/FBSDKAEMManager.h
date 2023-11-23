@@ -39,7 +39,7 @@ NS_SWIFT_NAME(_AEMManager)
              appEventsUtility:(nonnull id<FBSDKAppEventsUtility>)appEventsUtility
 NS_SWIFT_NAME(configure(swizzler:reporter:eventLogger:crashHandler:featureChecker:appEventsUtility:));
 
-- (void)enableAutoSetup:(BOOL)proxyEnabled;
+- (void)enableAutoSetup;
 
 - (void)logAutoSetupStatus:(BOOL)optin
                     source:(NSString *)source;

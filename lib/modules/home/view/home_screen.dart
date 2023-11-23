@@ -5,7 +5,6 @@ import 'package:gotrust_popup/utils/space/space.dart';
 import 'package:vbmsports/model/post/post_suggestion.dart';
 import 'package:vbmsports/utils/common/asset/svg.dart';
 import 'package:vbmsports/utils/common/data.dart';
-import 'package:vbmsports/utils/utils.dart';
 import 'package:vbmsports/utils/widget/loading/load_network_image.dart';
 
 import '../../../utils/common/color.dart';

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:gotrust_popup/utils/space/space.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:vbmsports/model/notification/notification_model.dart';
-import 'package:vbmsports/utils/common/data.dart';
+import 'package:vbmsports/utils/common/asset/svg.dart';
 import 'package:vbmsports/utils/common/text_style.dart';
 import 'package:vbmsports/utils/widget/loading/load_network_image.dart';
 import 'package:vbmsports/utils/widget/text/montserrat.dart';
@@ -12,9 +13,6 @@ import '../controller/notification_controller.dart';
 
 class NotificationScreen extends GetView<NotificationController> {
   NotificationScreen({super.key});
-
-  @override
-  final controller = Get.put(NotificationController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +36,16 @@ class NotificationScreen extends GetView<NotificationController> {
   }
 
   Widget _title() {
-    return CustomText.textPlusJakarta(
-        text: 'Thông báo', style: TextAppStyle.h4());
+    return GestureDetector(
+      onTap: Get.back,
+      child: Row(
+        children: [
+          SvgPicture.asset(AssetSVGName.arrowLeft),
+          CustomText.textPlusJakarta(
+              text: 'Thông báo', style: TextAppStyle.h4()),
+        ],
+      ),
+    );
   }
 
   Widget _listItem() {
@@ -48,7 +54,7 @@ class NotificationScreen extends GetView<NotificationController> {
         : Column(
             children: controller.listNotification
                 .map((data) => _item(data,
-                    isEnd: controller.listNotification.value.last == data))
+                    isEnd: controller.listNotification.last == data))
                 .toList());
   }
 

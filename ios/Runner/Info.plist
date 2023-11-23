@@ -37,8 +37,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+    <string>VBM Sports cần quyền truy cập để mở camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>VBM Sports need your access to get image from library</string>
+	<string>VBM Sports cần quyền truy cập để mở thư viện ảnh</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

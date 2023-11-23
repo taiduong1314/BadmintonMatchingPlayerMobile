@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -22,17 +21,19 @@ part 'register.dart';
 class LoginScreen extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-          width: Get.width,
-          height: Get.height,
-          child: Stack(
-            children: [
-              _topImage(),
-              Positioned(
-                  bottom: 0, child: _body()),
-            ],
+    return Scaffold(
+      body: SizedBox(
+            width: Get.width,
+            height: Get.height,
+            child: Stack(
+              children: [
+                _topImage(),
+                Positioned(
+                    bottom: 0, child: _body()),
+              ],
+            ),
           ),
-        );
+    );
   }
 
   Widget _topImage(){

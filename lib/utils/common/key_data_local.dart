@@ -10,4 +10,7 @@ class KeyDataLocal{
   static String fcmTokenKey = 'deviceToken';
 
   static String userKey = 'user';
+
+  static String usernameKey = 'usernameLogin';
+  static String passwordKey = 'passwordLogin';
 }

@@ -57,11 +57,6 @@ extension BodyCustom on BookingScreen {
                       maxLine: 2,
                       text: controller.data.title ?? '',
                       style: TextAppStyle.h6())),
-              spaceHorizontal(width: 10),
-              CustomText.textPlusJakarta(
-                  text:
-                      '${Utils.formatBalance('${controller.data.priceSlot}')}đ',
-                  style: TextAppStyle.h6()),
             ],
           ),
           spaceVertical(height: 8),
@@ -77,9 +72,6 @@ extension BodyCustom on BookingScreen {
                       text: controller.data.addressSlot ?? '',
                       style: TextAppStyle.bodySmall()
                           .copyWith(color: AppColor.colorGrey1))),
-              spaceHorizontal(width: 35),
-              CustomText.textPlusJakarta(
-                  text: '/chỗ', style: TextAppStyle.bodySmall()),
             ],
           ),
         ],
@@ -114,29 +106,32 @@ extension BodyCustom on BookingScreen {
     );
   }
 
-  Widget _itemDayOfWeek(DayOfWeekModel data) {
-    return Visibility(
-      visible: (data.slot != -1 || data.slot != 0),
-      child: GestureDetector(
-        onTap: () => controller.onTapSelectDayOfWeek(data),
-        child: Container(
-          margin: const EdgeInsets.only(right: 12),
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
-          decoration: BoxDecoration(
-              color: controller.isSelectedDayOfWeek(data)
-                  ? AppColor.colorButton
-                  : AppColor.colorUnknown2,
-              borderRadius: BorderRadius.circular(8),
-              border:
-                  Border.all(color: AppColor.colorGrey300.withOpacity(0.5))),
-          child: CustomText.textPlusJakarta(
-              text: Utils.getDayOfWeek(
-                  DateTime.tryParse(data.date!)?.weekday ?? -1),
-              style: TextAppStyle.bodyDefault().copyWith(
-                  color: controller.isSelectedDayOfWeek(data)
-                      ? AppColor.colorLight
-                      : AppColor.colorDark)),
-        ),
+  Widget _itemDayOfWeek(SlotInfo data) {
+    bool isVisible = (data.availableSlot != -1 && data.availableSlot != 0);
+    return GestureDetector(
+      onTap: () => isVisible ? controller.onTapSelectDayOfWeek(data) : null,
+      child: Container(
+        margin: const EdgeInsets.only(right: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
+        decoration: BoxDecoration(
+            color: !isVisible
+                ? AppColor.colorUnknown2.withOpacity(0.5)
+                : controller.isSelectedDayOfWeek(data)
+                    ? AppColor.colorButton
+                    : AppColor.colorUnknown2,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+                color:
+                    AppColor.colorGrey300.withOpacity(!isVisible ? 0.4 : 0.5))),
+        child: CustomText.textPlusJakarta(
+            text: Utils.getDayOfWeek(
+                DateTime.tryParse(data.startTime!)?.weekday ?? -1),
+            style: TextAppStyle.bodyDefault().copyWith(
+                color: !isVisible
+                    ? AppColor.colorDark.withOpacity(0.3)
+                    : controller.isSelectedDayOfWeek(data)
+                        ? AppColor.colorLight
+                        : AppColor.colorDark)),
       ),
     );
   }
@@ -150,9 +145,9 @@ extension BodyCustom on BookingScreen {
     );
   }
 
-  Widget _itemInputSlotByDate(DayOfWeekModel data) {
-    var sort = controller.dateVsSlot.where((value) => data.date == value.date);
-
+  Widget _itemInputSlotByDate(SlotInfo data) {
+    var sort = controller.dateVsSlot
+        .where((value) => data.startTime == value.startTime);
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -165,11 +160,10 @@ extension BodyCustom on BookingScreen {
         children: [
           CustomText.textPlusJakarta(
               text:
-                  '${Utils.getDayOfWeek(DateTime.parse(data.date!).weekday)} - ${Utils.convertDateTime(date: data.date.toString(), dateFormat: 'dd/MM/yyyy')}',
+                  '${Utils.getDayOfWeek(DateTime.parse(data.startTime!).weekday)} - ${Utils.convertDateTime(date: data.startTime.toString(), dateFormat: 'dd/MM/yyyy')}',
               style: TextAppStyle.size14W600()),
           spaceVertical(height: 16),
           _inputForm(
-              // controllerText: controllerText,
               onChanged: (value) async {
                 int slot = int.tryParse(value) ?? -1;
 
@@ -177,7 +171,7 @@ extension BodyCustom on BookingScreen {
                     data: data, slot: slot);
               },
               title:
-                  'Số lượng chỗ còn lại ${sort.first.slot == -1 ? 0 : sort.first.slot}',
+                  'Số lượng chỗ còn lại ${sort.first.availableSlot == -1 ? 0 : sort.first.availableSlot}',
               hintText: 'Nhập số lượng chỗ',
               keyboardType: TextInputType.number),
         ],
@@ -190,17 +184,17 @@ extension BodyCustom on BookingScreen {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
+        // _paymentMethodSectionItem(
+        //     image: AssetImageName.vnPay, title: 'VNPAY', index: 1),
         _paymentMethodSectionItem(
-            image: AssetImageName.vnPay, title: 'VNPAY', index: 0),
-        _paymentMethodSectionItem(
-            image: AssetImageName.vbmPay, title: 'VBM Pay', index: 1)
+            image: AssetImageName.vbmPay, title: 'VBM Pay', index: 0)
       ],
     );
   }
 
   Widget _paymentMethodSectionItem(
       {required String image, String? title, required int index}) {
-    bool isSelected = controller.currentIndex.value == index;
+    bool isSelected = controller.currentPaymentMethodIndex.value == index;
     return GestureDetector(
       onTap: () => controller.onTapChoosePaymentMethod(index),
       child: Container(
@@ -245,12 +239,21 @@ extension BodyCustom on BookingScreen {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _rowTextPayMent(
-              title: 'Tiền sân / chỗ',
-              content:
-                  '${Utils.formatBalance('${controller.data.priceSlot}')}đ'),
+          _rowTextPayMent(title: 'Tiền sân / chỗ', content: ''),
+          ...controller.dateOfWeekSelected
+              .map((element) => Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: _rowTextPayMent(
+                        title: Utils.convertDateTime(
+                            date: element.startTime ?? '',
+                            dateFormat: 'dd/MM/yyyy'),
+                        content: '${Utils.formatBalance('${element.price}')}đ'),
+                  ))
+              .toList(),
           spaceVertical(height: 12),
-          _rowTextPayMent(title: 'Số chỗ (slot)', content: '2 chỗ'),
+          _rowTextPayMent(
+              title: 'Số chỗ (slot)',
+              content: '${controller.getTotalSlot()} chỗ'),
           spaceVertical(height: 16),
           Container(
             width: Get.width / 1.5,
@@ -259,7 +262,9 @@ extension BodyCustom on BookingScreen {
           ),
           spaceVertical(height: 16),
           _rowTextPayMent(
-              title: 'Tổng tiền', content: '${Utils.formatBalance('120000')}đ'),
+              title: 'Tổng tiền',
+              content:
+                  '${Utils.formatBalance('${controller.getTotalPayment()}')}đ'),
         ],
       ),
     );
@@ -281,7 +286,6 @@ extension BodyCustom on BookingScreen {
 
   Widget _btnConfirmPayment() {
     return CustomButton.commonButton(
-        onTap: controller.onTapConfirmPayment,
-        title: 'Thanh toán ngay');
+        onTap: controller.onTapConfirmPayment, title: 'Thanh toán ngay');
   }
 }

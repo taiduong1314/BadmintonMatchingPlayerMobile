@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:vbmsports/model/common/bool_model.dart';
 
-import '../../../model/otp/verify_otp.dart';
 import '../../setup_dio/dio_setup.dart';
 import '../../url.dart';
 

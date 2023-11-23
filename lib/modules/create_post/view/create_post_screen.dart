@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:get/get.dart';
-import 'package:vbmsports/model/date/date_of_week.dart';
+import 'package:vbmsports/model/post/post_detail_model.dart';
 import 'package:vbmsports/utils/common/asset/image.dart';
 import 'package:vbmsports/utils/common/button.dart';
+import 'package:vbmsports/utils/common/data.dart';
 import 'package:vbmsports/utils/utils.dart';
+import 'package:vbmsports/utils/widget/dropdown_button/common_dropdown_btn.dart';
 
 import '../../../utils/common/color.dart';
 import '../../../utils/common/text_style.dart';

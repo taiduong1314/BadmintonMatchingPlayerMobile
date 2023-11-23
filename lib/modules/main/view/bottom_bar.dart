@@ -37,11 +37,11 @@ extension BottomBar on MainScreen {
   Widget _bottomBar() {
     return SizedBox(
       width: Get.width,
-      height: 116,
+      height:  Platform.isIOS ? 116 : 100,
       child: Stack(
         children: [
           Positioned(
-            bottom: 0,
+            bottom: Platform.isIOS ? 0 : 10,
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(16), topRight: Radius.circular(16)),

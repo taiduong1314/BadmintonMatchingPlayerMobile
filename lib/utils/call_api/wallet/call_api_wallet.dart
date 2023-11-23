@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:vbmsports/api/post/payment/vn-pay.dart';
 import 'package:vbmsports/api/put/wallet/wallet.dart';
 
 import '../../common/asset/svg.dart';
@@ -29,6 +30,22 @@ class CallAPIWallet {
       }
 
       return -1;
+    }
+  }
+
+  static Future<String> vnpayLink({
+    required int balance,
+  }) async {
+    try {
+      var data = await VNPayAPI.post(balance: balance);
+
+      return data.data?.uri ?? '';
+    } catch (e) {
+      if (kDebugMode) {
+        print('*********** Error CallAPIUser deposit: $e');
+      }
+
+      return '';
     }
   }
 }

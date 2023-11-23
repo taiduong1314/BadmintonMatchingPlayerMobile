@@ -61,11 +61,11 @@ class Step3RegisterController extends GetxController {
     }
 
     if (canInput.isTrue) {
-      listStyleChoosing.value.remove(listStyle.last);
+      listStyleChoosing.remove(listStyle.last);
       listStyleChoosing.add(txtStylePlay.text);
     }
 
-    unawaited(CallAPIUser.setUserStylePlay(stylePlay: listStyleChoosing.value));
+    unawaited(CallAPIUser.setUserStylePlay(stylePlay: listStyleChoosing));
 
     Get.toNamed(Routes.STEP4REGISTER);
   }
