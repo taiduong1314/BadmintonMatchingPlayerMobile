@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:vbmsports/api/get/post/post_detail.dart';
 import 'package:vbmsports/api/get/post/post_list.dart';
+import 'package:vbmsports/api/get/post/post_play_ground.dart';
 import 'package:vbmsports/api/get/post/post_suggestion.dart';
 import 'package:vbmsports/api/get/post/posts_list_joining.dart';
 import 'package:vbmsports/api/post/posts/create_post.dart';
 import 'package:vbmsports/model/post/post_detail_model.dart';
 import 'package:vbmsports/model/post/post_list_joining.dart';
-import 'package:vbmsports/model/post/post_list_model.dart';
 import 'package:vbmsports/model/post/post_suggestion.dart';
 
 import '../../../api/get/post/post_list_posted.dart';
@@ -15,9 +15,29 @@ import '../../common/asset/svg.dart';
 import '../../widget/popup/custom_popup.dart';
 
 class CallAPIPost {
-  static Future<List<PostsDataModel>> getListPosts() async {
+  static Future<List<PostSuggestionDataModel>> getListPosts() async {
     try {
       var data = await PostsListAPI.get();
+
+      if (data.data == null) {
+        CustomPopup.showTextWithImage(Get.context,
+            title: 'Ôi! Có lỗi xảy ra',
+            message: data.message ??
+                'Đã xảy ra lỗi trong quá lấy danh sách bài đăng. Vui lòng thử lại',
+            titleButton: 'Đã hiểu',
+            svgUrl: AssetSVGName.error);
+        return [];
+      }
+
+      return data.data ?? [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  static Future<List<PostSuggestionDataModel>> getListPostsByPlayGround({required int wardID}) async {
+    try {
+      var data = await PlayGroundAPI.get(locationID: wardID);
 
       if (data.data == null) {
         CustomPopup.showTextWithImage(Get.context,

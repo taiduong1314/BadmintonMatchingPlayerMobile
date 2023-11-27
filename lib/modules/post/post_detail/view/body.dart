@@ -27,10 +27,11 @@ extension BodyCustom on PostDetailScreen {
               spaceVertical(height: AppDataGlobal.safeBottom + 100)
             ],
           )),
-        if(controller.dataDetail.userId != AppDataGlobal.user.value.id)  Positioned(
-              width: Get.width - 60,
-              bottom: AppDataGlobal.safeBottom,
-              child: Center(child: _btnBooking())),
+          if (controller.dataDetail.userId != AppDataGlobal.user.value.id)
+            Positioned(
+                width: Get.width - 60,
+                bottom: AppDataGlobal.safeBottom,
+                child: Center(child: _btnBooking())),
         ],
       ),
     );
@@ -133,13 +134,14 @@ extension BodyCustom on PostDetailScreen {
         spaceVertical(height: 10),
         Wrap(
           alignment: WrapAlignment.center,
-          spacing: 10,
-          runSpacing: 10,
+          spacing: Get.width - (28 * 2 + ((Get.width / 2) - 28 - 5) * 2),
+          runSpacing: Get.width - (28 * 2 + ((Get.width / 2) - 28 - 5) * 2),
           children: controller.dataDetail.slotInfos
-              ?.map(
-                (slot) => _itemInfoYard(slot),
-              )
-              .toList() ?? [],
+                  ?.map(
+                    (slot) => _itemInfoYard(slot),
+                  )
+                  .toList() ??
+              [],
         ),
       ],
     );
@@ -148,7 +150,8 @@ extension BodyCustom on PostDetailScreen {
   Widget _itemInfoYard(SlotInfo slot) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
-      width: 160,
+      width: (Get.width / 2) - 28 - 5,
+      constraints: const BoxConstraints(minWidth: 140, maxWidth: 170),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -226,7 +229,25 @@ extension BodyCustom on PostDetailScreen {
   }
 
   Widget _btnBooking() {
-    return CustomButton.commonButton(
-        title: "Đặt sân ngay", onTap: controller.onTapBooking);
+    return controller.dataDetail.isPayment == true
+        ? SizedBox(
+      width: Get.width - 28*2,
+          child: Row(
+      mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  child: CustomButton.commonButton(
+                      title: "Đặt sân ngay", onTap: controller.onTapBooking),
+                ),
+                spaceHorizontal(width: 20),
+                Expanded(
+                  child: CustomButton.commonButton(
+                      title: "Xem hoá đơn", onTap: controller.onTapBill),
+                )
+              ],
+            ),
+        )
+        : CustomButton.commonButton(
+            title: "Đặt sân ngay", onTap: controller.onTapBooking);
   }
 }

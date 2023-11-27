@@ -19,7 +19,7 @@ extension BodyCustom on ChatScreen {
   Widget _roomChat(ChatDataModel data) {
     return GestureDetector(
       onTap: () => controller.onTapChatDetail(
-          roomID: data.roomId ?? -1, roomName: data.chatTitle ?? ''),
+          roomID: data.roomId ?? -1, roomName: data.chatTitle ?? '', clientUrl: data.clientUrl ?? ''),
       child: Container(
         width: Get.width,
         margin: const EdgeInsets.only(bottom: 16),

@@ -1,17 +1,26 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:gotrust_popup/utils/space/space.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vbmsports/model/post/post_detail_model.dart';
 import 'package:vbmsports/routes/app_pages.dart';
 import 'package:vbmsports/utils/call_api/post/call_api_post.dart';
 import 'package:vbmsports/utils/common/asset/animation.dart';
+import 'package:vbmsports/utils/common/color.dart';
+import 'package:vbmsports/utils/common/text_style.dart';
 import 'package:vbmsports/utils/utils.dart';
 import 'package:vbmsports/utils/widget/date_range_picker/date_range_picker_custom.dart';
 import 'package:vbmsports/utils/widget/modal_bottom_sheet/common_bottom_sheet.dart';
 import 'package:vbmsports/utils/widget/popup/custom_popup.dart';
+import 'package:vbmsports/utils/widget/text/montserrat.dart';
 import 'package:vbmsports/utils/widget/time_picker/time_picker.dart';
 
+import '../../../model/location/location_model.dart';
+import '../../../utils/call_api/location/call_api_location.dart';
 import '../../../utils/common/data.dart';
 
 class CreatePostController extends GetxController {
@@ -32,8 +41,20 @@ class CreatePostController extends GetxController {
   List<String> listLevelSlot = ['Sơ cấp', 'Trung cấp', 'Cao cấp'];
   List<String> listCategorySlot = ['Đánh đơn', 'Đánh đôi', 'Hỗn hợp'];
 
+  Rx<LocationDataModel> province = LocationDataModel().obs;
+  Rx<LocationDataModel> ward = LocationDataModel().obs;
+
+  RxList<LocationDataModel> listProvinces = RxList.empty(growable: true);
+  RxList<LocationDataModel> listDistricts = RxList.empty(growable: true);
+
   RxString levelSlotSelected = RxString('');
   RxString categorySlotSelected = RxString('');
+
+  @override
+  void onInit() {
+    unawaited(getProvinces());
+    super.onInit();
+  }
 
   int findIndexDateOfWeekSelected(SlotInfo date) {
     return dateOfWeekSelected.indexOf(date);
@@ -105,7 +126,9 @@ class CreatePostController extends GetxController {
         dateOfWeekSelected.isEmpty ||
         imageUploadList.isEmpty ||
         categorySlotSelected.value == '' ||
-        levelSlotSelected.value == '') {
+        levelSlotSelected.value == '' ||
+        province.value.name == null ||
+        ward.value.name == null) {
       await CustomPopup.showOnlyText(Get.context,
           title: 'Thông báo',
           message: 'Vui lòng nhập đầy đủ thông tin',
@@ -145,7 +168,8 @@ class CreatePostController extends GetxController {
         levelSlot: levelSlotSelected.value,
         categorySlot: categorySlotSelected.value,
         title: txtTitlePost.text,
-        address: txtAddress.text,
+        address:
+            '${txtAddress.text}, ${ward.value.name}, ${province.value.name}',
         slots: dateOfWeekSelected,
         description: txtDescription.text,
         imgUrls: imgUrls,
@@ -221,5 +245,145 @@ class CreatePostController extends GetxController {
     } catch (e) {
       return true;
     }
+  }
+
+  void onTapLocation({required bool isProvince}) async {
+    if (isProvince) {
+      await getProvinces();
+      CommonModalBottomSheet.show(
+          customWidget: ClipRRect(
+        borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(32), topLeft: Radius.circular(32)),
+        child: Column(
+          children: [
+            spaceVertical(height: 20),
+            CustomText.textPlusJakarta(
+                text: 'Tỉnh/Thành phố', style: TextAppStyle.h4()),
+            spaceVertical(height: 20),
+            SingleChildScrollView(
+              child: Column(children: [
+                ...listProvinces.map((element) {
+                  return GestureDetector(
+                    onTap: () => onTapChooseProvince(element),
+                    child: Container(
+                      margin:
+                          const EdgeInsets.only(top: 16, left: 12, right: 12),
+                      padding: const EdgeInsets.all(16),
+                      width: Get.width,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                              color: (element.id == province.value.id &&
+                                      (province.value != null))
+                                  ? AppColor.colorButton
+                                  : AppColor.colorGrey300,
+                              width: 0.6)),
+                      child: CustomText.textPlusJakarta(
+                          text: element.name ?? '', style: TextAppStyle.h6()),
+                    ),
+                  );
+                }).toList(),
+                spaceVertical(height: AppDataGlobal.safeBottom + 20),
+              ]),
+            ),
+          ],
+        ),
+      ));
+      // getProvinces();
+      return;
+    }
+    if (province.value.id == '' || province.value.id == null) {
+      CustomPopup.showOnlyText(Get.context,
+          title: 'Thông báo',
+          message: 'Vui lòng chọn Tỉnh/Thành phố trước',
+          titleButton: 'Đã hiểu');
+      return;
+    }
+
+    await getDistricts('${province.value.id}');
+    CommonModalBottomSheet.show(
+        customWidget: ClipRRect(
+      borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(32), topLeft: Radius.circular(32)),
+      child: Column(
+        children: [
+          spaceVertical(height: 20),
+          CustomText.textPlusJakarta(
+              text: 'Quận/Huyện', style: TextAppStyle.h4()),
+          spaceVertical(height: 20),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(children: [
+                ...listDistricts.map((element) {
+                  return GestureDetector(
+                    onTap: () => onTapChooseWard(element),
+                    child: Container(
+                      margin:
+                          const EdgeInsets.only(top: 16, left: 12, right: 12),
+                      padding: const EdgeInsets.all(16),
+                      width: Get.width,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                              color: (element.id == ward.value.id &&
+                                      (ward.value != null))
+                                  ? AppColor.colorButton
+                                  : AppColor.colorGrey300,
+                              width: 0.6)),
+                      child: CustomText.textPlusJakarta(
+                          text: element.name ?? '', style: TextAppStyle.h6()),
+                    ),
+                  );
+                }).toList(),
+                spaceVertical(height: AppDataGlobal.safeBottom + 20),
+              ]),
+            ),
+          ),
+        ],
+      ),
+    ));
+  }
+
+  Future<void> getProvinces() async {
+    try {
+      if (listProvinces.isNotEmpty) return;
+      await EasyLoading.show();
+      listProvinces.value = await CallAPILocation.getProvince();
+    } finally {
+      await EasyLoading.dismiss();
+    }
+  }
+
+  Future<void> getDistricts(String id) async {
+    try {
+      if (listDistricts.isNotEmpty) return;
+
+      await EasyLoading.show();
+      listDistricts.value = await CallAPILocation.getDistrict(keyProvince: id);
+    } finally {
+      await EasyLoading.dismiss();
+    }
+  }
+
+  void onTapChooseProvince(LocationDataModel data) {
+    if (data.id == province.value.id && (province.value != null)) {
+      Get.back();
+      return;
+    }
+
+    listDistricts.clear();
+    ward.value = LocationDataModel();
+    province.value = data;
+    Get.back();
+  }
+
+  void onTapChooseWard(LocationDataModel data) {
+    if (data.id == ward.value.id && (ward.value != null)) {
+      Get.back();
+      return;
+    }
+
+    ward.value = data;
+    Get.back();
   }
 }

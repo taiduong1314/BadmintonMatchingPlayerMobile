@@ -45,7 +45,7 @@ class PlayerSuggestionDataModel {
         name: json["name"],
         imageUrl: json["imageUrl"],
         shortProfile: json["shortProfile"],
-        rating: json["rating"] == null ? 0 : json["rating"].toDouble(),
+        rating: json["rating"] == null ? 5 : json["rating"].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {

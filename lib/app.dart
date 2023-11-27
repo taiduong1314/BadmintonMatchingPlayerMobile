@@ -6,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:gotrust_popup/packagestatuscode.dart';
 import 'package:lottie/lottie.dart';
+import 'package:vbmsports/service/firebase/notification/firebase_cloud_messaging.dart';
 import 'resource/deeplinks/handle_deeplink_app_not_run/app_not_run.dart';
 import 'resource/deeplinks/handle_deeplink_app_running/app_running.dart';
 import 'resource/lang/translation_service.dart';
@@ -37,8 +38,8 @@ class _AppState extends State<App> with WidgetsBindingObserver{
   @override
   void initState() {
     /// Khi nào dùng push noti thì mở nó lên
-    // FirebaseNotification().initConfig();
-    // FirebaseNotification().handleMessage();
+    FirebaseNotification().initConfig();
+    FirebaseNotification().handleMessage();
     /// =====================================
     _handleInitial();
     _handleInitialAppNotRunning();

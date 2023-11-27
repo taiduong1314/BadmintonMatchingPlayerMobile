@@ -28,7 +28,7 @@ class SubAPI {
 
   static const String verifyToken = 'api/users/verify_token';
 
-  static const String booking = 'api/slots/available';
+  static const String booking = 'api/slots/booking';
 
   static const String transaction = 'api/transactions';
 
@@ -39,4 +39,6 @@ class SubAPI {
   static const String vnpay = 'api/wallet/create-vnpay';
 
   static const String uploadImage = 'api/image/images';
+
+  static const String playGround = 'api/posts/play_ground';
 }

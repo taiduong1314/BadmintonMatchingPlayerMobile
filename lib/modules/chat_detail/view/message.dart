@@ -31,7 +31,7 @@ extension Message on ChatDetailScreen {
   }
 
   Widget _chatTo(String? message, String? date,
-      {Widget? widget, String? username}) {
+      {Widget? widget, String? username, bool isImage = false}) {
     return Padding(
       padding: const EdgeInsets.only(top: 8, bottom: 8),
       child: Row(
@@ -50,7 +50,7 @@ extension Message on ChatDetailScreen {
           // spaceHorizontal(width: 12),
           Flexible(
               child:
-                  _message(message, date, widget: widget, username: username)),
+                  _message(message, date, widget: widget, username: username, isImage: isImage)),
         ],
       ),
     );

@@ -72,7 +72,7 @@ class Step4RegisterScreen extends GetView<Step4RegisterController> {
   }
 
   Widget _playerSuggestion(PlayerSuggestionDataModel data) {
-    return GestureDetector(
+    return AppDataGlobal.userID == '${data.id}' ? const SizedBox() : GestureDetector(
       onTap: () => controller.onTapPlayerSuggestion(data),
       child: Container(
         width: Get.width,
@@ -117,7 +117,7 @@ class Step4RegisterScreen extends GetView<Step4RegisterController> {
                         spaceVertical(height: 6),
                         SizedBox(
                             width: Get.width,
-                            child: _ratingBar(data.rating ?? 0)),
+                            child: _ratingBar(data.rating ?? 5)),
                       ],
                     ),
                   ),
@@ -125,22 +125,26 @@ class Step4RegisterScreen extends GetView<Step4RegisterController> {
               ),
             ),
             spaceVertical(height: 16),
-            _btnFollowPlayer(),
+            _btnFollowPlayer(playerID: '${data.id}'),
           ],
         ),
       ),
     );
   }
 
-  Widget _btnFollowPlayer() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-      decoration: BoxDecoration(
-          color: AppColor.colorGrey, borderRadius: BorderRadius.circular(999)),
-      child: CustomText.textPlusJakarta(
-          text: 'Đăng ký',
-          style:
-              TextAppStyle.size14W600().copyWith(color: AppColor.colorBlue100)),
+  Widget _btnFollowPlayer({String? playerID}) {
+    return GestureDetector(
+      onTap: () => controller.onTapFollowPlayer(playerID: playerID ?? ''),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+        decoration: BoxDecoration(
+            color: AppColor.colorGrey,
+            borderRadius: BorderRadius.circular(999)),
+        child: CustomText.textPlusJakarta(
+            text: controller.listFollowed.contains(playerID) ? 'Hủy đăng ký' : 'Đăng ký',
+            style: TextAppStyle.size14W600()
+                .copyWith(color: AppColor.colorBlue100)),
+      ),
     );
   }
 

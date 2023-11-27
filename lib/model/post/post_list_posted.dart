@@ -31,6 +31,7 @@ class PostedPostsModel {
 class PostedPostDataModel {
   int? postId;
   int? userId;
+  String? title;
   String? userName;
   String? sortDescript;
   String? time;
@@ -42,6 +43,7 @@ class PostedPostDataModel {
   PostedPostDataModel({
     this.postId,
     this.userId,
+    this.title,
     this.userName,
     this.sortDescript,
     this.time,
@@ -54,6 +56,7 @@ class PostedPostDataModel {
   factory PostedPostDataModel.fromJson(Map<String, dynamic> json) => PostedPostDataModel(
     postId: json["postId"],
     userId: json["userId"],
+    title: json['title'],
     userName: json["userName"],
     sortDescript: json["sortDescript"],
     time: json["time"],
@@ -66,6 +69,7 @@ class PostedPostDataModel {
   Map<String, dynamic> toJson() => {
     "postId": postId,
     "userId": userId,
+    "title": title,
     "userName": userName,
     "sortDescript": sortDescript,
     "time": time,

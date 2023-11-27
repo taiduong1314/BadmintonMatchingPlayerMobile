@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:vbmsports/model/post/post_list_model.dart';
 import 'package:vbmsports/utils/common/data.dart';
 
+import '../../../../model/post/post_suggestion.dart';
 import '../../../../utils/common/asset/svg.dart';
 import '../../../../utils/common/color.dart';
 import '../../../../utils/common/text_style.dart';

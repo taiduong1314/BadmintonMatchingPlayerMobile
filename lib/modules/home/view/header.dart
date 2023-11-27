@@ -35,7 +35,7 @@ extension HeaderCustom on HomeScreen {
           ],
         ),
         spaceVertical(height: 20),
-        // _chooseLocationPlay(),
+        _chooseLocationPlay(),
         spaceVertical(height: 12),
         _rowOption(),
       ],

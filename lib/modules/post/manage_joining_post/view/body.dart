@@ -48,13 +48,14 @@ extension BodyCustom on ManageJoiningPostScreen {
                     _textWithIcon(
                         assetSVGName: AssetSVGName.clockCircle,
                         content:
-                            '${Utils.convertDateTimeFormat(date: data.startTime ?? '', dateFormat: 'HH:mm')} - ${Utils.convertDateTimeFormat(date: data.endTime ?? '', dateFormat: 'HH:mm')}'),
+                            '${Utils.convertDateTimeFormat(date: data.startTime ?? '', dateFormat: 'HH:mm', format: 'dd/MM/yyyy hh:mm:ss')} - ${Utils.convertDateTimeFormat(date: data.endTime ?? '', dateFormat: 'HH:mm', format: 'dd/MM/yyyy hh:mm:ss')}'),
                     spaceVertical(height: 8),
                     _textWithIcon(
                         assetSVGName: AssetSVGName.calendar,
                         content: Utils.convertDateTimeFormat(
                             date: data.startTime ?? '',
-                            dateFormat: 'dd/MM/yyyy')),
+                            dateFormat: 'dd/MM/yyyy',
+                            format: 'dd/MM/yyyy hh:mm:ss')),
                     spaceVertical(height: 8),
                     _textWithIcon(
                         assetSVGName: AssetSVGName.slot,
@@ -66,7 +67,7 @@ extension BodyCustom on ManageJoiningPostScreen {
             spaceVertical(height: 20),
             Center(
               child: Container(
-                width: Get.width/2,
+                width: Get.width / 2,
                 height: 1,
                 color: AppColor.colorGrey300,
               ),

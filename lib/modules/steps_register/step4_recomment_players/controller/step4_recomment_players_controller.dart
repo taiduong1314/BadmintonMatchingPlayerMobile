@@ -16,11 +16,13 @@ import '../../../login/controller/login_controller.dart';
 
 class Step4RegisterController extends GetxController {
   RxList<PlayerSuggestionDataModel> playersSuggestion =
-  RxList.empty(growable: true);
+      RxList.empty(growable: true);
 
   final controllerStep1 = Get.find<Step2RegisterController>();
 
   RxString demoString = ''.obs;
+
+  RxList<String> listFollowed = RxList.empty();
 
   @override
   void onInit() {
@@ -40,34 +42,45 @@ class Step4RegisterController extends GetxController {
     await EasyLoading.dismiss();
   }
 
-  void onTapPlayerSuggestion(PlayerSuggestionDataModel data) {}
-
   void onTapBack() {
     Get.back();
   }
 
   void onTapNext() async {
-    await CustomPopup.showAnimationWithAction(Get.context, message: 'Thành công',
+    await CustomPopup.showAnimationWithAction(Get.context,
+        message: 'Thành công',
         animationUrl: AssetAnimationCustom.registerSuccess,
         repeatAnimation: false,
         padding: const EdgeInsets.only(bottom: 20, left: 24, right: 24),
-        onTap: () async{
-          await EasyLoading.show();
-          final controllerLogin = Get.find<LoginController>();
-          UserDataModel data = await CallAPIUser.login(
-              email: controllerLogin.txtEmail.text, password: controllerLogin.txtPassword.text);
-          await EasyLoading.dismiss();
+        onTap: () async {
+      await EasyLoading.show();
+      final controllerLogin = Get.find<LoginController>();
+      UserDataModel data = await CallAPIUser.login(
+          email: controllerLogin.txtEmail.text,
+          password: controllerLogin.txtPassword.text);
+      await EasyLoading.dismiss();
 
-          if (data.token == null) return;
+      if (data.token == null) return;
 
-          AppDataGlobal.user.value = data;
-          SetDataToLocal.setString(
-              key: KeyDataLocal.userKey, data: userDataModelToJson(data));
+      AppDataGlobal.user.value = data;
+      SetDataToLocal.setString(
+          key: KeyDataLocal.userKey, data: userDataModelToJson(data));
 
-          Get.offAllNamed(Routes.MAIN);
-        },
-        titleButton: 'Trải nghiệm ngay');
+      Get.offAllNamed(Routes.MAIN);
+    }, titleButton: 'Trải nghiệm ngay');
   }
 
-  void onTapFollowPlayer() async {}
+  void onTapPlayerSuggestion(PlayerSuggestionDataModel data) {}
+
+  void onTapFollowPlayer({String playerID = '59'}) async {
+    await EasyLoading.show();
+    bool status = await CallAPIUser.subscribePlayer(playerID: playerID);
+    await EasyLoading.dismiss();
+    
+    if(!status) return;
+
+    bool isContain = listFollowed.contains(playerID);
+
+    isContain ? listFollowed.remove(playerID) : listFollowed.add(playerID);
+  }
 }

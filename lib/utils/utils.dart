@@ -181,8 +181,7 @@ class Utils {
       // Định dạng của chuỗi ngày tháng
       DateFormat formatString = DateFormat(format);
 
-
-      DateTime parseDate = formatString.parse(date).toLocal();
+      DateTime parseDate = formatString.parse(date.trim()).toLocal();
       var formatDate = DateFormat(dateFormat).format(parseDate.toLocal());
       return formatDate.toString();
     } catch (e) {

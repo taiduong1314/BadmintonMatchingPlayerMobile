@@ -2,15 +2,14 @@ part of 'all_post_screen.dart';
 
 extension BodyCustom on AllPostScreen {
   Widget _body() {
-    return Column(
-        children: [
-          spaceVertical(height: 20),
-          ...controller.listPosts.map((data) => _item(data)).toList(),
-          spaceVertical(height: AppDataGlobal.safeBottom),
-        ]);
+    return Column(children: [
+      spaceVertical(height: 20),
+      ...controller.listPosts.map((data) => _item(data)).toList(),
+      spaceVertical(height: AppDataGlobal.safeBottom),
+    ]);
   }
 
-  Widget _item(PostsDataModel data) {
+  Widget _item(PostSuggestionDataModel data) {
     return GestureDetector(
       onTap: () => controller.onTapPost(data),
       child: Container(
@@ -25,7 +24,7 @@ extension BodyCustom on AllPostScreen {
         child: Row(
           children: [
             NetworkImageCustom.load(
-                imageUrl: data.imgUrl ?? '',
+                imageUrl: data.imgUrlPost ?? '',
                 width: 80,
                 height: 120,
                 borderRadius: BorderRadius.circular(10),
@@ -37,24 +36,26 @@ extension BodyCustom on AllPostScreen {
               mainAxisSize: MainAxisSize.max,
               children: [
                 CustomText.textPlusJakarta(
-                    text: data.title ?? '', style: TextAppStyle.h6()),
+                    text: data.title ?? 'Chờ cập nhật',
+                    style: TextAppStyle.h6()),
                 spaceVertical(height: 8),
                 _textWithIcon(
                     assetSVGName: AssetSVGName.location,
-                    content: data.addressSlot ?? ''),
+                    content: data.addressSlot ?? 'Chờ cập nhật'),
                 spaceVertical(height: 8),
                 _textWithIcon(
                     assetSVGName: AssetSVGName.clockCircle,
-                    content:
-                        '${data.startTime ?? ''} - ${data.endTime ?? ''}'),
+                    content: ((data.startTime ?? '') == '' && (data.endTime ?? '') == '')
+                        ? 'Chờ cập nhật'
+                        : '${data.startTime ?? ''} - ${data.endTime ?? ''}'),
                 spaceVertical(height: 8),
                 _textWithIcon(
                     assetSVGName: AssetSVGName.calendar,
-                    content: data.days ?? ''),
+                    content: data.days ?? 'Chờ cập nhật'),
                 spaceVertical(height: 8),
                 _textWithIcon(
                     assetSVGName: AssetSVGName.slot,
-                    content: '${data.quantitySlot ?? ''}'),
+                    content: '${data.quantitySlot ?? 'Chờ cập nhật'}'),
               ],
             )),
           ],

@@ -63,7 +63,7 @@ class PostSuggestionDataModel {
 
   factory PostSuggestionDataModel.fromJson(Map<String, dynamic> json) =>
       PostSuggestionDataModel(
-        idPost: json["idPost"].toInt(),
+        idPost: json["idPost"]?.toInt(),
         title: json["title"],
         contentPost: json["contentPost"],
         imgUrlPost: json["imgUrlPost"],
@@ -71,11 +71,11 @@ class PostSuggestionDataModel {
         days: json["days"],
         startTime: json["startTime"],
         endTime: json["endTime"],
-        quantitySlot: json["quantitySlot"].toInt(),
+        quantitySlot: json["quantitySlot"]?.toInt(),
         fullName: json["fullName"],
         userImgUrl: json["userImgUrl"],
         highlightUrl: json["highlightUrl"],
-        price: json["price"].toInt(),
+        price: json["price"]?.toInt(),
       );
 
   Map<String, dynamic> toJson() => {

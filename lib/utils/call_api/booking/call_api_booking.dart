@@ -1,5 +1,6 @@
 
 import 'package:get/get.dart';
+import 'package:vbmsports/api/delete/booking/cancel_booking.dart';
 import 'package:vbmsports/api/get/booking/booking_detail.dart';
 import 'package:vbmsports/model/booking/booking_detail_model.dart';
 import 'package:vbmsports/model/post/available_slot_model.dart';
@@ -52,6 +53,28 @@ class CallAPIBooking{
       return data.data ?? BookingDetailDataModel();
     } catch (e) {
       return BookingDetailDataModel();
+    }
+  }
+
+  static Future<bool> cancelBooking({
+    required int bookingID,
+  }) async {
+    try {
+      var data = await CancelBookingAPI.delete(bookingID: bookingID);
+
+      if (data.data == null || data.data == false) {
+        CustomPopup.showTextWithImage(Get.context,
+            title: 'Ôi! Có lỗi xảy ra',
+            message: data.message ??
+                'Đã xảy ra lỗi trong quá trình kiểm số lượng chỗ đặt sân. Vui lòng thử lại',
+            titleButton: 'Đã hiểu',
+            svgUrl: AssetSVGName.error);
+        return false;
+      }
+
+      return data.data ?? false;
+    } catch (e) {
+      return false;
     }
   }
 }

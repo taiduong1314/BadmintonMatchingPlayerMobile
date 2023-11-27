@@ -33,12 +33,14 @@ class ChatController extends GetxController {
     isLoading.value = false;
   }
 
-  void onTapChatDetail({required int roomID, required String roomName}) {
-    if (roomID == -1) {
+  void onTapChatDetail({required int roomID, required String roomName, required String clientUrl}) {
+    if (roomID == -1 || clientUrl == '') {
       CustomPopup.showOnlyText(
           Get.context, title: "Thông báo", message: "Không tìm thấy ID phòng. Thử lại sau", titleButton: 'Đã hiểu');
       return;
     }
-    Get.toNamed(Routes.CHATDETAIL, arguments: {'id': roomID, 'roomName': roomName});
+    Get.toNamed(Routes.CHATDETAIL, arguments: {'id': roomID, 'roomName': roomName, 'clientUrl': clientUrl})?.then((value) {
+      getAllRoom();
+    });
   }
 }

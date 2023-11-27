@@ -217,6 +217,44 @@ class DioClient {
       return Response(statusCode: 000, requestOptions: RequestOptions());
     }
   }
+
+  // Delete:-----------------------------------------------------------------------
+  Future<Response> delete(
+      String url, {
+        data,
+        Map<String, dynamic>? queryParameters,
+        Options? options,
+        CancelToken? cancelToken,
+        ProgressCallback? onSendProgress,
+        ProgressCallback? onReceiveProgress,
+      }) async {
+    try {
+      _dio.options.headers = Endpoints.headers;
+
+      var response = await _dio.delete(
+        url,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+
+      // if(response.statusCode == 200){
+      //   Utils.checkMaintainAPI(isMaintain: response.data['isMaintain'] ?? false);
+      // }
+
+      return response;
+    } on DioError catch (e) {
+      CustomEasyLoading.stopLoading();
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      await APIStatusCode.check(statusCode: e.response?.statusCode ?? -1, message: errorMessage);
+
+      if (kDebugMode) {
+        print('****** Error Call DELETE API $url: ${e.response?.statusCode ?? ''} $errorMessage');
+      }
+      return Response(statusCode: 000, requestOptions: RequestOptions());
+    }
+  }
 }
 
 class Endpoints {

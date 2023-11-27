@@ -16,8 +16,9 @@ import '../../../utils/widget/modal_bottom_sheet/common_bottom_sheet.dart';
 import '../../../utils/widget/photo_viewer/photo_viewer.dart';
 
 class ChatDetailController extends GetxController {
-  final String serverUrl =
-      'https://badminton-matching-24832d1c4b03.herokuapp.com/chatHub';
+  final String serverUrl = Get.arguments['clientUrl'];
+  String roomName = Get.arguments['roomName'];
+  int roomId = Get.arguments['id'];
 
   late HubConnection connection;
 
@@ -29,9 +30,6 @@ class ChatDetailController extends GetxController {
 
   final ImagePicker _picker = ImagePicker();
   XFile? imageUploadList;
-
-  String roomName = Get.arguments['roomName'];
-  int roomId = Get.arguments['id'];
 
   int pageNum = 1;
   int pageSize = 100;
@@ -46,14 +44,21 @@ class ChatDetailController extends GetxController {
 
   @override
   Future<void> onInit() async {
+    if (isFirstLoading) await EasyLoading.show();
     statusConnectChat.value = await initChat(roomID: roomId);
     await handleInit();
-
+    await EasyLoading.dismiss();
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    stopChat();
+    super.onClose();
+  }
+
   Future<void> handleInit() async {
-    getDataChat();
+    await getDataChat();
   }
 
   Future<bool> initChat({required int roomID}) async {
@@ -68,10 +73,42 @@ class ChatDetailController extends GetxController {
 
     try {
       //ReceiveMessage
-      connection.on('SendAsync', (arguments) async {
+      connection.on('ReceiveMessage', (arguments) async {
         if (kDebugMode) {
           print('***** SignalR --- ReceiveMessage: ${arguments?.toList()}');
         }
+
+        if (arguments?.first == 'Bot chat') return;
+
+        String idUser = arguments?.first
+                .toString()
+                .substring(0, arguments?.first.toString().indexOf('-')) ??
+            '';
+
+        if (idUser == AppDataGlobal.user.value.id.toString()) return;
+
+        String userName = arguments?.first
+                .toString()
+                .substring(arguments.first.toString().indexOf('-') + 1) ??
+            '';
+
+        bool isUrl = Utils.isURL(arguments?.last ?? '');
+
+        bool isImage = false;
+
+        if (isUrl) {
+          isImage = await Utils.isImage(arguments?.last ?? '');
+        }
+
+        chatData.add(ChatDetailModel(
+            isFrom: false,
+            message: arguments?.last ?? '',
+            sendTime: '${DateTime.now()}',
+            sendUserName: userName,
+            isImage: isImage));
+
+        await Future.delayed(const Duration(milliseconds: 1000));
+        autoScroll();
       });
 
       // connection.on('UsersInRoom', (users) {
@@ -81,7 +118,8 @@ class ChatDetailController extends GetxController {
       // });
 
       await connection.start();
-      // await connection.invoke('JoinRoom', args: [roomID, '']);
+      await connection
+          .invoke('JoinRoom', args: [roomID, AppDataGlobal.user.value.id]);
 
       return true;
     } catch (e) {
@@ -93,8 +131,7 @@ class ChatDetailController extends GetxController {
     }
   }
 
-  void getDataChat() async {
-    if (isFirstLoading) await EasyLoading.show();
+  Future<void> getDataChat() async {
     isFirstLoading = false;
     isLoading.value = true;
 
@@ -102,21 +139,19 @@ class ChatDetailController extends GetxController {
         roomId: roomId, pageNum: pageNum, pageSize: pageSize);
 
     for (var element in data) {
-      if (element.sendUserName == AppDataGlobal.user.value.userName) {
-        int index = data.indexOf(element);
-        data.elementAt(index).isFrom = true;
-        bool isImage = await Utils.isImage(element.message ?? '');
-        data.elementAt(index).isImage = isImage;
-      }
+      int index = data.indexOf(element);
+      data.elementAt(index).isFrom =
+          (element.sendUserName == AppDataGlobal.user.value.userName);
+      bool isImage = await Utils.isImage(element.message ?? '');
+      data.elementAt(index).isImage = isImage;
     }
 
     isEmptyData.value = data.isEmpty;
 
     chatData.addAll(data);
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 1000));
     autoScroll();
     isLoading.value = false;
-    await EasyLoading.dismiss();
   }
 
   void doSendChat() async {
@@ -131,21 +166,33 @@ class ChatDetailController extends GetxController {
 
   Future<void> sendChat({required String message}) async {
     // await connection.invoke('Test', args: [message]);
+    try {
+      await connection
+          .invoke('SendMessage', args: [message, AppDataGlobal.user.value.id]);
+    } catch (e) {}
 
-    // await connection.invoke('SendMessage', args: [message]);
-    await CallAPIChat.sendChat(roomId: roomId, message: message);
+    // await CallAPIChat.sendChat(roomId: roomId, message: message);
   }
 
   Future<void> sendImage({required String url}) async {
-    // await connection.invoke('SendMessage', args: [url]);
+    try {
+      await connection
+          .invoke('SendMessage', args: [url, AppDataGlobal.user.value.id]);
+    } catch (e) {}
+
     chatData.add(ChatDetailModel(
         isFrom: true,
         message: url,
         isImage: true,
         sendTime: '${DateTime.now()}'));
-    unawaited(CallAPIChat.sendChat(roomId: roomId, message: url));
-    await Future.delayed(const Duration(milliseconds: 500));
+    // unawaited(CallAPIChat.sendChat(roomId: roomId, message: url));
+    await Future.delayed(const Duration(milliseconds: 1000));
     autoScroll();
+  }
+
+  Future<void> stopChat() async {
+    statusConnectChat.value = false;
+    await connection.stop();
   }
 
   Future<void> doChooseImage() async {
@@ -212,7 +259,7 @@ class ChatDetailController extends GetxController {
   void autoScroll() {
     if (scrollController.position.maxScrollExtent == 0) return;
 
-    scrollController.animateTo(scrollController.position.maxScrollExtent,
+    scrollController.animateTo(scrollController.position.maxScrollExtent + 80,
         duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }
 

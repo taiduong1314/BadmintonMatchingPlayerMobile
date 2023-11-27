@@ -31,15 +31,19 @@ extension BodyCustom on UserInfoScreen {
           spaceVertical(height: 14),
           _ratingBar(title: 'Hỗ trợ', rating: controller.data.helpful ?? 5),
           spaceVertical(height: 32),
-          _title('Viết lời bình luận'),
-          spaceVertical(height: 14),
-          _sendComment(),
+          if (controller.userID != AppDataGlobal.user.value.id)
+            _title('Viết lời bình luận'),
+          if (controller.userID != AppDataGlobal.user.value.id)
+            spaceVertical(height: 14),
+          if (controller.userID != AppDataGlobal.user.value.id) _sendComment(),
           spaceVertical(height: 32),
           Obx(
             () => Row(
               children: [
                 _title('Bình luận'),
-               if(controller.isLoadingComments.value) Lottie.asset(AssetAnimationCustom.loadingComments, width: 100, height: 40, alignment: Alignment.centerLeft),
+                if (controller.isLoadingComments.value)
+                  Lottie.asset(AssetAnimationCustom.loadingComments,
+                      width: 100, height: 40, alignment: Alignment.centerLeft),
               ],
             ),
           ),
@@ -106,7 +110,10 @@ extension BodyCustom on UserInfoScreen {
                     borderRadius: BorderRadius.circular(1000),
                     border: Border.all(color: AppColor.colorGrey300)),
                 child: Center(
-                  child: Icon(Icons.send, color: AppColor.colorDark.withOpacity(0.5),),
+                  child: Icon(
+                    Icons.send,
+                    color: AppColor.colorDark.withOpacity(0.5),
+                  ),
                 ),
               ),
             ))

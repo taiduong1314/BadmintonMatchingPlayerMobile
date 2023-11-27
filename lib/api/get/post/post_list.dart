@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../model/post/post_list_model.dart';
+import '../../../model/post/post_suggestion.dart';
 import '../../setup_dio/dio_setup.dart';
 import '../../url.dart';
 
 class PostsListAPI {
-  static Future<PostsModel> get() async {
+  static Future<PostSuggestionModel> get() async {
     try {
       var response =
       await DioClient(Dio()).get('${SubAPI.post}/GetListPost');
@@ -19,16 +19,16 @@ class PostsListAPI {
       }
 
       if (response.statusCode == 200) {
-        return postsModelFromJson(jsonEncode(response.data));
+        return postSuggestionModelFromJson(jsonEncode(response.data));
       }
 
-      return PostsModel();
+      return PostSuggestionModel();
     } catch (e) {
       if (kDebugMode) {
         print('******TRY-CATCH Error Call API PostsListAPI : $e');
       }
 
-      return PostsModel();
+      return PostSuggestionModel();
     }
   }
 }

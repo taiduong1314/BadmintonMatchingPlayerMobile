@@ -25,8 +25,8 @@ extension BodyCustom on AccountScreen {
           spaceVertical(height: 20),
           _item(
               assetSVGName: AssetSVGName.managerPost,
-              title: "Quản lý bài viết đã đăng ký",
-              subTitle: "Quản lý toàn bộ bài viết",
+              title: "Sân đang tham gia",
+              subTitle: "Quản lý toàn bộ sân tham gia",
               onTap: controller.onTapManageJoiningPost),
           spaceVertical(height: 20),
           _item(

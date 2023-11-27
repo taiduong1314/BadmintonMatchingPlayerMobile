@@ -50,6 +50,8 @@ class ManageJoiningPostController extends GetxController {
       return;
     }
 
+    dataDetail.isPayment = true;
+    dataDetail.transacionId = data.transacionId;
     Get.toNamed(Routes.POSTDETAIL, arguments: {"data": dataDetail, 'id': data.postId});
   }
 }

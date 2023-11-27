@@ -23,6 +23,10 @@ extension BodyCustom on CreatePostScreen {
                   title: 'Tên bài viết',
                   hintText: 'Nhập tiêu đề bài viết'),
               spaceVertical(height: 18),
+              _btnLocation(isProvince: true),
+              spaceVertical(height: 18),
+              _btnLocation(isProvince: false),
+              spaceVertical(height: 18),
               _inputForm(
                   controllerText: controller.txtAddress,
                   title: 'Địa chỉ',
@@ -122,6 +126,48 @@ extension BodyCustom on CreatePostScreen {
                     child: CustomText.textPlusJakarta(
                         text:
                             '${Utils.convertDateTime(date: controller.dateOfWeekSelected[index].startTime ?? '00:00', dateFormat: 'HH:mm')} - ${Utils.convertDateTime(date: controller.dateOfWeekSelected[index].endTime ?? '00:00', dateFormat: 'HH:mm')}',
+                        style: TextAppStyle.bodySmall())),
+                spaceHorizontal(width: 10),
+                const Icon(Icons.keyboard_arrow_down_outlined),
+                spaceHorizontal(width: 8),
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _btnLocation({
+    required bool isProvince,
+  }) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomText.textPlusJakarta(
+            text: isProvince ? 'Tỉnh/Thành phố' : 'Quận/Huyện',
+            style: TextAppStyle.bodySmallBold()),
+        spaceVertical(height: 15),
+        GestureDetector(
+          onTap: () => controller.onTapLocation(isProvince: isProvince),
+          child: Container(
+            width: Get.width,
+            height: 48,
+            decoration: BoxDecoration(
+              color: AppColor.colorLight,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                  color: AppColor.colorTextGrey20.withOpacity(0.2), width: 1.0),
+            ),
+            child: Row(
+              children: [
+                spaceHorizontal(width: 8),
+                Expanded(
+                    child: CustomText.textPlusJakarta(
+                        text: isProvince
+                            ? controller.province.value.name ?? 'Chọn Tỉnh/Thành phố'
+                            : controller.ward.value.name ?? 'Chọn Quận/Huyện',
                         style: TextAppStyle.bodySmall())),
                 spaceHorizontal(width: 10),
                 const Icon(Icons.keyboard_arrow_down_outlined),

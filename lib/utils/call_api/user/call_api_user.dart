@@ -8,6 +8,7 @@ import 'package:vbmsports/api/post/user/user_level/user_level.dart';
 import 'package:vbmsports/api/post/user/user_style_play/user_style_play.dart';
 import 'package:vbmsports/api/put/change_password/change_password.dart';
 import 'package:vbmsports/api/put/forgot_password/forgot_password.dart';
+import 'package:vbmsports/api/put/player_suggestion/sub_unsub_player.dart';
 import 'package:vbmsports/model/player_suggestion/player_suggestion_model.dart';
 import 'package:vbmsports/model/user/user.dart';
 import 'package:vbmsports/model/user/user_info.dart';
@@ -270,6 +271,30 @@ class CallAPIUser {
     } catch (e) {
       if (kDebugMode) {
         print('*********** Error CallAPIUser getPlayerSuggestion: $e');
+      }
+
+      return false;
+    }
+  }
+
+  static Future<bool> subscribePlayer(
+      {required String playerID}) async {
+    try {
+      var data = await SubscribePlayerAPI.put(playerID: playerID);
+
+      if (data.data == false || data.data == null) {
+        CustomPopup.showTextWithImage(Get.context,
+            title: 'Ôi! Có lỗi xảy ra',
+            message: data.message ?? 'Đã xảy ra lỗi trong quá trình cập nhật dữ liệu',
+            titleButton: 'Đã hiểu',
+            svgUrl: AssetSVGName.error);
+        return false;
+      }
+
+      return data.data ?? false;
+    } catch (e) {
+      if (kDebugMode) {
+        print('*********** Error CallAPIUser subscribePlayer: $e');
       }
 
       return false;

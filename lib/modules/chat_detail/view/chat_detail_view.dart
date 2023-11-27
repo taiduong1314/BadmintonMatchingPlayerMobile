@@ -40,9 +40,10 @@ class ChatDetailScreen extends GetView<ChatDetailController> {
                       children: [
                         SingleChildScrollView(
                             controller: controller.scrollController,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(24, 10, 24, 80),
+                            child: Container(
+                              width: Get.width,
+                              padding: const EdgeInsets.fromLTRB(24, 10, 24, 0),
+                              margin: const EdgeInsets.only(bottom: 70),
                               child: Column(
                                 children: [
                                   ...controller.chatData.map((chat) {
@@ -60,6 +61,7 @@ class ChatDetailScreen extends GetView<ChatDetailController> {
                                                 chat.message,
                                                 chat.sendTime,
                                                 username: chat.sendUserName,
+                                                isImage: chat.isImage ?? false,
                                               );
                                   }).toList(),
                                 ],
@@ -68,7 +70,9 @@ class ChatDetailScreen extends GetView<ChatDetailController> {
                         Positioned(
                             bottom: 0,
                             width: Get.width,
-                            child: _bottomWidget()),
+                            child: Visibility(
+                                visible: controller.statusConnectChat.isTrue,
+                                child: _bottomWidget())),
                       ],
                     ),
                   ),

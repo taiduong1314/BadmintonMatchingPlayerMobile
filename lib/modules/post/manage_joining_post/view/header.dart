@@ -16,7 +16,7 @@ extension HeaderCustom on ManageJoiningPostScreen {
       height: 40,
       alignment: Alignment.center,
       child: CustomText.textPlusJakarta(
-          text: 'Quản lý bài viết',
+          text: 'Sân đang tham gia',
           style: TextAppStyle.h4()),
     );
   }

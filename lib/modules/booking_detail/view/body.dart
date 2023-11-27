@@ -17,7 +17,7 @@ extension BodyCustom on BookingDetailScreen {
               _detailBooking(),
               spaceVertical(height: 20),
               _detailPayment(),
-              spaceVertical(height: AppDataGlobal.safeBottom + (Platform.isAndroid ? 40 : 80)),
+              spaceVertical(height: AppDataGlobal.safeBottom + 80),
             ],
           ),
         ),

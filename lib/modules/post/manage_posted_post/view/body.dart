@@ -36,7 +36,7 @@ extension BodyCustom on ManagePostedPostScreen {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     CustomText.textPlusJakarta(
-                        text: 'Tên sân chưa có trong api', style: TextAppStyle.h6()),
+                        text: data.title ?? '', style: TextAppStyle.h6()),
                     spaceVertical(height: 8),
                     _textWithIcon(
                         assetSVGName: AssetSVGName.location,

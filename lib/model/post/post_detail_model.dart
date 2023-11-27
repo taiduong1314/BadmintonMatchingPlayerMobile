@@ -41,7 +41,9 @@ class PostDetailDataModel {
   String? sortProfile;
   int? userId;
   String? title;
+  int? transacionId;
   List<SlotInfo>? slotInfos;
+  bool? isPayment;
 
   PostDetailDataModel({
     this.addressSlot,
@@ -57,6 +59,8 @@ class PostDetailDataModel {
     this.userId,
     this.title,
     this.slotInfos,
+    this.isPayment,
+    this.transacionId,
   });
 
   factory PostDetailDataModel.fromJson(Map<String, dynamic> json) => PostDetailDataModel(
@@ -73,6 +77,8 @@ class PostDetailDataModel {
     userId: json["userId"]?.toInt(),
     title: json["title"],
     slotInfos: json["slotInfos"] == null ? [] : List<SlotInfo>.from(json["slotInfos"].map((x) => SlotInfo.fromJson(x))),
+      isPayment: json["isPayment"],
+      transacionId: json["transacionId"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -89,6 +95,8 @@ class PostDetailDataModel {
     "userId": userId,
     "title": title,
     "slotInfos": List<dynamic>.from(slotInfos!.map((x) => x.toJson())),
+    "isPayment": isPayment,
+    "transacionId": transacionId,
   };
 }
 

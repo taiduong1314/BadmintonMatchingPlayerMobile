@@ -16,8 +16,8 @@ dependencies:
   # gotrust_popup is package to show snackbar, popup fullscreen, base popup, popup do action
   # style of this package base on style of GoTrust Team
   gotrust_popup:
-      git:
-        url: https://github.com/BobLee-GT/popup-package.git
+    git:
+      url: https://github.com/BobLee-GT/popup-package.git
   ###############
 
   #Icon app
