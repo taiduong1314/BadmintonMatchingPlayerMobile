@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:gotrust_popup/utils/space/space.dart';
+import 'package:lottie/lottie.dart';
+import 'package:vbmsports/model/wallet/history_wallet.dart';
 import 'package:vbmsports/utils/common/asset/image.dart';
 import 'package:vbmsports/utils/common/data.dart';
 import 'package:vbmsports/utils/utils.dart';
 
+import '../../../utils/common/asset/animation.dart';
 import '../../../utils/common/asset/svg.dart';
 import '../../../utils/common/color.dart';
 import '../../../utils/common/text_style.dart';

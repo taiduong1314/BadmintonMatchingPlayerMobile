@@ -15,21 +15,31 @@ extension HistoryCustom on WalletScreen {
   Widget _title() {
     return SizedBox(
         width: Get.width,
-        child: CustomText.textPlusJakarta(
-            text: 'Lịch sử giao dịch', style: TextAppStyle.h6()));
+        child: Row(
+          children: [
+            CustomText.textPlusJakarta(
+                text: 'Lịch sử giao dịch', style: TextAppStyle.h6()),
+            spaceHorizontal(width: 6),
+            if (controller.isLoadingHistory.value)
+              Lottie.asset(AssetAnimationCustom.loadingComments,
+                  width: 100, height: 40, alignment: Alignment.centerLeft),
+          ],
+        ));
   }
 
   Widget _listHistory() {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ...List.generate(12, (index) => _itemHistory()).toList(),
+        // ...List.generate(12, (index) => _itemHistory()).toList(),
+
+        ...controller.listData.map((element) => _itemHistory(element)).toList(),
         spaceVertical(height: AppDataGlobal.safeBottom),
       ],
     );
   }
 
-  Widget _itemHistory() {
+  Widget _itemHistory(HistoryWalletDataModel item) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -57,7 +67,7 @@ extension HistoryCustom on WalletScreen {
                       text: 'Nạp tiền', style: TextAppStyle.h6()),
                   spaceVertical(height: 4),
                   CustomText.textPlusJakarta(
-                      text: '11-11-2023',
+                      text: item.time == null ? 'Đang cập nhật' : item.time ?? '',
                       style: TextAppStyle.size12W400()
                           .copyWith(color: AppColor.colorUnknown4)),
                 ],
@@ -67,11 +77,11 @@ extension HistoryCustom on WalletScreen {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 CustomText.textPlusJakarta(
-                    text: '${Utils.formatBalance('100000')}đ',
+                    text: item.amount == null ? 'Đang cập nhật' : '${Utils.formatBalance(item.amount ?? '')}đ',
                     style: TextAppStyle.h6()),
                 spaceVertical(height: 4),
                 CustomText.textPlusJakarta(
-                    text: 'Hoàn thành',
+                    text: item.status ?? 'Đang cập nhật',
                     style: TextAppStyle.size12W400()
                         .copyWith(color: AppColor.colorBlue1)),
               ],

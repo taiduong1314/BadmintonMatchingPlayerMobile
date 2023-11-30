@@ -35,7 +35,7 @@ class _WebViewCustomState extends State<WebViewCustom> {
   @override
   void setState(VoidCallback fn) {
     // TODO: implement setState
-    if (!this.mounted) return;
+    if (!mounted) return;
     super.setState(fn);
   }
 
@@ -51,14 +51,14 @@ class _WebViewCustomState extends State<WebViewCustom> {
           },
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
-          // onWebResourceError: (WebResourceError error) {
-          //   if (kDebugMode) {
-          //     print(
-          //         '********* ERROR WebResourceError: ${error.url} --- ${error.description}');
-          //   }
-          // },
+          onWebResourceError: (WebResourceError error) {
+            if (kDebugMode) {
+              print(
+                  '********* ERROR WebResourceError: ${error.url} --- ${error.description}');
+            }
+          },
           onNavigationRequest: (NavigationRequest request) async {
-            if (request.url.startsWith('https://localhost:')) {
+            if (request.url.contains('TransactionStatus')) {
               bool isSuccess = (request.url.substring(
                       request.url.indexOf('TransactionStatus=') + 18,
                       request.url.indexOf('TransactionStatus=') + 20)) ==

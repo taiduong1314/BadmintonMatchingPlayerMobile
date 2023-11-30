@@ -233,9 +233,6 @@ class HomeController extends GetxController {
 
     if (list.isEmpty) return;
 
-    list.forEach((element) {
-      print('${element.toJson()}');
-    });
     Get.toNamed(Routes.POSTS, arguments: {'data': list});
   }
 }

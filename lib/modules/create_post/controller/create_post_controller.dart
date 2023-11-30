@@ -112,7 +112,8 @@ class CreatePostController extends GetxController {
 
   void onTapDatePicker() async {
     await CommonModalBottomSheet.show(
-        isDismissible: false,
+        isDismissible: true,
+        maxHeight: 400,
         customWidget: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: DateRangePickerCustom(),

@@ -39,15 +39,16 @@ class CallAPIPost {
     try {
       var data = await PlayGroundAPI.get(locationID: wardID);
 
-      if (data.data == null) {
+      if (data.data == null || data.data?.length == 0) {
         CustomPopup.showTextWithImage(Get.context,
             title: 'Ôi! Có lỗi xảy ra',
-            message: data.message ??
+            message: (data.message?.toLowerCase() == 'success' ? 'Không tìm thấy sân nào phù hợp. Vui lòng thử lại' : data.message)  ??
                 'Đã xảy ra lỗi trong quá lấy danh sách bài đăng. Vui lòng thử lại',
             titleButton: 'Đã hiểu',
             svgUrl: AssetSVGName.error);
         return [];
       }
+
 
       return data.data ?? [];
     } catch (e) {
