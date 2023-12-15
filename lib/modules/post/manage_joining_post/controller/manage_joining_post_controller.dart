@@ -52,6 +52,9 @@ class ManageJoiningPostController extends GetxController {
 
     dataDetail.isPayment = true;
     dataDetail.transacionId = data.transacionId;
+    dataDetail.canReport = data.canReport;
+    dataDetail.isCancel = data.isCancel;
+    dataDetail.chatRoomUrl = data.chatRoomUrl;
     Get.toNamed(Routes.POSTDETAIL, arguments: {"data": dataDetail, 'id': data.postId});
   }
 }

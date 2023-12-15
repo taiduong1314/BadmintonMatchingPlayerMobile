@@ -41,4 +41,6 @@ class SubAPI {
   static const String uploadImage = 'api/image/images';
 
   static const String playGround = 'api/posts/play_ground';
+
+  static const String ratingUser = 'api/users/rating_to';
 }

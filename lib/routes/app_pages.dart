@@ -5,6 +5,8 @@ import 'package:vbmsports/modules/change_password/binding/account_change_passwor
 import 'package:vbmsports/modules/change_password/view/account_change_password_screen.dart';
 import 'package:vbmsports/modules/chat_detail/binding/chat_detail_binding.dart';
 import 'package:vbmsports/modules/chat_detail/view/chat_detail_view.dart';
+import 'package:vbmsports/modules/confirm_password/binding/confirm_password_binding.dart';
+import 'package:vbmsports/modules/confirm_password/view/confirm_password_screen.dart';
 import 'package:vbmsports/modules/new_detail/binding/new_detail_binding.dart';
 import 'package:vbmsports/modules/new_detail/view/new_detail_screen.dart';
 import 'package:vbmsports/modules/news/binding/news_binding.dart';
@@ -17,6 +19,8 @@ import 'package:vbmsports/modules/post/manage_posted_post/binding/manage_posted_
 import 'package:vbmsports/modules/post/manage_posted_post/view/manage_posted_post_screen.dart';
 import 'package:vbmsports/modules/profile/binding/profile_binding.dart';
 import 'package:vbmsports/modules/profile/view/profile_screen.dart';
+import 'package:vbmsports/modules/rating_user/binding/rating_user_binding.dart';
+import 'package:vbmsports/modules/rating_user/view/rating_user_screen.dart';
 import '../modules/booking/binding/booking_binding.dart';
 import '../modules/booking/view/booking_screen.dart';
 import '../modules/create_post/binding/create_post_binding.dart';
@@ -191,5 +195,15 @@ final routePages = [
     name: Routes.NEWDETAIL,
     page: () => NewDetailScreen(),
     binding: NewDetailBinding(),
+  ),
+  GetPage(
+    name: Routes.RATINGUSER,
+    page: () => RatingUserScreen(),
+    binding: RatingUserBinding(),
+  ),
+  GetPage(
+    name: Routes.CONFIRMPASSWORD,
+    page: () => ConfirmPasswordScreen(),
+    binding: ConfirmPasswordBinding(),
   ),
 ];

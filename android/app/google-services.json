@@ -29,6 +29,13 @@
             {
               "client_id": "67876292587-gtbq04rp4hfg5clsbfuqgv138pprige2.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "67876292587-1odi3tho8qjoklrt1a44gjkd7daho1d0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.vbmsport"
+              }
             }
           ]
         }

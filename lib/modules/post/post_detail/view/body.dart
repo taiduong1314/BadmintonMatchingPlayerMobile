@@ -230,7 +230,8 @@ extension BodyCustom on PostDetailScreen {
 
   Widget _btnBooking() {
     return controller.dataDetail.isPayment == true
-        ? SizedBox(
+        ? controller.dataDetail.canReport == true ? CustomButton.commonButton(
+        title: "Đánh giá ngay", onTap: controller.onTapReport) : SizedBox(
       width: Get.width - 28*2,
           child: Row(
       mainAxisSize: MainAxisSize.max,

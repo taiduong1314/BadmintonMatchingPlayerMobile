@@ -16,6 +16,7 @@ import '../../../utils/widget/text/montserrat.dart';
 import '../controller/wallet_controller.dart';
 
 part 'history.dart';
+
 part 'header.dart';
 
 class WalletScreen extends GetView<WalletController> {

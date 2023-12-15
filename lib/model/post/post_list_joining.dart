@@ -44,6 +44,9 @@ class JoinedPostDataModel {
   int? transacionId;
   String? coverImage;
   List<BookedInfo>? bookedInfos;
+  bool? canReport;
+  bool? isCancel;
+  String? chatRoomUrl;
 
   JoinedPostDataModel({
     this.postId,
@@ -57,6 +60,9 @@ class JoinedPostDataModel {
     this.transacionId,
     this.coverImage,
     this.bookedInfos,
+    this.canReport,
+    this.isCancel,
+    this.chatRoomUrl,
   });
 
   factory JoinedPostDataModel.fromJson(Map<String, dynamic> json) =>
@@ -73,6 +79,9 @@ class JoinedPostDataModel {
         coverImage: json["coverImage"],
         bookedInfos: List<BookedInfo>.from(
             json["bookedInfos"].map((x) => BookedInfo.fromJson(x))),
+        canReport: json["canReport"],
+        isCancel: json["isCancel"],
+        chatRoomUrl: json["chatRoomUrl"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -87,6 +96,9 @@ class JoinedPostDataModel {
         "transacionId": transacionId,
         "coverImage": coverImage,
         "bookedInfos": List<dynamic>.from(bookedInfos!.map((x) => x.toJson())),
+        "canReport": canReport,
+        "isCancel": isCancel,
+        "chatRoomUrl": chatRoomUrl,
       };
 }
 

@@ -36,7 +36,7 @@ extension Banner on PostDetailScreen {
                     child: Center(child: _indicatorBlur())),
               ),
         Positioned(left: 24, top: AppDataGlobal.safeTop, child: _btnBack()),
-        Positioned(
+       if(controller.dataDetail.isPayment == true) Positioned(
             right: 24, top: AppDataGlobal.safeTop, child: _btnOptional()),
       ],
     );
@@ -96,20 +96,6 @@ extension Banner on PostDetailScreen {
   }
 
   Widget _btnOptional() {
-    // return GestureDetector(
-    //   onTap: Get.onTapOptionalAction,
-    //   child: Container(
-    //       width: 40,
-    //       height: 40,
-    //       decoration: BoxDecoration(
-    //         color: AppColor.colorLight,
-    //         borderRadius: BorderRadius.circular(100),
-    //       ),
-    //       child: const Center(
-    //         child:Icon(Icons.more_vert),
-    //       )),
-    // );
-
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         customButton: Container(

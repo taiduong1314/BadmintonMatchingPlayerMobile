@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/common/data.dart';
 import '../../../utils/common/key_data_local.dart';
 import '../../../utils/stored/shared_preferences/set.dart';
+import '../../../utils/utils.dart';
 import '../firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -194,6 +195,9 @@ class FirebaseNotification {
         }
       }
 
+      /// Xử lý hiển thị thông báo khi đang mở ứng dụng
+      FirebaseMessaging.onMessage.listen(_showNotification);
+
       /// Khi đang mở ứng dụng, thông báo Firebase sẽ vào hàm onMessageOpenedApp
       /// Android sẽ block toàn bộ thông báo đẩy, cần cấu hình thêm thư viện flutter_local_notifications để hiển thị thông báo cũng như tương tác thông báo
       /// IOS cần call hàm setForegroundNotificationPresentationOptions để nhận thông báo khi đang mở ứng dụng
@@ -218,51 +222,48 @@ class FirebaseNotification {
     }
   }
 
-  // Future<void> _showNotification(RemoteMessage message) async {
-  //   print('================== Message ==================');
-  //   try {
-  //     final RemoteNotification? remoteNotification = message.notification;
-  //
-  //     final bigPicturePath = await Utils.downloadFile(
-  //         remoteNotification?.android?.imageUrl.toString() ?? '', 'bigPicture');
-  //
-  //     print('remoteNotification:${remoteNotification?.title}');
-  //     if (remoteNotification != null) {
-  //       print('go go');
-  //       await _flutterLocalNotificationsPlugin.show(
-  //         remoteNotification.hashCode,
-  //         remoteNotification.title,
-  //         remoteNotification.body,
-  //         NotificationDetails(
-  //           android: AndroidNotificationDetails(
-  //             _androidNotificationChannel.id,
-  //             _androidNotificationChannel.name,
-  //             importance: Importance.max,
-  //             visibility: NotificationVisibility.public,
-  //             priority: Priority.max,
-  //             playSound: true,
-  //             enableLights: true,
-  //             enableVibration: true,
-  //             styleInformation: bigPicturePath == ''
-  //                 ? null
-  //                 : BigPictureStyleInformation(
-  //                     FilePathAndroidBitmap(bigPicturePath),
-  //                   ),
-  //           ),
-  //           iOS: DarwinNotificationDetails(
-  //             presentAlert: true,
-  //             presentBadge: true,
-  //             presentSound: true,
-  //             subtitle: remoteNotification.title,
-  //           ),
-  //         ),
-  //         payload: json.encode(message.data),
-  //       );
-  //     }
-  //   } catch (e) {
-  //     debugPrint('Error message: $e');
-  //   }
-  // }
+  Future<void> _showNotification(RemoteMessage message) async {
+    try {
+      final RemoteNotification? remoteNotification = message.notification;
+
+      final bigPicturePath = await Utils.downloadFile(
+          remoteNotification?.android?.imageUrl.toString() ?? '', 'bigPicture');
+
+      if (remoteNotification != null) {
+        await _flutterLocalNotificationsPlugin.show(
+          remoteNotification.hashCode,
+          remoteNotification.title,
+          remoteNotification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              _androidNotificationChannel.id,
+              _androidNotificationChannel.name,
+              importance: Importance.max,
+              visibility: NotificationVisibility.public,
+              priority: Priority.max,
+              playSound: true,
+              enableLights: true,
+              enableVibration: true,
+              styleInformation: bigPicturePath == ''
+                  ? null
+                  : BigPictureStyleInformation(
+                      FilePathAndroidBitmap(bigPicturePath),
+                    ),
+            ),
+            iOS: DarwinNotificationDetails(
+              presentAlert: true,
+              presentBadge: true,
+              presentSound: true,
+              subtitle: remoteNotification.title,
+            ),
+          ),
+          payload: json.encode(message.data),
+        );
+      }
+    } catch (e) {
+      debugPrint('Error message: $e');
+    }
+  }
 
   Future<void> _onSelectNotifcation(
       NotificationResponse? notificationResponse) async {

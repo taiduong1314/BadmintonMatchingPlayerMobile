@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:vbmsports/api/get/user/user_info.dart';
 import 'package:vbmsports/api/post/login/login.dart';
+import 'package:vbmsports/api/post/rating/rating_user.dart';
 import 'package:vbmsports/api/post/user/player_suggestion/player_suggestion.dart';
 import 'package:vbmsports/api/post/user/user_area/user_area.dart';
 import 'package:vbmsports/api/post/user/user_level/user_level.dart';
@@ -248,22 +249,25 @@ class CallAPIUser {
     }
   }
 
-  static Future<bool> changePassword(
-      {required String password,
-        required String rePassword,}) async {
+  static Future<bool> changePassword({
+    required String password,
+    required String rePassword,
+  }) async {
     try {
-      var data = await ChangePasswordAPI.put(password: password, rePassword: rePassword);
+      var data = await ChangePasswordAPI.put(
+          password: password, rePassword: rePassword);
 
       if (data.data == false || data.data == null) {
         CustomPopup.showTextWithImage(Get.context,
             title: 'Ôi! Có lỗi xảy ra',
-            message: data.message ?? 'Đã xảy ra lỗi trong quá trình cập nhật dữ liệu',
+            message: data.message ??
+                'Đã xảy ra lỗi trong quá trình cập nhật dữ liệu',
             titleButton: 'Đã hiểu',
             svgUrl: AssetSVGName.error);
         return false;
       }
 
-      if(data.data == true){
+      if (data.data == true) {
         SetDataToLocal.setString(key: KeyDataLocal.passwordKey, data: password);
       }
 
@@ -277,15 +281,15 @@ class CallAPIUser {
     }
   }
 
-  static Future<bool> subscribePlayer(
-      {required String playerID}) async {
+  static Future<bool> subscribePlayer({required String playerID}) async {
     try {
       var data = await SubscribePlayerAPI.put(playerID: playerID);
 
       if (data.data == false || data.data == null) {
         CustomPopup.showTextWithImage(Get.context,
             title: 'Ôi! Có lỗi xảy ra',
-            message: data.message ?? 'Đã xảy ra lỗi trong quá trình cập nhật dữ liệu',
+            message: data.message ??
+                'Đã xảy ra lỗi trong quá trình cập nhật dữ liệu',
             titleButton: 'Đã hiểu',
             svgUrl: AssetSVGName.error);
         return false;
@@ -295,6 +299,45 @@ class CallAPIUser {
     } catch (e) {
       if (kDebugMode) {
         print('*********** Error CallAPIUser subscribePlayer: $e');
+      }
+
+      return false;
+    }
+  }
+
+  static Future<bool> ratingUser({
+    required int idUserRated,
+    required int levelSkill,
+    required int friendly,
+    required int trusted,
+    required int helpful,
+    required String content,
+    required int idTransaction,
+  }) async {
+    try {
+      var data = await RatingAPI.post(
+          idUserRated: idUserRated,
+          levelSkill: levelSkill,
+          friendly: friendly,
+          trusted: trusted,
+          helpful: helpful,
+          content: content,
+          idTransaction: idTransaction);
+
+      if (data.data == false || data.data == null) {
+        CustomPopup.showTextWithImage(Get.context,
+            title: 'Ôi! Có lỗi xảy ra',
+            message: data.message ??
+                'Đã xảy ra lỗi trong quá trình đánh giá người dùng',
+            titleButton: 'Đã hiểu',
+            svgUrl: AssetSVGName.error);
+        return false;
+      }
+
+      return data.data ?? false;
+    } catch (e) {
+      if (kDebugMode) {
+        print('*********** Error CallAPIUser ratingUser: $e');
       }
 
       return false;

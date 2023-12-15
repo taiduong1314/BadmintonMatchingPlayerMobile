@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:vbmsports/model/user/user.dart';
+import 'package:vbmsports/utils/common/data.dart';
 
 import '../../setup_dio/dio_setup.dart';
 import '../../url.dart';
@@ -18,7 +20,8 @@ class LoginAPI {
         data: {
           "email": email,
           "password": password,
-
+          "deviceId": AppDataGlobal.fcmToken,
+          "isAndroidDevice": Platform.isAndroid
         },
       );
 

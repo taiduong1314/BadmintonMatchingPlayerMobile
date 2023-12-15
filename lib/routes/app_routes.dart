@@ -29,4 +29,6 @@ abstract class Routes {
   static const POSTS = '/posts';
   static const POSTEDPOST = '/posts/posted';
   static const JOININGPOST = '/posts/joining';
+  static const RATINGUSER = '/user/rating';
+  static const CONFIRMPASSWORD = '/confirmPassword';
 }

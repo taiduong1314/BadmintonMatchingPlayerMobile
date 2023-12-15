@@ -28,12 +28,17 @@ class WalletController extends GetxController{
   }
 
   void onTapWithDraw() async{
+
+    Get.toNamed(Routes.CONFIRMPASSWORD, arguments: {
+      'routes': Routes.DEPOSITVSWITHDRAW,
+      'arguments': {'isDeposit': false}
+    });
     // Get.toNamed(Routes.DEPOSITVSWITHDRAW, arguments: {'isDeposit': false});
-    await CustomPopup.showAnimationWithAction(Get.context,
-        message: "Tính năng đang được phát triển vui lòng quay lại sau",
-        titleButton: "Đã hiểu",
-        maxLineMessage: 3,
-        repeatAnimation: true,
-        animationUrl: AssetAnimationCustom.crying);
+    // await CustomPopup.showAnimationWithAction(Get.context,
+    //     message: "Tính năng đang được phát triển vui lòng quay lại sau",
+    //     titleButton: "Đã hiểu",
+    //     maxLineMessage: 3,
+    //     repeatAnimation: true,
+    //     animationUrl: AssetAnimationCustom.crying);
   }
 }
