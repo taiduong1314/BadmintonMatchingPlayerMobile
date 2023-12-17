@@ -37,10 +37,6 @@ class _AppState extends State<App> with WidgetsBindingObserver{
 
   @override
   void initState() {
-    /// Khi nào dùng push noti thì mở nó lên
-    FirebaseNotification().initConfig();
-    FirebaseNotification().handleMessage();
-    /// =====================================
     _handleInitial();
     _handleInitialAppNotRunning();
     _handleIncomingLinks();

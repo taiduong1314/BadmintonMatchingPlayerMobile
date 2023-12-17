@@ -15,6 +15,13 @@ class LoginAPI {
     required String password,
   }) async {
     try {
+      print('****** Login: ${{
+        "email": email,
+        "password": password,
+        "deviceId": AppDataGlobal.fcmToken,
+        "isAndroidDevice": Platform.isAndroid
+      }}');
+
       var response = await DioClient(Dio()).post(
         SubAPI.loginEmail,
         data: {

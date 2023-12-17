@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:vbmsports/utils/call_api/user/call_api_user.dart';
 import 'package:vbmsports/utils/common/key_data_local.dart';
 import 'package:vbmsports/utils/stored/shared_preferences/get.dart';
+import '../../../service/firebase/notification/firebase_cloud_messaging.dart';
 import '../../../utils/common/data.dart';
 import '../../../utils/language.dart';
 import '../../../routes/app_pages.dart';
@@ -76,8 +77,11 @@ class SplashController extends GetxController {
   }
 
   @override
-  void onInit() {
-    // TODO: implement onInit
+  void onInit() async{
+    /// Khi nào dùng push noti thì mở nó lên
+    await FirebaseNotification().initConfig();
+    await FirebaseNotification().handleMessage();
+    /// =====================================
     initLoad();
     super.onInit();
   }
