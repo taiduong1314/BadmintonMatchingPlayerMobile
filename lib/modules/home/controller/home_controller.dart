@@ -114,46 +114,16 @@ class HomeController extends GetxController {
 
   void onTapNotification() => Get.toNamed(Routes.NOTIFICATION);
 
-  void onTapChooseLocation() async {
-    await getProvinces();
-    CommonModalBottomSheet.show(
-        customWidget: ClipRRect(
-      borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(32), topLeft: Radius.circular(32)),
-      child: Column(
-        children: [
-          spaceVertical(height: 20),
-          CustomText.textPlusJakarta(
-              text: 'Tỉnh/Thành phố', style: TextAppStyle.h4()),
-          spaceVertical(height: 20),
-          SingleChildScrollView(
-            child: Column(children: [
-              ...listProvinces.map((element) {
-                return GestureDetector(
-                  onTap: () => onTapChooseProvince(element),
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 16, left: 12, right: 12),
-                    padding: const EdgeInsets.all(16),
-                    width: Get.width,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                            color: (element.id == province.value.id &&
-                                    (province.value != null))
-                                ? AppColor.colorButton
-                                : AppColor.colorGrey300,
-                            width: 0.6)),
-                    child: CustomText.textPlusJakarta(
-                        text: element.name ?? '', style: TextAppStyle.h6()),
-                  ),
-                );
-              }).toList(),
-              spaceVertical(height: AppDataGlobal.safeBottom + 20),
-            ]),
-          ),
-        ],
-      ),
-    ));
+  void onTapQuickFindLocation() async {
+    await EasyLoading.show();
+
+    List<PostSuggestionDataModel> list = await CallAPIPost.getPostsAISuggestion();
+
+    await EasyLoading.dismiss();
+
+    if (list.isEmpty) return;
+
+    Get.toNamed(Routes.POSTS, arguments: {'data': list});
   }
 
   Future<void> getProvinces() async {
