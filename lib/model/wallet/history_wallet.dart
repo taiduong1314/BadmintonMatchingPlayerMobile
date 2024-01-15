@@ -35,6 +35,7 @@ class HistoryWalletDataModel {
   String? amount;
   String? status;
   String? time;
+  String? type;
 
   HistoryWalletDataModel({
     this.id,
@@ -43,6 +44,7 @@ class HistoryWalletDataModel {
     this.amount,
     this.status,
     this.time,
+    this.type
   });
 
   factory HistoryWalletDataModel.fromJson(Map<String, dynamic> json) => HistoryWalletDataModel(
@@ -52,6 +54,7 @@ class HistoryWalletDataModel {
     amount: json["amount"],
     status: json["status"],
     time: json["time"],
+    type: json["type"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -61,5 +64,6 @@ class HistoryWalletDataModel {
     "amount": amount,
     "status": status,
     "time": time,
+    "type": type,
   };
 }
