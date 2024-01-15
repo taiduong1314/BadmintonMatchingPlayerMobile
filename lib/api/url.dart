@@ -2,7 +2,7 @@
 
 
 Map<String, String> urlConnectAPI = {
-  "dev": "https://badminton-matching-24832d1c4b03.herokuapp.com/",
+  "dev": "https://vbmsport.name.vn/",
   "prod": "",
   "uat": "",
 };

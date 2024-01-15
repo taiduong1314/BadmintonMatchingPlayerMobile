@@ -56,15 +56,15 @@ extension HeaderCustom on HomeScreen {
               text: 'Bạn Muốn Tìm Sân Chơi Cầu Lông?',
               style: TextAppStyle.bodySmall()),
           spaceVertical(height: 16),
-          _btnChooseLocation(),
+          _btnQuickFindLocation(),
         ],
       ),
     );
   }
 
-  Widget _btnChooseLocation() {
+  Widget _btnQuickFindLocation() {
     return GestureDetector(
-      onTap: controller.onTapChooseLocation,
+      onTap: controller.onTapQuickFindLocation,
       child: Container(
         width: Get.width,
         decoration: BoxDecoration(
@@ -74,7 +74,7 @@ extension HeaderCustom on HomeScreen {
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Center(
             child: CustomText.textPlusJakarta(
-                text: 'Mời chọn khu vực 👉', style: TextAppStyle.size14W600())),
+                text: 'Tìm sân nhanh', style: TextAppStyle.size14W600())),
       ),
     );
   }
@@ -93,10 +93,10 @@ extension HeaderCustom on HomeScreen {
           spaceHorizontal(width: 14),
           Expanded(
               child: _btnOption(
-                  onTap: controller.onTapYardLike,
-                  svgName: AssetSVGName.hearth,
-                  colorBackgroundIcon: const Color(0xFFF50C0C).withOpacity(0.2),
-                  title: 'Sân bạn quan tâm')),
+                  onTap: controller.onTapManagePosts,
+                  svgName: AssetSVGName.post,
+                  colorBackgroundIcon: const Color(0xFF4FABFF).withOpacity(0.2),
+                  title: 'Quản lý bài đăng')),
         ],
       ),
     );

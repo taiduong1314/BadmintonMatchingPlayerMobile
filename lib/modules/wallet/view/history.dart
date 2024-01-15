@@ -64,7 +64,7 @@ extension HistoryCustom on WalletScreen {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText.textPlusJakarta(
-                      text: 'Nạp tiền', style: TextAppStyle.h6()),
+                      text: item.type ?? "", style: TextAppStyle.h6()),
                   spaceVertical(height: 4),
                   CustomText.textPlusJakarta(
                       text: item.time == null ? 'Đang cập nhật' : item.time ?? '',
@@ -78,7 +78,9 @@ extension HistoryCustom on WalletScreen {
               children: [
                 CustomText.textPlusJakarta(
                     text: item.amount == null ? 'Đang cập nhật' : '${Utils.formatBalance(item.amount ?? '')}đ',
-                    style: TextAppStyle.h6()),
+                    style: TextStyle(color: item.amount != null && item.amount!.startsWith('-')
+                                ? const Color(0xFFAA0000)
+                                : const Color(0xFF00AA00))),
                 spaceVertical(height: 4),
                 CustomText.textPlusJakarta(
                     text: item.status ?? 'Đang cập nhật',

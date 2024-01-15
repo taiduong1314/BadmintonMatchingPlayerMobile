@@ -1,6 +1,7 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:vbmsports/utils/call_api/notification/call_api_notification.dart';
 
 import '../../../model/notification/notification_model.dart';
 
@@ -21,16 +22,9 @@ class NotificationController extends GetxController {
 
   void handleInit() async {
     await EasyLoading.show();
-    await Future.delayed(const Duration(seconds: 1));
-    for (int i = 0; i < 9; i++) {
-      listNotification.add(NotificationDataModel(
-          id: 0,
-          avatar: 'https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg',
-          name: 'Tus',
-          content: 'đã gửi cho bạn một tin nhắn trong nhóm chat',
-          time: '${DateTime.now().subtract(Duration(minutes: i))}'));
-    }
-    isLoading.value = false;
+    // await Future.delayed(const Duration(seconds: 1));
+    listNotification.value = await CallAPINotifications.getNotification();
     await EasyLoading.dismiss();
+    isLoading.value = false;
   }
 }

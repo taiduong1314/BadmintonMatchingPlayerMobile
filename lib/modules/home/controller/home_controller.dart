@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:vbmsports/model/post/post_list_posted.dart';
 import 'package:vbmsports/model/post/post_suggestion.dart';
 import 'package:vbmsports/routes/app_pages.dart';
 import 'package:vbmsports/utils/call_api/post/call_api_post.dart';
-import 'package:vbmsports/utils/common/asset/animation.dart';
 import 'package:vbmsports/utils/widget/popup/custom_popup.dart';
 
 import '../../../model/location/location_model.dart';
@@ -79,13 +79,22 @@ class HomeController extends GetxController {
         arguments: {"data": dataDetail, 'id': data.idPost});
   }
 
-  void onTapYardLike() async {
-    await CustomPopup.showAnimationWithAction(Get.context,
-        message: "Tính năng đang được phát triển vui lòng quay lại sau",
-        titleButton: "Đã hiểu",
-        maxLineMessage: 3,
-        repeatAnimation: true,
-        animationUrl: AssetAnimationCustom.crying);
+  void onTapManagePosts() async {
+      await EasyLoading.show();
+
+      List<PostedPostDataModel> list = await CallAPIPost.getPostedPosts();
+
+      await EasyLoading.dismiss();
+
+      if (list.isEmpty) {
+        await CustomPopup.showOnlyText(Get.context,
+            title: 'Thông báo',
+            message: 'Bạn chưa đăng bài viết nào. Vui lòng kiểm tra lại',
+            titleButton: 'Đã hiểu');
+        return;
+      }
+
+      Get.toNamed(Routes.POSTEDPOST, arguments: {'data': list});
   }
 
   void onTapYardJoining() async {
@@ -114,46 +123,16 @@ class HomeController extends GetxController {
 
   void onTapNotification() => Get.toNamed(Routes.NOTIFICATION);
 
-  void onTapChooseLocation() async {
-    await getProvinces();
-    CommonModalBottomSheet.show(
-        customWidget: ClipRRect(
-      borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(32), topLeft: Radius.circular(32)),
-      child: Column(
-        children: [
-          spaceVertical(height: 20),
-          CustomText.textPlusJakarta(
-              text: 'Tỉnh/Thành phố', style: TextAppStyle.h4()),
-          spaceVertical(height: 20),
-          SingleChildScrollView(
-            child: Column(children: [
-              ...listProvinces.map((element) {
-                return GestureDetector(
-                  onTap: () => onTapChooseProvince(element),
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 16, left: 12, right: 12),
-                    padding: const EdgeInsets.all(16),
-                    width: Get.width,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                            color: (element.id == province.value.id &&
-                                    (province.value != null))
-                                ? AppColor.colorButton
-                                : AppColor.colorGrey300,
-                            width: 0.6)),
-                    child: CustomText.textPlusJakarta(
-                        text: element.name ?? '', style: TextAppStyle.h6()),
-                  ),
-                );
-              }).toList(),
-              spaceVertical(height: AppDataGlobal.safeBottom + 20),
-            ]),
-          ),
-        ],
-      ),
-    ));
+  void onTapQuickFindLocation() async {
+    await EasyLoading.show();
+
+    List<PostSuggestionDataModel> list = await CallAPIPost.getPostsAISuggestion();
+
+    await EasyLoading.dismiss();
+
+    if (list.isEmpty) return;
+
+    Get.toNamed(Routes.POSTS, arguments: {'data': list});
   }
 
   Future<void> getProvinces() async {

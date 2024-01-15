@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:vbmsports/api/get/post/post_ai_suggestion.dart';
 import 'package:vbmsports/api/get/post/post_detail.dart';
 import 'package:vbmsports/api/get/post/post_list.dart';
 import 'package:vbmsports/api/get/post/post_play_ground.dart';
@@ -39,7 +40,7 @@ class CallAPIPost {
     try {
       var data = await PlayGroundAPI.get(locationID: wardID);
 
-      if (data.data == null || data.data?.length == 0) {
+      if (data.data == null || data.data!.isEmpty) {
         CustomPopup.showTextWithImage(Get.context,
             title: 'Ôi! Có lỗi xảy ra',
             message: (data.message?.toLowerCase() == 'success' ? 'Không tìm thấy sân nào phù hợp. Vui lòng thử lại' : data.message)  ??
@@ -76,14 +77,34 @@ class CallAPIPost {
     }
   }
 
+  static Future<List<PostSuggestionDataModel>> getPostsAISuggestion() async {
+    try {
+      var data = await PostAISuggestionAPI.get();
+
+      if (data.data == null) {
+        CustomPopup.showTextWithImage(Get.context,
+            title: 'Ôi! Có lỗi xảy ra',
+            message: data.message ??
+                'Đã xảy ra lỗi trong quá lấy thông tin bài đăng. Vui lòng thử lại',
+            titleButton: 'Đã hiểu',
+            svgUrl: AssetSVGName.error);
+        return [];
+      }
+
+      return data.data ?? [];
+    } catch (e) {
+      return [];
+    }
+  }
+
   static Future<List<JoinedPostDataModel>> getJoiningPosts() async {
     try {
       var data = await JoiningPostsAPI.get();
 
-      if (data.data == null || data.data?.length == 0) {
+      if (data.data == null || data.data!.isEmpty) {
         CustomPopup.showTextWithImage(Get.context,
             title: 'Ôi! Có lỗi xảy ra',
-            message: data.data?.length == 0
+            message: data.data!.isEmpty
                 ? 'Bạn chưa đăng ký sân nào. Vui lòng đăng ký để xem chi tiết'
                 : data.message ??
                     'Đã xảy ra lỗi trong quá lấy thông tin bài viết đang tham gia. Vui lòng thử lại',

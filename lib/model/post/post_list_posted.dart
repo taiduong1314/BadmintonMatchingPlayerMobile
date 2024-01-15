@@ -39,6 +39,7 @@ class PostedPostDataModel {
   String? postImgUrl;
   String? userImgUrl;
   String? address;
+  bool? status;
 
   PostedPostDataModel({
     this.postId,
@@ -51,6 +52,7 @@ class PostedPostDataModel {
     this.postImgUrl,
     this.userImgUrl,
     this.address,
+    this.status
   });
 
   factory PostedPostDataModel.fromJson(Map<String, dynamic> json) => PostedPostDataModel(
@@ -64,6 +66,7 @@ class PostedPostDataModel {
     postImgUrl: json["postImgUrl"],
     userImgUrl: json["userImgUrl"],
     address: json["address"],
+    status: json["status"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -77,5 +80,6 @@ class PostedPostDataModel {
     "postImgUrl": postImgUrl,
     "userImgUrl": userImgUrl,
     "address": address,
+    "status": status,
   };
 }
