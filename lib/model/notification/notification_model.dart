@@ -36,6 +36,7 @@ class NotificationDataModel {
   String? name;
   String? content;
   String? time;
+  String? notiDate;
 
   NotificationDataModel({
     this.id,
@@ -43,6 +44,7 @@ class NotificationDataModel {
     this.name,
     this.content,
     this.time,
+    this.notiDate
   });
 
   factory NotificationDataModel.fromJson(Map<String, dynamic> json) =>
@@ -52,6 +54,7 @@ class NotificationDataModel {
         name: json["name"],
         content: json["content"],
         time: json["time"],
+        notiDate: json["notiDate"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -60,5 +63,6 @@ class NotificationDataModel {
         "name": name,
         "content": content,
         "time": time,
+        "notiDate": notiDate
       };
 }

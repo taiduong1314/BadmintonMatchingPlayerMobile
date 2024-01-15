@@ -8,11 +8,12 @@ import 'package:vbmsports/utils/common/asset/svg.dart';
 import 'package:vbmsports/utils/common/text_style.dart';
 import 'package:vbmsports/utils/widget/loading/load_network_image.dart';
 import 'package:vbmsports/utils/widget/text/montserrat.dart';
+
 import '../../../utils/common/color.dart';
 import '../controller/notification_controller.dart';
 
 class NotificationScreen extends GetView<NotificationController> {
-  NotificationScreen({super.key});
+  const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +99,7 @@ class NotificationScreen extends GetView<NotificationController> {
                   ),
                   spaceVertical(height: 4),
                   CustomText.textPlusJakarta(
-                      text: Jiffy.parse(data.time ??
-                              '${DateTime.now().subtract(const Duration(days: 1))}')
+                      text: data.notiDate ?? Jiffy.parse('${DateTime.now().subtract(const Duration(days: 1))}')
                           .fromNow(),
                       style: TextAppStyle.size12W400())
                 ],
