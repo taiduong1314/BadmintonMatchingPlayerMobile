@@ -93,10 +93,10 @@ extension HeaderCustom on HomeScreen {
           spaceHorizontal(width: 14),
           Expanded(
               child: _btnOption(
-                  onTap: controller.onTapYardLike,
-                  svgName: AssetSVGName.hearth,
-                  colorBackgroundIcon: const Color(0xFFF50C0C).withOpacity(0.2),
-                  title: 'Sân bạn quan tâm')),
+                  onTap: controller.onTapManagePosts,
+                  svgName: AssetSVGName.post,
+                  colorBackgroundIcon: const Color(0xFF4FABFF).withOpacity(0.2),
+                  title: 'Quản lý bài đăng')),
         ],
       ),
     );

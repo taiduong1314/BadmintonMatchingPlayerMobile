@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:vbmsports/model/post/post_list_posted.dart';
 import 'package:vbmsports/model/post/post_suggestion.dart';
 import 'package:vbmsports/routes/app_pages.dart';
 import 'package:vbmsports/utils/call_api/post/call_api_post.dart';
-import 'package:vbmsports/utils/common/asset/animation.dart';
 import 'package:vbmsports/utils/widget/popup/custom_popup.dart';
 
 import '../../../model/location/location_model.dart';
@@ -79,13 +79,22 @@ class HomeController extends GetxController {
         arguments: {"data": dataDetail, 'id': data.idPost});
   }
 
-  void onTapYardLike() async {
-    await CustomPopup.showAnimationWithAction(Get.context,
-        message: "Tính năng đang được phát triển vui lòng quay lại sau",
-        titleButton: "Đã hiểu",
-        maxLineMessage: 3,
-        repeatAnimation: true,
-        animationUrl: AssetAnimationCustom.crying);
+  void onTapManagePosts() async {
+      await EasyLoading.show();
+
+      List<PostedPostDataModel> list = await CallAPIPost.getPostedPosts();
+
+      await EasyLoading.dismiss();
+
+      if (list.isEmpty) {
+        await CustomPopup.showOnlyText(Get.context,
+            title: 'Thông báo',
+            message: 'Bạn chưa đăng bài viết nào. Vui lòng kiểm tra lại',
+            titleButton: 'Đã hiểu');
+        return;
+      }
+
+      Get.toNamed(Routes.POSTEDPOST, arguments: {'data': list});
   }
 
   void onTapYardJoining() async {
