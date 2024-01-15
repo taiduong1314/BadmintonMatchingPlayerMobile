@@ -54,6 +54,14 @@ extension BodyCustom on ManagePostedPostScreen {
                     _textWithIcon(
                         assetSVGName: AssetSVGName.slot,
                         content: '${data.availableSlot ?? ''}'),
+                    spaceVertical(height: 8),
+                    data.status == true
+                      ? const Text(
+                        'Đang hoạt động',
+                        style: TextStyle(color: Color(0xFF00AA00)))
+                      : const Text(
+                        'Đã ẩn',
+                        style: TextStyle(color: Color(0xFF0000AA))),
                   ],
                 )),
           ],
