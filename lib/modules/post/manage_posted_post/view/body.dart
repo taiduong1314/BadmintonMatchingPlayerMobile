@@ -32,38 +32,70 @@ extension BodyCustom on ManagePostedPostScreen {
             spaceHorizontal(width: 16),
             Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                CustomText.textPlusJakarta(
+                    text: data.title ?? '', style: TextAppStyle.h6()),
+
+                spaceVertical(height: 8),
+                _textWithIcon(
+                    assetSVGName: AssetSVGName.location,
+                    content: data.address ?? ''),
+                spaceVertical(height: 8),
+                _textWithIcon(
+                    assetSVGName: AssetSVGName.clockCircle,
+                    content: '${data.time}'),
+                // spaceVertical(height: 8),
+                // _textWithIcon(
+                //     assetSVGName: AssetSVGName.calendar,
+                //     content: data. ?? ''),
+                spaceVertical(height: 8),
+                _textWithIcon(
+                    assetSVGName: AssetSVGName.slot,
+                    content: '${data.availableSlot ?? ''}'),
+                spaceVertical(height: 8),
+                data.isDelete == true
+                    ? const Text(
+                        'Đã Xóa',
+                        style: TextStyle(color: Color(0xFFFF0000)),
+                      )
+                    : data.status == true
+                        ? const Text(
+                            'Đang hoạt động',
+                            style: TextStyle(color: Color(0xFF00AA00)),
+                          )
+                        : const Text(
+                            'Đã ẩn',
+                            style: TextStyle(color: Color(0xFF0000AA)),
+                          ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    CustomText.textPlusJakarta(
-                        text: data.title ?? '', style: TextAppStyle.h6()),
-                    spaceVertical(height: 8),
-                    _textWithIcon(
-                        assetSVGName: AssetSVGName.location,
-                        content: data.address ?? ''),
-                    spaceVertical(height: 8),
-                    _textWithIcon(
-                        assetSVGName: AssetSVGName.clockCircle,
-                        content:
-                        '${data.time}'),
-                    // spaceVertical(height: 8),
-                    // _textWithIcon(
-                    //     assetSVGName: AssetSVGName.calendar,
-                    //     content: data. ?? ''),
-                    spaceVertical(height: 8),
-                    _textWithIcon(
-                        assetSVGName: AssetSVGName.slot,
-                        content: '${data.availableSlot ?? ''}'),
-                    spaceVertical(height: 8),
-                    data.status == true
-                      ? const Text(
-                        'Đang hoạt động',
-                        style: TextStyle(color: Color(0xFF00AA00)))
-                      : const Text(
-                        'Đã ẩn',
-                        style: TextStyle(color: Color(0xFF0000AA))),
+                    InkWell(
+                      onTap: () {
+                        controller.bootsPost(data.postId ?? 0);
+                      },
+                      child: const Icon(
+                        Icons.arrow_circle_up_sharp,
+                        size: 28,
+                        color: Colors.orangeAccent,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        controller.deletePost(data.postId ?? 0);
+                      },
+                      child: const Icon(
+                        Icons.delete,
+                        size: 28,
+                        color: Colors.red,
+                      ),
+                    ),
                   ],
-                )),
+                ),
+              ],
+            )),
           ],
         ),
       ),

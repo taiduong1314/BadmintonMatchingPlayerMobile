@@ -47,7 +47,7 @@ extension HeaderPostDetail on NewDetailScreen {
           child: NetworkImageCustom.load(
             fit: BoxFit.cover,
             borderRadius: BorderRadius.circular(12),
-            imageUrl: controller.dataDetail.avatar ?? '',
+            imageUrl: controller.dataDetail.value.avatar ?? '',
           ),
         ),
         Positioned(
@@ -74,7 +74,7 @@ extension HeaderPostDetail on NewDetailScreen {
       width: Get.width,
       child: CustomText.textPlusJakarta(
           maxLine: 100,
-          text: controller.dataDetail.name ?? '',
+          text: controller.dataDetail.value.name ?? '',
           style: TextAppStyle.h5().copyWith(color: AppColor.colorDark)),
     );
   }
@@ -120,10 +120,8 @@ extension HeaderPostDetail on NewDetailScreen {
   }
 
   Widget _content() {
-    return CustomText.textPlusJakarta(
-        maxLine: 1000000,
-        text: controller.dataDetail.content ?? '',
-        style: TextAppStyle.size14W400()
-            .copyWith(color: AppColor.colorGrey1, height: 1.5));
+    return Html(
+      data: controller.dataDetail.value.content ?? '',
+    );
   }
 }

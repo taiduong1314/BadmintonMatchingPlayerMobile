@@ -74,7 +74,9 @@ extension BodyCustom on ManageJoiningPostScreen {
             ),
             spaceVertical(height: 16),
             CustomText.textPlusJakarta(
-                text: data.status ?? '', style: TextAppStyle.h6()),
+              text: data.status ?? '',
+              style: TextAppStyle.h6(),
+            ),
           ],
         ),
       ),

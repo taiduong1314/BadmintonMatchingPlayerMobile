@@ -39,7 +39,7 @@ class CallAPIUser {
             svgUrl: AssetSVGName.error);
         return UserDataModel();
       }
-
+      AppDataGlobal.userID = data.data?.id.toString() ?? '';
       return data.data ?? UserDataModel();
     } catch (e) {
       return UserDataModel();

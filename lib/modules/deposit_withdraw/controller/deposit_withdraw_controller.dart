@@ -51,7 +51,7 @@ class DepositWithdrawController extends GetxController {
 
     String urlPayment = await CallAPIWallet.vnpayLink(balance: balance);
 
-    if (urlPayment == '' || !Utils.isURL(urlPayment)) {
+    if (urlPayment == '' /*|| !Utils.isURL(urlPayment)*/) {
       Navigator.of(Get.context!).pop();
       CustomPopup.showTextWithImage(Get.context,
           title: 'Ôi! Có lỗi xảy ra',

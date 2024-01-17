@@ -5,7 +5,6 @@ import 'package:vbmsports/utils/call_api/booking/call_api_booking.dart';
 import 'package:vbmsports/utils/call_api/user/call_api_user.dart';
 
 import '../../../../model/post/post_detail_model.dart';
-import '../../../../utils/common/asset/animation.dart';
 import '../../../../utils/widget/popup/custom_popup.dart';
 
 class PostDetailController extends GetxController {
@@ -38,8 +37,11 @@ class PostDetailController extends GetxController {
     await EasyLoading.show();
     var data = await CallAPIUser.getUserInfo(userID: dataDetail.userId!);
     await EasyLoading.dismiss();
-    Get.toNamed(Routes.RATINGUSER,
-        arguments: {"id": dataDetail.userId!, "data": data, 'idTransaction': dataDetail.transacionId});
+    Get.toNamed(Routes.RATINGUSER, arguments: {
+      "id": dataDetail.userId!,
+      "data": data,
+      'idTransaction': dataDetail.transacionId
+    });
   }
 
   void onTapBill() async {

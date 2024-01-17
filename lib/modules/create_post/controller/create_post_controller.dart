@@ -6,6 +6,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:gotrust_popup/utils/space/space.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vbmsports/api/put/post/charge_post.dart';
+import 'package:vbmsports/api/put/post/checking_number_of_post.dart';
 import 'package:vbmsports/model/post/post_detail_model.dart';
 import 'package:vbmsports/routes/app_pages.dart';
 import 'package:vbmsports/utils/call_api/post/call_api_post.dart';
@@ -163,20 +165,82 @@ class CreatePostController extends GetxController {
       imgUrls.add(Utils.convertFileToBase64(element.path));
     }
 
-    /// tới đây là call api tạo bài viết
+    var statusChecking = await CallAPICheckingNumberOfPost.put();
+    if (statusChecking.data == null) {
+      await CustomPopup.showAnimationWithTwoAction(
+        Get.context,
+        message: statusChecking.message ?? '',
+        animationUrl: AssetAnimationCustom.paymentFailed,
+        titleButtonTop: 'Thanh toán',
+        titleButtonBottom: 'Đã hiểu',
+        onTapBottom: Get.back,
+        onTapTop: () async {
+          var status = await CallAPIChargePost.put();
+          if (status.data != null) {
+            await CustomPopup.showAnimationWithAction(
+              Get.context,
+              message: 'Thanh toán thành công',
+              animationUrl: AssetAnimationCustom.paymentSuccessed,
+              titleButton: 'Đã hiểu',
+            );
+            Get.back();
+            bool status = await CallAPIPost.createPost(
+              levelSlot: levelSlotSelected.value,
+              categorySlot: categorySlotSelected.value,
+              title: txtTitlePost.text,
+              address:
+                  '${txtAddress.text}, ${ward.value.name}, ${province.value.name}',
+              slots: dateOfWeekSelected,
+              description: txtDescription.text,
+              imgUrls: imgUrls,
+              highlightUrl:
+                  Utils.convertFileToBase64(imageUploadList.first.path),
+            );
+            await EasyLoading.dismiss();
+            if (!status) {
+              return;
+            }
+
+            Get.offAllNamed(Routes.MAIN);
+            await CustomPopup.showAnimationWithAction(Get.context,
+                message: 'Tạo bài viết thành công',
+                animationUrl: AssetAnimationCustom.paymentSuccessed,
+                titleButton: 'Đã hiểu');
+          } else {
+            await CustomPopup.showAnimationWithTwoAction(
+              Get.context,
+              message: 'Số dư tài khoản không đủ, vui lòng nạp thêm tiền',
+              animationUrl: AssetAnimationCustom.paymentFailed,
+              titleButtonBottom: 'Đã hiểu',
+              titleButtonTop: 'Nạp thêm tiền',
+              onTapBottom: Get.back,
+              onTapTop: () {
+                Get.toNamed(Routes.DEPOSITVSWITHDRAW,
+                    arguments: {'isDeposit': true});
+              },
+            );
+          }
+        },
+      );
+      return;
+    }
+
+    // tới đây là call api tạo bài viết
     await EasyLoading.show();
     bool status = await CallAPIPost.createPost(
-        levelSlot: levelSlotSelected.value,
-        categorySlot: categorySlotSelected.value,
-        title: txtTitlePost.text,
-        address:
-            '${txtAddress.text}, ${ward.value.name}, ${province.value.name}',
-        slots: dateOfWeekSelected,
-        description: txtDescription.text,
-        imgUrls: imgUrls,
-        highlightUrl: Utils.convertFileToBase64(imageUploadList.first.path));
+      levelSlot: levelSlotSelected.value,
+      categorySlot: categorySlotSelected.value,
+      title: txtTitlePost.text,
+      address: '${txtAddress.text}, ${ward.value.name}, ${province.value.name}',
+      slots: dateOfWeekSelected,
+      description: txtDescription.text,
+      imgUrls: imgUrls,
+      highlightUrl: Utils.convertFileToBase64(imageUploadList.first.path),
+    );
     await EasyLoading.dismiss();
-    if (!status) return;
+    if (!status) {
+      return;
+    }
 
     Get.offAllNamed(Routes.MAIN);
     await CustomPopup.showAnimationWithAction(Get.context,

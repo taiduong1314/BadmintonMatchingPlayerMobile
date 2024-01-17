@@ -41,17 +41,18 @@ class ChatDetailScreen extends GetView<ChatDetailController> {
                         SingleChildScrollView(
                             controller: controller.scrollController,
                             child: Container(
-                              width: Get.width,
-                              padding: const EdgeInsets.fromLTRB(24, 10, 24, 0),
-                              margin: const EdgeInsets.only(bottom: 70),
-                              child: Column(
-                                children: [
-                                  ...controller.chatData.map((chat) {
-                                    return
-                                        // chat.isFrom == null
-                                        //   ? _chatBot(chat.message, chat.sendTime)
-                                        //   :
-                                        chat.isFrom == true
+                                width: Get.width,
+                                padding:
+                                    const EdgeInsets.fromLTRB(24, 10, 24, 0),
+                                margin: const EdgeInsets.only(bottom: 70),
+                                child: Column(
+                                  children: [
+                                    ...controller.chatData.map((chat) {
+                                      print(chat.userId);
+                                      if (chat.userId == 65) {
+                                        return Text(chat.message ?? '');
+                                      } else {
+                                        return chat.isFrom == true
                                             ? _chatFrom(
                                                 chat.message,
                                                 chat.sendTime,
@@ -63,10 +64,10 @@ class ChatDetailScreen extends GetView<ChatDetailController> {
                                                 username: chat.sendUserName,
                                                 isImage: chat.isImage ?? false,
                                               );
-                                  }).toList(),
-                                ],
-                              ),
-                            )),
+                                      }
+                                    }).toList(),
+                                  ],
+                                ))),
                         Positioned(
                             bottom: 0,
                             width: Get.width,

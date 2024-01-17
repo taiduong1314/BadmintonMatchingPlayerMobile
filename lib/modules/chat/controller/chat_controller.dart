@@ -21,7 +21,7 @@ class ChatController extends GetxController {
   }
 
   void handleInit() async {
-    await Jiffy.setLocale('vi');
+    // await Jiffy.setLocale('vi');
     getAllRoom();
   }
 
@@ -33,13 +33,22 @@ class ChatController extends GetxController {
     isLoading.value = false;
   }
 
-  void onTapChatDetail({required int roomID, required String roomName, required String clientUrl}) {
+  void onTapChatDetail(
+      {required int roomID,
+      required String roomName,
+      required String clientUrl}) {
     if (roomID == -1 || clientUrl == '') {
-      CustomPopup.showOnlyText(
-          Get.context, title: "Thông báo", message: "Không tìm thấy ID phòng. Thử lại sau", titleButton: 'Đã hiểu');
+      CustomPopup.showOnlyText(Get.context,
+          title: "Thông báo",
+          message: "Không tìm thấy ID phòng. Thử lại sau",
+          titleButton: 'Đã hiểu');
       return;
     }
-    Get.toNamed(Routes.CHATDETAIL, arguments: {'id': roomID, 'roomName': roomName, 'clientUrl': clientUrl})?.then((value) {
+    Get.toNamed(Routes.CHATDETAIL, arguments: {
+      'id': roomID,
+      'roomName': roomName,
+      'clientUrl': clientUrl
+    })?.then((value) {
       getAllRoom();
     });
   }

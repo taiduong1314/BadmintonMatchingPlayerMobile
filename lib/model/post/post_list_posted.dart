@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-PostedPostsModel postedPostsModelFromJson(String str) => PostedPostsModel.fromJson(json.decode(str));
+PostedPostsModel postedPostsModelFromJson(String str) =>
+    PostedPostsModel.fromJson(json.decode(str));
 
-String postedPostsModelToJson(PostedPostsModel data) => json.encode(data.toJson());
+String postedPostsModelToJson(PostedPostsModel data) =>
+    json.encode(data.toJson());
 
 class PostedPostsModel {
   String? message;
@@ -17,15 +19,17 @@ class PostedPostsModel {
     this.data,
   });
 
-  factory PostedPostsModel.fromJson(Map<String, dynamic> json) => PostedPostsModel(
-    message: json["message"],
-    data: List<PostedPostDataModel>.from(json["data"].map((x) => PostedPostDataModel.fromJson(x))),
-  );
+  factory PostedPostsModel.fromJson(Map<String, dynamic> json) =>
+      PostedPostsModel(
+        message: json["message"],
+        data: List<PostedPostDataModel>.from(
+            json["data"].map((x) => PostedPostDataModel.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "message": message,
-    "data": List<dynamic>.from(data!.map((x) => x.toJson())),
-  };
+        "message": message,
+        "data": List<dynamic>.from(data!.map((x) => x.toJson())),
+      };
 }
 
 class PostedPostDataModel {
@@ -39,47 +43,51 @@ class PostedPostDataModel {
   String? postImgUrl;
   String? userImgUrl;
   String? address;
+  bool? isDelete;
   bool? status;
 
-  PostedPostDataModel({
-    this.postId,
-    this.userId,
-    this.title,
-    this.userName,
-    this.sortDescript,
-    this.time,
-    this.availableSlot,
-    this.postImgUrl,
-    this.userImgUrl,
-    this.address,
-    this.status
-  });
+  PostedPostDataModel(
+      {this.postId,
+      this.userId,
+      this.title,
+      this.userName,
+      this.sortDescript,
+      this.time,
+      this.availableSlot,
+      this.postImgUrl,
+      this.userImgUrl,
+      this.address,
+      this.isDelete,
+      this.status});
 
-  factory PostedPostDataModel.fromJson(Map<String, dynamic> json) => PostedPostDataModel(
-    postId: json["postId"],
-    userId: json["userId"],
-    title: json['title'],
-    userName: json["userName"],
-    sortDescript: json["sortDescript"],
-    time: json["time"],
-    availableSlot: json["availableSlot"],
-    postImgUrl: json["postImgUrl"],
-    userImgUrl: json["userImgUrl"],
-    address: json["address"],
-    status: json["status"],
-  );
+  factory PostedPostDataModel.fromJson(Map<String, dynamic> json) =>
+      PostedPostDataModel(
+        postId: json["postId"],
+        userId: json["userId"],
+        title: json['title'],
+        userName: json["userName"],
+        sortDescript: json["sortDescript"],
+        time: json["time"],
+        availableSlot: json["availableSlot"],
+        postImgUrl: json["postImgUrl"],
+        userImgUrl: json["userImgUrl"],
+        address: json["address"],
+        isDelete: json["isDelete"],
+        status: json["status"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "postId": postId,
-    "userId": userId,
-    "title": title,
-    "userName": userName,
-    "sortDescript": sortDescript,
-    "time": time,
-    "availableSlot": availableSlot,
-    "postImgUrl": postImgUrl,
-    "userImgUrl": userImgUrl,
-    "address": address,
-    "status": status,
-  };
+        "postId": postId,
+        "userId": userId,
+        "title": title,
+        "userName": userName,
+        "sortDescript": sortDescript,
+        "time": time,
+        "availableSlot": availableSlot,
+        "postImgUrl": postImgUrl,
+        "userImgUrl": userImgUrl,
+        "address": address,
+        "isDelete": isDelete,
+        "status": status,
+      };
 }

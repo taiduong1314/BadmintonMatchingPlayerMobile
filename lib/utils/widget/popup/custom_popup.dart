@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gotrust_popup/packagestatuscode.dart';
 import 'package:lottie/lottie.dart';
 
-
 import '../../common/button.dart';
 import '../../common/color.dart';
 import '../../common/data.dart';
@@ -12,7 +11,6 @@ import '../space/space.dart';
 import '../text/montserrat.dart';
 
 class CustomPopup {
-
   static void closeOverlay() {
     AppDataGlobal.currentPriorityPopup = null;
     AppDataGlobal.isShowPopup = false;
@@ -29,10 +27,10 @@ class CustomPopup {
 
   static Future<void> showOnlyText(context,
       {required String title,
-        required String message,
-        required String titleButton,
-        int? priority,
-        Function()? onTap}) async {
+      required String message,
+      required String titleButton,
+      int? priority,
+      Function()? onTap}) async {
     if (AppDataGlobal.isShowPopup) {
       if ((priority ?? -1) > (AppDataGlobal.currentPriorityPopup ?? -1)) {
         closeOverlay();
@@ -45,66 +43,65 @@ class CustomPopup {
     OverlayState overlayState = Overlay.of(context);
     AppDataGlobal.overlayEntry = OverlayEntry(
         builder: (BuildContext context) => Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(16, 32, 16, 32),
-                  width: 280,
-                  decoration: BoxDecoration(
-                      color: AppColor.colorLight,
-                      borderRadius: BorderRadius.circular(16)),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CustomText.textPlusJakarta(
-                          text: title,
-                          maxLine: 2,
-                          textAlign: TextAlign.center,
-                          style: TextAppStyle.largeBoldTextStyle()
-                              .copyWith(color: AppColor.colorTextBlue)),
-                      spaceVertical(height: 12),
-                      CustomText.textPlusJakarta(
-                        text: message,
-                        maxLine: 2,
-                        textAlign: TextAlign.center,
-                      ),
-                      spaceVertical(height: 16),
-                      CustomButton.commonButton(
-                        height: 45,
-                        title: titleButton,
-                        onTap: () {
-                          closeOverlay();
-                          onTap?.call();
-                        },
-                      )
-                    ],
-                  ),
-                ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
               ),
-            ],
-          ),
-        ));
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(16, 32, 16, 32),
+                      width: 280,
+                      decoration: BoxDecoration(
+                          color: AppColor.colorLight,
+                          borderRadius: BorderRadius.circular(16)),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CustomText.textPlusJakarta(
+                              text: title,
+                              maxLine: 2,
+                              textAlign: TextAlign.center,
+                              style: TextAppStyle.largeBoldTextStyle()
+                                  .copyWith(color: AppColor.colorTextBlue)),
+                          spaceVertical(height: 12),
+                          CustomText.textPlusJakarta(
+                            text: message,
+                            maxLine: 2,
+                            textAlign: TextAlign.center,
+                          ),
+                          spaceVertical(height: 16),
+                          CustomButton.commonButton(
+                            height: 45,
+                            title: titleButton,
+                            onTap: () {
+                              closeOverlay();
+                              onTap?.call();
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ));
     overlayState.insert(AppDataGlobal.overlayEntry!);
   }
 
   static Future<void> showTextWithImage(context,
       {required String title,
-        required String message,
-        required String titleButton,
-        required String svgUrl,
-
-        double? widthSvg,
-        double? heightSvg,
-        bool titleUnderImage = false,
-        int? priority,
-        Function()? onTap}) async {
+      required String message,
+      required String titleButton,
+      required String svgUrl,
+      double? widthSvg,
+      double? heightSvg,
+      bool titleUnderImage = false,
+      int? priority,
+      Function()? onTap}) async {
     // if (AppDataGlobal.isShowPopup) return;
     if (AppDataGlobal.isShowPopup) {
       if ((priority ?? -1) > (AppDataGlobal.currentPriorityPopup ?? -1)) {
@@ -137,25 +134,29 @@ class CustomPopup {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        if(title.isNotEmpty && !titleUnderImage) CustomText.textPlusJakarta(
-                            text: title,
-                            maxLine: 2,
-                            textAlign: TextAlign.center,
-                            style: TextAppStyle.largeBoldTextStyle()
-                                .copyWith(color: AppColor.colorTextBlue)),
-                        if(title.isNotEmpty && !titleUnderImage) spaceVertical(height: 12),
+                        if (title.isNotEmpty && !titleUnderImage)
+                          CustomText.textPlusJakarta(
+                              text: title,
+                              maxLine: 2,
+                              textAlign: TextAlign.center,
+                              style: TextAppStyle.largeBoldTextStyle()
+                                  .copyWith(color: AppColor.colorTextBlue)),
+                        if (title.isNotEmpty && !titleUnderImage)
+                          spaceVertical(height: 12),
                         SvgPicture.asset(svgUrl,
                             width: widthSvg,
-                            height: heightSvg ?? 112, fit: BoxFit.contain),
-                        if(titleUnderImage) spaceVertical(height: 25),
-
-                        if(title.isNotEmpty && titleUnderImage) CustomText.textPlusJakarta(
-                            text: title,
-                            maxLine: 2,
-                            textAlign: TextAlign.center,
-                            style: TextAppStyle.largeBoldTextStyle()
-                                .copyWith(color: AppColor.colorTextBlue)),
-                        if(title.isNotEmpty && titleUnderImage) spaceVertical(height: 12),
+                            height: heightSvg ?? 112,
+                            fit: BoxFit.contain),
+                        if (titleUnderImage) spaceVertical(height: 25),
+                        if (title.isNotEmpty && titleUnderImage)
+                          CustomText.textPlusJakarta(
+                              text: title,
+                              maxLine: 2,
+                              textAlign: TextAlign.center,
+                              style: TextAppStyle.largeBoldTextStyle()
+                                  .copyWith(color: AppColor.colorTextBlue)),
+                        if (title.isNotEmpty && titleUnderImage)
+                          spaceVertical(height: 12),
                         CustomText.textPlusJakarta(
                           text: message,
                           maxLine: 10,
@@ -181,13 +182,13 @@ class CustomPopup {
 
   static Future<void> showAnimation(context,
       {required String message,
-        required String animationUrl,
-        double? spaceAnimationWithText,
-        double? widthAnimation,
-        double? heightAnimation,
-        int? maxLine,
-        EdgeInsetsGeometry? padding,
-        EdgeInsetsGeometry? margin}) async {
+      required String animationUrl,
+      double? spaceAnimationWithText,
+      double? widthAnimation,
+      double? heightAnimation,
+      int? maxLine,
+      EdgeInsetsGeometry? padding,
+      EdgeInsetsGeometry? margin}) async {
     await showGeneralDialog(
         context: context,
         barrierColor: Colors.black12.withOpacity(0.3), // Background color
@@ -212,7 +213,10 @@ class CustomPopup {
                   //     style: TextAppStyle.largeBoldTextStyle()
                   //         .copyWith(color: AppColor.colorTextBlue)),
                   // spaceVertical(height: 12),
-                  Lottie.asset(animationUrl, fit: BoxFit.contain, width: widthAnimation, height: heightAnimation),
+                  Lottie.asset(animationUrl,
+                      fit: BoxFit.contain,
+                      width: widthAnimation,
+                      height: heightAnimation),
                   spaceVertical(height: spaceAnimationWithText ?? 12),
                   CustomText.textPlusJakarta(
                     text: message,
@@ -229,13 +233,13 @@ class CustomPopup {
 
   static Future<void> showAnimationWithAction(context,
       {required String message,
-        required String animationUrl,
-        EdgeInsetsGeometry? padding,
-        int? maxLineMessage,
-        bool repeatAnimation = false,
-        required String titleButton,
-        int? priority,
-        Function()? onTap}) async {
+      required String animationUrl,
+      EdgeInsetsGeometry? padding,
+      int? maxLineMessage,
+      bool repeatAnimation = false,
+      required String titleButton,
+      int? priority,
+      Function()? onTap}) async {
     // if (AppDataGlobal.isShowPopup) return;
     if (AppDataGlobal.isShowPopup) {
       if ((priority ?? -1) > (AppDataGlobal.currentPriorityPopup ?? -1)) {
@@ -285,14 +289,14 @@ class CustomPopup {
 
   static Future<void> showAnimationWithTwoAction(context,
       {required String message,
-        required String animationUrl,
-        EdgeInsetsGeometry? padding,
-        bool repeatAnimation = false,
-        required String titleButtonTop,
-        required String titleButtonBottom,
-        int? priority,
-        Function()? onTapTop,
-        Function()? onTapBottom}) async {
+      required String animationUrl,
+      EdgeInsetsGeometry? padding,
+      bool repeatAnimation = false,
+      required String titleButtonTop,
+      required String titleButtonBottom,
+      int? priority,
+      Function()? onTapTop,
+      Function()? onTapBottom}) async {
     // if (AppDataGlobal.isShowPopup) return;
     if (AppDataGlobal.isShowPopup) {
       if ((priority ?? -1) > (AppDataGlobal.currentPriorityPopup ?? -1)) {
@@ -321,7 +325,7 @@ class CustomPopup {
                       fit: BoxFit.contain, repeat: repeatAnimation),
                   CustomText.textPlusJakarta(
                     text: message,
-                    maxLine: 1,
+                    maxLine: 3,
                     style: TextAppStyle.mediumBoldTextStyle(),
                     textAlign: TextAlign.center,
                   ),
@@ -354,16 +358,16 @@ class CustomPopup {
 
   static Future<void> showWithAction(context,
       {required String title,
-        required String message,
-        required String titleButtonLeft,
-        required String titleButtonRight,
-        Color? colorTextLeft,
-        Color? colorBorderLeft,
-        Color? colorTextRight,
-        Color? colorBorderRight,
-        int? priority,
-        Function()? onTapLeft,
-        Function()? onTapRight}) async {
+      required String message,
+      required String titleButtonLeft,
+      required String titleButtonRight,
+      Color? colorTextLeft,
+      Color? colorBorderLeft,
+      Color? colorTextRight,
+      Color? colorBorderRight,
+      int? priority,
+      Function()? onTapLeft,
+      Function()? onTapRight}) async {
     // if (AppDataGlobal.isShowPopup) return;
     if (AppDataGlobal.isShowPopup) {
       if ((priority ?? -1) > (AppDataGlobal.currentPriorityPopup ?? -1)) {
@@ -419,9 +423,9 @@ class CustomPopup {
                                 title: titleButtonLeft,
                                 backgroundColor: AppColor.colorLight,
                                 borderColor:
-                                colorTextLeft ?? AppColor.colorTextBlue,
+                                    colorTextLeft ?? AppColor.colorTextBlue,
                                 titleColor:
-                                colorBorderLeft ?? AppColor.colorTextBlue,
+                                    colorBorderLeft ?? AppColor.colorTextBlue,
                                 onTap: () {
                                   closeOverlay();
                                   onTapLeft?.call();

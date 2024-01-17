@@ -46,10 +46,11 @@ extension BodyCustom on PostDetailScreen {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-                child: CustomText.textPlusJakarta(
-                    maxLine: 2,
-                    text: controller.dataDetail.title ?? '',
-                    style: TextAppStyle.h6())),
+              child: CustomText.textPlusJakarta(
+                  maxLine: 2,
+                  text: controller.dataDetail.title ?? '',
+                  style: TextAppStyle.h6()),
+            ),
           ],
         ),
         spaceVertical(height: 8),
@@ -230,24 +231,27 @@ extension BodyCustom on PostDetailScreen {
 
   Widget _btnBooking() {
     return controller.dataDetail.isPayment == true
-        ? controller.dataDetail.canReport == true ? CustomButton.commonButton(
-        title: "Đánh giá ngay", onTap: controller.onTapReport) : SizedBox(
-      width: Get.width - 28*2,
-          child: Row(
-      mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: CustomButton.commonButton(
-                      title: "Đặt sân ngay", onTap: controller.onTapBooking),
+        ? controller.dataDetail.canReport == true
+            ? CustomButton.commonButton(
+                title: "Đánh giá ngay", onTap: controller.onTapReport)
+            : SizedBox(
+                width: Get.width - 28 * 2,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: CustomButton.commonButton(
+                          title: "Đặt sân ngay",
+                          onTap: controller.onTapBooking),
+                    ),
+                    spaceHorizontal(width: 20),
+                    Expanded(
+                      child: CustomButton.commonButton(
+                          title: "Xem hoá đơn", onTap: controller.onTapBill),
+                    )
+                  ],
                 ),
-                spaceHorizontal(width: 20),
-                Expanded(
-                  child: CustomButton.commonButton(
-                      title: "Xem hoá đơn", onTap: controller.onTapBill),
-                )
-              ],
-            ),
-        )
+              )
         : CustomButton.commonButton(
             title: "Đặt sân ngay", onTap: controller.onTapBooking);
   }

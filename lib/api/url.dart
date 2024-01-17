@@ -1,6 +1,3 @@
-
-
-
 Map<String, String> urlConnectAPI = {
   "dev": "https://vbmsport.name.vn/",
   "prod": "",
@@ -14,15 +11,16 @@ String mainURL = '';
 
 class SubAPI {
   static const String province = 'api/cities';
- static const String districts = 'api/districts/city';
 
- static const String register = 'api/users/register';
+  static const String districts = 'api/districts/city';
 
- static const String user = 'api/users';
+  static const String register = 'api/users/register';
 
- static const String loginEmail = 'api/users/email_login';
+  static const String user = 'api/users';
 
- static const String post = 'api/posts';
+  static const String loginEmail = 'api/users/email_login';
+
+  static const String post = 'api/posts';
 
   static const String wallet = 'api/wallet';
 
@@ -43,4 +41,8 @@ class SubAPI {
   static const String playGround = 'api/posts/play_ground';
 
   static const String ratingUser = 'api/users/rating_to';
+
+  static const String setting = 'api/Settings/';
+
+  static const String blog = 'api/blogs/';
 }

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 BoolModel boolModelFromJson(String str) => BoolModel.fromJson(json.decode(str));
@@ -15,12 +14,12 @@ class BoolModel {
   });
 
   factory BoolModel.fromJson(Map<String, dynamic> json) => BoolModel(
-    message: json["message"],
-    data: json["data"],
-  );
+        message: json["message"],
+        data: json["data"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "message": message,
-    "data": data,
-  };
+        "message": message,
+        "data": data,
+      };
 }
